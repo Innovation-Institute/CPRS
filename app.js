@@ -3,7 +3,14 @@ var app =express();
 var express = require('express');
 var path = require('path');
 
+/*
+* Routes
+*/
 const indexRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'index'));
+
+/*
+* Views 
+*/
 app.set('views', path.join(__dirname, 'src', 'server', 'views'));
 app.set('view engine', 'ejs');
 var server = app.listen(5000, function(){

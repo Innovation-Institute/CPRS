@@ -1,35 +1,114 @@
 <!DOCTYPE html>
 <html>
-
+        <!-- Bootstrap core CSS -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom styles for this template -->
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans|Roboto:300|Lora:700" rel="stylesheet" type="text/css">
+        <!-- Selectize.js -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap2.css" type="text/css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
     <head>
         <meta charset="utf-8">
         <title>CPRS</title>
     </head>
+
+    <h3>Department Company</h3>
+    <select multiple id="department_company" style="width:600px;height:300px ;">
+
+                <% for (var key in department_companies) { %>
+                    <option value="<%= department_companies[key]['id'] %>"><%= department_companies[key]['name'] %></option>
+                <% } %>
+                  </select>
     <h3>Teams</h3>
-    <p><%= JSON.stringify(teams) %></p>
+    <select multiple id="team" style="width:600px;height:300px ;">
+
+            <% for (var key in teams) { %>
+                <option value="<%= teams[key]['id'] %>"><%= teams[key]['name'] %></option>
+            <% } %>
+              </select>
+
     <br>
     <h3>Members</h3>
-    <p><%= JSON.stringify(members) %></p>
+    <select multiple id="member" style="width:600px;height:300px ;">
+
+            <% for (var key in members) { %>
+                <option value="<%= members[key]['id'] %>"><%= members[key]['name'] %></option>
+            <% } %>
+              </select>
     <br>
     <h3>Team Categories</h3>
-    <p><%= JSON.stringify(team_categories) %></p>
+    <select multiple id="team_category" style="width:600px;height:300px ;">
+
+            <% for (var key in team_categories) { %>
+                <option value="<%= team_categories[key]['id'] %>"><%= team_categories[key]['name'] %></option>
+            <% } %>
+              </select>
     <br>
-    <h3>Department Companies</h3>
-    <p><%= JSON.stringify(department_companies) %></p>
+    <h3>Eirs</h3>
+      <select multiple id="eir" style="width:600px;height:300px ;">
+
+            <% for (var key in eirs) { %>
+                <option value="<%= eirs[key]['id'] %>"><%= eirs[key]['name'] %></option>
+            <% } %>
+              </select>
     <br>
-    <h3>EIRs</h3>
-    <p><%= JSON.stringify(eirs) %></p>
     <br>
     <h3>Events</h3>
-    <p><%= JSON.stringify(events) %></p>
+    <select multiple id="event" style="width:600px;height:300px ;">
+
+            <% for (var key in events) { %>
+                <option value="<%= events[key]['id'] %>"><%= events[key]['name'] %></option>
+            <% } %>
+              </select>
     <br>
     <h3>Fundings</h3>
-    <p><%= JSON.stringify(fundings) %></p>
+    <select multiple id="funding" style="width:600px;height:300px ;">
+
+            <% for (var key in fundings) { %>
+                <option value="<%= fundings[key]['id'] %>"><%= fundings[key]['name'] %></option>
+            <% } %>
+              </select>
     <br>
     <h3>Licensing Managers</h3>
-    <p><%= JSON.stringify(licensing_managers) %></p>
+    <select multiple id="licensing_manager" style="width:600px;height:300px ;">
+
+            <% for (var key in licensing_managers) { %>
+                <option value="<%= licensing_managers[key]['id'] %>"><%= licensing_managers[key]['name'] %></option>
+            <% } %>
+              </select>
     <br>
     <h3>Technologies</h3>
-    <p><%= JSON.stringify(technologies) %></p>
+    <select multiple id="technology" style="width:600px;height:300px ;">
+
+            <% for (var key in technologies) { %>
+                <option value="<%= technologies[key]['id'] %>"><%= technologies[key]['name'] %></option>
+            <% } %>
+              </select>
+
+    <script>
+            department_companies=<%- JSON.stringify(department_companies) %>;
+            $('#department_company').selectize(department_companies);
+            eirs=<%- JSON.stringify(eirs) %>;
+            $('#eir').selectize(eirs);
+            events=<%- JSON.stringify(events) %>;
+            $('#event').selectize(events);
+            fundings=<%- JSON.stringify(fundings) %>;
+            $('#funding').selectize(fundings);
+            licensing_managers=<%- JSON.stringify(licensing_managers) %>;
+            $('#licensing_manager').selectize(licensing_managers);
+            members=<%- JSON.stringify(members) %>;
+            $('#member').selectize(members);
+            team_categories=<%- JSON.stringify(team_categories) %>;
+            $('#team_category').selectize(team_categories);
+            teams=<%- JSON.stringify(teams) %>;
+            $('#team').selectize(teams);
+            technologies=<%- JSON.stringify(technologies) %>;
+            $('#technology').selectize(technologies);
+            /*$('#e1').on('change', function() {
+                alert( $("select#e1").val() );
+            });*/
+            //$("#test").hide();
+        </script>
 </body>
 </html>
