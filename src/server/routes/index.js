@@ -4,7 +4,7 @@ const router = express.Router();
 const indexController = require('../controllers/index_controller');
 
 
-router.get('/', indexController.table_report);
+router.get('/edit', indexController.edit);
 
 
 module.exports = router;
