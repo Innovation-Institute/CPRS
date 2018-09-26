@@ -2,7 +2,8 @@ const airtable= require('../../../config');
 const base= airtable.base;
 
 module.exports={
-viewPrimaryKeys:viewPrimaryKeys
+viewPrimaryKeys:viewPrimaryKeys,
+getRecord:getRecord
 }
 function viewPrimaryKeys(table,callback){
 let set=[];
@@ -25,4 +26,12 @@ console.log("Here");
 callback(null,set);
 });
 // async function to avoid callback hell !!!
+}
+
+function getRecord(table,id,callback){
+    base(table).find(id, function(err, record) {
+        if (err) { console.error(err); return; }
+        console.log(record["fields"]);
+        callback(null,record["fields"]);
+    });
 }

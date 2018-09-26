@@ -12,14 +12,16 @@
         <meta charset="utf-8">
         <title>CPRS</title>
     </head>
-
-    <h3>Department Company</h3>
-    <select multiple id="department_company" style="width:600px;height:300px ;">
-
-                <% for (var key in department_companies) { %>
-                    <option value="<%= department_companies[key]['id'] %>"><%= department_companies[key]['name'] %></option>
-                <% } %>
-                  </select>
+    <%= id %>
+    <br>
+    <%- JSON.stringify(record) %>
+    <form>
+            <div class="form-group">
+                    <h3>Team Name:</h3>
+                    <input class="form-control" type="text" value='<%= record["Name_Text"] %>' id="name">
+                  </div>
+    </div>
+    </form>
     <h3>Teams</h3>
     <select multiple id="team" style="width:600px;height:300px ;">
 
@@ -30,26 +32,54 @@
 
     <br>
     <h3>Members</h3>
-    <select multiple id="member" style="width:600px;height:300px ;">
+    <select multiple id="member" style="width:600px;height:300px ;" >
 
-            <% for (var key in members) { %>
-                <option value="<%= members[key]['id'] %>"><%= members[key]['name'] %></option>
+        <% for (var key in members) { %>
+            <% for (var recordKey in record['Member_Link']){ %>
+                <% if(record['Member_Link'][recordKey] ==  members[key]['id']){ %>
+                    <option value="<%= members[key]['id'] %>" selected="selected"><%= members[key]['name'] %></option>
+                    <% break %>
+                    <br>
+                <% } else if((recordKey)==(record['Member_Link'].length-1)){%>
+                    
+                    <option value="<%= members[key]['id'] %>"><%= members[key]['name'] %></option>
+                <% } %>
             <% } %>
+        <% } %>
               </select>
     <br>
     <h3>Team Categories</h3>
     <select multiple id="team_category" style="width:600px;height:300px ;">
 
             <% for (var key in team_categories) { %>
-                <option value="<%= team_categories[key]['id'] %>"><%= team_categories[key]['name'] %></option>
+                <% for (var recordKey in record['Team_Category_Link']){ %>
+                    <% if(record['Team_Category_Link'][recordKey] ==  team_categories[key]['id']){ %>
+                        <option value="<%= team_categories[key]['id'] %>" selected="selected"><%= team_categories[key]['name'] %></option>
+                        <% break %>
+                        <br>
+                    <% } else if((recordKey)==(record['Team_Category_Link'].length-1)){%>
+                        <option value="<%= team_categories[key]['id'] %>"><%= team_categories[key]['name'] %></option>
+                    <% } %>
+                <% } %>
+                
             <% } %>
               </select>
     <br>
+
     <h3>Eirs</h3>
       <select multiple id="eir" style="width:600px;height:300px ;">
 
             <% for (var key in eirs) { %>
-                <option value="<%= eirs[key]['id'] %>"><%= eirs[key]['name'] %></option>
+                <% for (var recordKey in record['Eir_Link']){ %>
+                    <% if(record['Eir_Link'][recordKey] ==  eirs[key]['id']){ %>
+                        <option value="<%= eirs[key]['id'] %>" selected="selected"><%= eirs[key]['name'] %></option>
+                        <% break %>
+                        <br>
+                    <% } else if((recordKey)==(record['Eir_Link'].length-1)){%>
+                        <option value="<%= eirs[key]['id'] %>"><%= eirs[key]['name'] %></option>
+                    <% } %>
+                <% } %>
+                
             <% } %>
               </select>
     <br>
@@ -58,7 +88,15 @@
     <select multiple id="event" style="width:600px;height:300px ;">
 
             <% for (var key in events) { %>
-                <option value="<%= events[key]['id'] %>"><%= events[key]['name'] %></option>
+                <% for (var recordKey in record['Event_Link']){ %>
+                    <% if(record['Event_Link'][recordKey] ==  events[key]['id']){ %>
+                        <option value="<%= events[key]['id'] %>" selected="selected"><%= events[key]['name'] %></option>
+                        <% break %>
+                        <br>
+                    <% } else if((recordKey)==(record['Event_Link'].length-1)){%>
+                        <option value="<%= events[key]['id'] %>"><%= events[key]['name'] %></option>
+                    <% } %>
+                <% } %>
             <% } %>
               </select>
     <br>
@@ -66,7 +104,15 @@
     <select multiple id="funding" style="width:600px;height:300px ;">
 
             <% for (var key in fundings) { %>
-                <option value="<%= fundings[key]['id'] %>"><%= fundings[key]['name'] %></option>
+                <% for (var recordKey in record['Funding_Link']){ %>
+                    <% if(record['Funding_Link'][recordKey] ==  fundings[key]['id']){ %>
+                        <option value="<%= fundings[key]['id'] %>" selected="selected"><%= fundings[key]['name'] %></option>
+                        <% break %>
+                        <br>
+                    <% } else if((recordKey)==(record['Funding_Link'].length-1)){%>
+                        <option value="<%= fundings[key]['id'] %>"><%= fundings[key]['name'] %></option>
+                    <% } %>
+                <% } %>
             <% } %>
               </select>
     <br>
@@ -74,7 +120,15 @@
     <select multiple id="licensing_manager" style="width:600px;height:300px ;">
 
             <% for (var key in licensing_managers) { %>
-                <option value="<%= licensing_managers[key]['id'] %>"><%= licensing_managers[key]['name'] %></option>
+                <% for (var recordKey in record['Licensing_Manager_Link']){ %>
+                    <% if(record['Licensing_Manager_Link'][recordKey] ==  licensing_managers[key]['id']){ %>
+                        <option value="<%= licensing_managers[key]['id'] %>" selected="selected"><%= licensing_managers[key]['name'] %></option>
+                        <% break %>
+                        <br>
+                    <% } else if((recordKey)==(record['Licensing_Manager_Link'].length-1)){%>
+                        <option value="<%= licensing_managers[key]['id'] %>"><%= licensing_managers[key]['name'] %></option>s
+                    <% } %>
+                <% } %>
             <% } %>
               </select>
     <br>
@@ -82,7 +136,15 @@
     <select multiple id="technology" style="width:600px;height:300px ;">
 
             <% for (var key in technologies) { %>
-                <option value="<%= technologies[key]['id'] %>"><%= technologies[key]['name'] %></option>
+                <% for (var recordKey in record['Technology_Link']){ %>
+                    <% if(record['Technology_Link'][recordKey] ==  technologies[key]['id']){ %>
+                        <option value="<%= technologies[key]['id'] %>" selected="selected"><%= technologies[key]['name'] %></option>
+                        <% break %>
+                        <br>
+                    <% } else if((recordKey)==(record['Technology_Link'].length-1)){%>
+                        <option value="<%= technologies[key]['id'] %>"><%= technologies[key]['name'] %></option>
+                    <% } %>
+                <% } %>
             <% } %>
               </select>
 
@@ -98,7 +160,9 @@
             licensing_managers=<%- JSON.stringify(licensing_managers) %>;
             $('#licensing_manager').selectize(licensing_managers);
             members=<%- JSON.stringify(members) %>;
-            $('#member').selectize(members);
+            $('#member').selectize({
+                        options: members,
+                        });
             team_categories=<%- JSON.stringify(team_categories) %>;
             $('#team_category').selectize(team_categories);
             teams=<%- JSON.stringify(teams) %>;

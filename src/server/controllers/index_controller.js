@@ -5,6 +5,7 @@ const async=require('async');
 
 
 exports.edit = async function(req, res){
+    id=req.params.id;
     department_companies=[];
     eirs=[];
     events=[];
@@ -15,6 +16,7 @@ exports.edit = async function(req, res){
     teams=[];
     technologies=[];
     async.parallel({
+    record: async.apply(all.getRecord,"team",id),
     department_companies: async.apply(all.viewPrimaryKeys,"department_company"),
     eirs: async.apply(all.viewPrimaryKeys,"eir"),
     events: async.apply(all.viewPrimaryKeys,"event"),
@@ -27,6 +29,8 @@ exports.edit = async function(req, res){
     },function(err,results){
     console.log("Here");
     res.render('index', {
+    id: id,
+    record: results["record"],
     department_companies: results["department_companies"],
     eirs: results["eirs"],
     events: results["events"],

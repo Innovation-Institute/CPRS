@@ -13,8 +13,8 @@ const indexRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'ind
 */
 app.set('views', path.join(__dirname, 'src', 'server', 'views'));
 app.set('view engine', 'ejs');
-var server = app.listen(5000, function(){
-    console.log('Listening on port 5000');
+var server = app.listen(4000, function(){
+    console.log('Listening on port 4000');
 
 });
 
