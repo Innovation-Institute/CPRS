@@ -18,157 +18,126 @@
     <form>
             <div class="form-group">
                     <h3>Team Name:</h3>
-                    <input class="form-control" type="text" value='<%= record["Name_Text"] %>' id="name">
-                  </div>
-    </div>
-    </form>
-    <h3>Teams</h3>
-    <select multiple id="team" style="width:600px;height:300px ;">
-
-            <% for (var key in teams) { %>
-                <option value="<%= teams[key]['id'] %>"><%= teams[key]['name'] %></option>
-            <% } %>
-              </select>
-
-    <br>
-    <h3>Members</h3>
-    <select multiple id="member" style="width:600px;height:300px ;" >
-
-        <% for (var key in members) { %>
-            <% for (var recordKey in record['Member_Link']){ %>
-                <% if(record['Member_Link'][recordKey] ==  members[key]['id']){ %>
-                    <option value="<%= members[key]['id'] %>" selected="selected"><%= members[key]['name'] %></option>
-                    <% break %>
-                    <br>
-                <% } else if((recordKey)==(record['Member_Link'].length-1)){%>
-                    
-                    <option value="<%= members[key]['id'] %>"><%= members[key]['name'] %></option>
-                <% } %>
-            <% } %>
-        <% } %>
-              </select>
-    <br>
-    <h3>Team Categories</h3>
-    <select multiple id="team_category" style="width:600px;height:300px ;">
-
-            <% for (var key in team_categories) { %>
-                <% for (var recordKey in record['Team_Category_Link']){ %>
-                    <% if(record['Team_Category_Link'][recordKey] ==  team_categories[key]['id']){ %>
-                        <option value="<%= team_categories[key]['id'] %>" selected="selected"><%= team_categories[key]['name'] %></option>
-                        <% break %>
-                        <br>
-                    <% } else if((recordKey)==(record['Team_Category_Link'].length-1)){%>
-                        <option value="<%= team_categories[key]['id'] %>"><%= team_categories[key]['name'] %></option>
-                    <% } %>
-                <% } %>
+                    <input class="form-control" type="text" value='<%= record["Name_Text"] %>' id="Name_Text">
+            </div>
+            <div class="form-group">
+                    <h3>Description:</h3>
+                    <input class="form-control" type="text" value='<%= record["Description_Text"] %>' id="Description_Text">
+            </div>
+            <div class="form-group">
+                    <h3>Former Names:</h3>
+                    <input class="form-control" type="text" value='<%= record["Former_Names_Text"] %>' id="Former_Names_Text">
+            </div>
+            <div class="form-group">
+                    <h3>Portfolio Stage:</h3>
+                    <select id='Portfolio_Stage_Select' id="name" style="width:600px;height:300px ;">
+                            <option disabled selected value> -- select an option -- </option>
+                            <% arr=["Spinout","License","Pipeline","Unknown"] %>
+                            <% for (var key in arr){ %>
+                            <% if(arr[key]== record["Portfolio_Stage_Select"]){ %>
+                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                            <% } else {%>
+                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                            <%   }   %>
+                            <%   }   %>
+                    </select>
+            </div>
+            <div class="form-group">
+                    <h3>Portfolio Sub Stage:</h3>
+                    <select id='Portfolio_Sub_Stage_Select' id="name" style="width:600px;height:300px ;">
+                            <option disabled selected value> -- select an option -- </option>
+                            <% arr=["Stage 1: Funding","Stage 2: Research","Stage 3a: Disclosure","Stage 3b: IP Development","Stage 4: Technology and Market Validation","Stage 5: License/Spinout","Stage 6a: Pre-Seed","Stage 6b: Seed","Stage 6c: VC(a, b, c)"] %>
+                            <% for (var key in arr){ %>
+                            <% if(arr[key]== record["Portfolio_Sub_Stage_Select"]){ %>
+                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                            <% } else {%>
+                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                            <%   }   %>
+                            <%   }   %>
+                    </select>
+            </div>
+            <div class="form-group">
+                    <h3>Case Number:</h3>
+                    <input class="form-control" type="text" value='<%= record["Case_Number_Text"] %>' id="Case_Number_Text">
+            </div>
+            <div class="form-group">
+                    <h3>Technology Description:</h3>
+                    <input class="form-control" type="text" value='<%= record["Technology_Description_Helper"] %>' id="Technology_Description_Helper">
+            </div>
+            <div class="form-group">
+                    <h3>Notes:</h3>
+                    <input class="form-control" type="text" value='<%= record["Notes_Text"] %>' id="Notes_Text">
+            </div>
+            <div class="form-group">
+                    <h3>Team Webpage:</h3>
+                    <input class="form-control" type="url" value='<%= record["Team_Webpage_External"] %>' id="Team_Webpage_External">
+            </div>
+            <div class="form-group">
+                    <h3>Milestones:</h3>
+                    <input class="form-control" type="url" value='<%= record["Milestones_Text"] %>' id="Milestones_Text">
+            </div>
+            <div class="form-group">
+                    <h3>FY Launch:</h3>
+                    <select id='FY_Launch_Select' id="name" style="width:600px;height:300px ;">
+                            <option disabled selected value> -- select an option -- </option>
+                            <% arr=[2018,2017,2016,2015,2014] %>
+                            <% for (var key in arr){ %>
+                            <% if(arr[key]== record["FY_Launch_Select"]){ %>
+                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                            <% } else {%>
+                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                            <%   }   %>
+                            <%   }   %>
+                    </select>
+            </div>
+        
+    <%# heading","array of values","field name in record" %>
+    <% arr_values=[["Members",members,"Member_Link"],["Team Categories",team_categories,"Team_Category_Link"],["Funding",fundings,"Funding_Link"]
+    ,["Licensing Managers",licensing_managers,"Licensing_Manager_Link"],["Technology",technologies,"Technology_Link"],["Eir",eirs,"Eir_Link"],["Event",events,"Event_Link"]
+    ,["First Place Event Helper",events,"1st_Place_Event_Helper"],["Second Place Event Helper",events,"2nd_Place_Event_Helper"],["Third Place Event Helper",events,"3rd_Place_Event_Helper"],] %>
+    <% for (var arr_key in arr_values) { %>
+    <% heading= arr_values[arr_key][0] %>
+    <% values= arr_values[arr_key][1] %>
+    <% field_name= arr_values[arr_key][2] %>
+    
+    <h3><%= heading %></h3>
+    <select multiple id='<%= field_name %>' style="width:600px;height:300px ;">
+        <script>
+        </script>
+            <% for (var key in values) { %>
                 
-            <% } %>
-              </select>
-    <br>
-
-    <h3>Eirs</h3>
-      <select multiple id="eir" style="width:600px;height:300px ;">
-
-            <% for (var key in eirs) { %>
-                <% for (var recordKey in record['Eir_Link']){ %>
-                    <% if(record['Eir_Link'][recordKey] ==  eirs[key]['id']){ %>
-                        <option value="<%= eirs[key]['id'] %>" selected="selected"><%= eirs[key]['name'] %></option>
+                <% if(typeof record[field_name]!= 'undefined') { %>
+                <% for (var recordKey in record[field_name]){ %>
+                    <% if(record[field_name][recordKey] ==  values[key]['id']){ %>
+                        <option value="<%= values[key]['id'] %>" selected="selected"><%= values[key]['name'] %></option>
                         <% break %>
                         <br>
-                    <% } else if((recordKey)==(record['Eir_Link'].length-1)){%>
-                        <option value="<%= eirs[key]['id'] %>"><%= eirs[key]['name'] %></option>
+                    <% } else if((recordKey)==(record[field_name].length-1)){%>
+                        <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
                     <% } %>
                 <% } %>
-                
-            <% } %>
-              </select>
-    <br>
-    <br>
-    <h3>Events</h3>
-    <select multiple id="event" style="width:600px;height:300px ;">
-
-            <% for (var key in events) { %>
-                <% for (var recordKey in record['Event_Link']){ %>
-                    <% if(record['Event_Link'][recordKey] ==  events[key]['id']){ %>
-                        <option value="<%= events[key]['id'] %>" selected="selected"><%= events[key]['name'] %></option>
-                        <% break %>
-                        <br>
-                    <% } else if((recordKey)==(record['Event_Link'].length-1)){%>
-                        <option value="<%= events[key]['id'] %>"><%= events[key]['name'] %></option>
+                <% } else { %>
+                    <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
                     <% } %>
-                <% } %>
             <% } %>
               </select>
-    <br>
-    <h3>Fundings</h3>
-    <select multiple id="funding" style="width:600px;height:300px ;">
-
-            <% for (var key in fundings) { %>
-                <% for (var recordKey in record['Funding_Link']){ %>
-                    <% if(record['Funding_Link'][recordKey] ==  fundings[key]['id']){ %>
-                        <option value="<%= fundings[key]['id'] %>" selected="selected"><%= fundings[key]['name'] %></option>
-                        <% break %>
-                        <br>
-                    <% } else if((recordKey)==(record['Funding_Link'].length-1)){%>
-                        <option value="<%= fundings[key]['id'] %>"><%= fundings[key]['name'] %></option>
-                    <% } %>
-                <% } %>
-            <% } %>
-              </select>
-    <br>
-    <h3>Licensing Managers</h3>
-    <select multiple id="licensing_manager" style="width:600px;height:300px ;">
-
-            <% for (var key in licensing_managers) { %>
-                <% for (var recordKey in record['Licensing_Manager_Link']){ %>
-                    <% if(record['Licensing_Manager_Link'][recordKey] ==  licensing_managers[key]['id']){ %>
-                        <option value="<%= licensing_managers[key]['id'] %>" selected="selected"><%= licensing_managers[key]['name'] %></option>
-                        <% break %>
-                        <br>
-                    <% } else if((recordKey)==(record['Licensing_Manager_Link'].length-1)){%>
-                        <option value="<%= licensing_managers[key]['id'] %>"><%= licensing_managers[key]['name'] %></option>s
-                    <% } %>
-                <% } %>
-            <% } %>
-              </select>
-    <br>
-    <h3>Technologies</h3>
-    <select multiple id="technology" style="width:600px;height:300px ;">
-
-            <% for (var key in technologies) { %>
-                <% for (var recordKey in record['Technology_Link']){ %>
-                    <% if(record['Technology_Link'][recordKey] ==  technologies[key]['id']){ %>
-                        <option value="<%= technologies[key]['id'] %>" selected="selected"><%= technologies[key]['name'] %></option>
-                        <% break %>
-                        <br>
-                    <% } else if((recordKey)==(record['Technology_Link'].length-1)){%>
-                        <option value="<%= technologies[key]['id'] %>"><%= technologies[key]['name'] %></option>
-                    <% } %>
-                <% } %>
-            <% } %>
-              </select>
-
+              <% } %>
     <script>
-            department_companies=<%- JSON.stringify(department_companies) %>;
-            $('#department_company').selectize(department_companies);
-            eirs=<%- JSON.stringify(eirs) %>;
-            $('#eir').selectize(eirs);
-            events=<%- JSON.stringify(events) %>;
-            $('#event').selectize(events);
-            fundings=<%- JSON.stringify(fundings) %>;
-            $('#funding').selectize(fundings);
-            licensing_managers=<%- JSON.stringify(licensing_managers) %>;
-            $('#licensing_manager').selectize(licensing_managers);
-            members=<%- JSON.stringify(members) %>;
-            $('#member').selectize({
-                        options: members,
-                        });
-            team_categories=<%- JSON.stringify(team_categories) %>;
-            $('#team_category').selectize(team_categories);
-            teams=<%- JSON.stringify(teams) %>;
-            $('#team').selectize(teams);
-            technologies=<%- JSON.stringify(technologies) %>;
-            $('#technology').selectize(technologies);
+        /*
+            These are the input values which I had to selectize as they were coming from another table.
+
+
+        */
+        <% for (var arr_key in arr_values) { %>
+           $('<%= "#"+arr_values[arr_key][2] %>').selectize();
+           
+        <%  } %>
+            /*
+                These are the values which are static options.
+            */
+        $('#FY_Launch_Select').selectize();
+        $('#Portfolio_Sub_Stage_Select').selectize(); 
+        $('#Portfolio_Stage_Select').selectize();
             /*$('#e1').on('change', function() {
                 alert( $("select#e1").val() );
             });*/
