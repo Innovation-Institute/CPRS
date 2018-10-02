@@ -29,7 +29,7 @@ exports.edit = async function(req, res){
     },function(err,results){
     console.log("Here");
     res.render('index', {
-    id: id,
+    id: id, 
     record: results["record"],
     department_companies: results["department_companies"],
     eirs: results["eirs"],
@@ -43,4 +43,19 @@ exports.edit = async function(req, res){
     });
     }
     );
+    }
+
+    exports.edit_post = async function(req, res){
+        id= req.params.id;
+        new_record= req.body;
+        console.log(new_record);
+        /*team.updateRecord(new_record,id,function(updated_record){
+
+*/
+            res.render('done',{
+                id:id,
+                new_record: new_record
+                });
+       /* });*/
+        
     }
