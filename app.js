@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 //form-urlencoded
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
+app.use(express.static(__dirname + '/src/public'));
 // for parsing multipart/form-data
 /*
 * Routes

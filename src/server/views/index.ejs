@@ -2,6 +2,7 @@
 <html>
         <!-- Bootstrap core CSS -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/css/form.css" rel="stylesheet" type="text/css">
         <!-- Custom styles for this template -->
         <link href="http://fonts.googleapis.com/css?family=Open+Sans|Roboto:300|Lora:700" rel="stylesheet" type="text/css">
         <!-- Selectize.js -->
@@ -12,14 +13,14 @@
         <meta charset="utf-8">
         <title>CPRS</title>
     </head>
-    <%= id %>
+    <!--<%= id %>
     <br>
     <%- JSON.stringify(record) %>
-   <!-- <form action="/api/data" method="POST">
+    <form action="/api/data" method="POST">
         Some data: <input type="text" name="data" id="data">
         <button type="submit">Send</button>
       </form> -->
-    <form action="/edit/<%= id %>" method="POST">
+    <form action="/edit/<%= id %>" method="POST" id="edit">
             <div class="form-group">
                     <h3>Team Name:</h3>
                     <input class="form-control" name="Name_Text" type="text" value='<%= record["Name_Text"] %>' id="Name_Text">
@@ -81,6 +82,10 @@
                     <input class="form-control" type="text" value='<%= record["Milestones_Text"] %>' id="Milestones_Text" name="Milestones_Text">
             </div>
             <div class="form-group">
+                <h3>Supporting Docs:</h3>
+                <input class="form-control" type="text" value='<%= record["Supporting_Docs_External"] %>' id="Supporting_Docs_External" name="Supporting_Docs_External">
+            </div>
+            <div class="form-group">
                     <h3>FY Launch:</h3>
                     <select id='FY_Launch_Select' name="FY_Launch_Select" style="width:600px;height:300px ;">
                             <option disabled selected value> -- select an option -- </option>
@@ -126,8 +131,8 @@
             <% } %>
               </select>
               <% } %>
-              <button type="submit">Submit</button>
-            
+              <button class="btn btn-primary" type="submit" id="edit-submit">Submit</button>
+    </form>
     <script>
         /*
             These are the input values which I had to selectize as they were coming from another table.
