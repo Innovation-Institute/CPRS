@@ -31,7 +31,7 @@ callback(null,set);
 function getRecord(table,id,callback){
     base(table).find(id, function(err, record) {
         if (err) { console.error(err); return; }
-        console.log(record["fields"]);
+        console.log(record.get("Description_Text"));
         callback(null,record["fields"]);
     });
 }

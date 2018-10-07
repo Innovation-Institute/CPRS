@@ -12,13 +12,13 @@ app.use(express.static(__dirname + '/src/public'));
 /*
 * Routes
 */
-const indexRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'index'));
+const teamRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'team'));
 
 /*
 * Views 
 */
 
-app.set('views', path.join(__dirname, 'src', 'server', 'views'));
+app.set('views', path.join(__dirname, 'src', 'server', 'View'));
 app.set('view engine', 'ejs');
 /*app.post('/api/data', (request, response) => {
     const postBody = request.body;
@@ -28,11 +28,11 @@ app.set('view engine', 'ejs');
         });
   });*/
   
-var server = app.listen(7000, function(){
-    console.log('Listening on port 7000');
+var server = app.listen(9000, function(){
+    console.log('Listening on port 9000');
 
 });
 
-app.use('/', indexRouter);
+app.use('/', teamRouter);
 
 module.exports= app;

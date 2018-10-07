@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const indexController = require('../controllers/index_controller');
+const TeamController = require('../Controller/TeamController');
 var bodyParser = require('body-parser');
 router.use(bodyParser.json()); // support json encoded bodies
 router.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 
-router.get('/edit/:id', indexController.edit);
-router.post('/edit/:id', indexController.edit_post);
+router.get('/:table/edit/:id', TeamController.edit);
+router.post('/:table/edit/:id', TeamController.edit_post);
 
 
 

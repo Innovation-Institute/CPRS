@@ -1,18 +1,5 @@
-<!DOCTYPE html>
-<html>
-        <!-- Bootstrap core CSS -->
-        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/css/form.css" rel="stylesheet" type="text/css">
-        <!-- Custom styles for this template -->
-        <link href="http://fonts.googleapis.com/css?family=Open+Sans|Roboto:300|Lora:700" rel="stylesheet" type="text/css">
-        <!-- Selectize.js -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap2.css" type="text/css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
-    <head>
-        <meta charset="utf-8">
-        <title>CPRS</title>
-    </head>
+<% var header = '../header'; %>
+<%- include(header) %>
     <!--<%= id %>
     <br>
     <%- JSON.stringify(record) %>
@@ -20,18 +7,25 @@
         Some data: <input type="text" name="data" id="data">
         <button type="submit">Send</button>
       </form> -->
-    <form action="/edit/<%= id %>" method="POST" id="edit">
+   <div class="container-fluid">   
+      <div class="jumbotron">
+            <div class = "page-header">
+                    <h2><%= record["Name_Text"] %></h2>
+                    <hr>
+           </div>
+    <form action="/team/edit/<%= id %>" method="POST" id="edit">
+        
             <div class="form-group">
                     <h3>Team Name:</h3>
-                    <input class="form-control" name="Name_Text" type="text" value='<%= record["Name_Text"] %>' id="Name_Text">
+                    <input class="form-control text-short" name="Name_Text" type="text" value='<%= record["Name_Text"] %>' id="Name_Text">
             </div>
             <div class="form-group">
                     <h3>Description:</h3>
-                    <input class="form-control" name="Description_Text" type="text" value='<%= record["Description_Text"] %>' id="Description_Text">
+                    <textarea class="form-control z-depth-1 text-long" name="Description_Text" type="text" id="Description_Text" rows="5" autofocus><%= record["Description_Text"] %></textarea>
             </div>
             <div class="form-group">
                     <h3>Former Names:</h3>
-                    <input class="form-control" name="Former_Names_Text" type="text" value='<%= record["Former_Names_Text"] %>' id="Former_Names_Text">
+                    <input class="form-control text-short" name="Former_Names_Text" type="text" value='<%= record["Former_Names_Text"] %>' id="Former_Names_Text">
             </div>
             <div class="form-group">
                     <h3>Portfolio Stage:</h3>
@@ -63,27 +57,27 @@
             </div>
             <div class="form-group">
                     <h3>Case Number:</h3>
-                    <input class="form-control" type="text" value='<%= record["Case_Number_Text"] %>' id="Case_Number_Text" name="Case_Number_Text">
+                    <input class="form-control text-short" type="text" value='<%= record["Case_Number_Text"] %>' id="Case_Number_Text" name="Case_Number_Text">
             </div>
             <div class="form-group">
                     <h3>Technology Description:</h3>
-                    <input class="form-control" type="text" value='<%= record["Technology_Description_Helper"] %>' id="Technology_Description_Helper" name="Technology_Description_Helper">
+                    <textarea class="form-control z-depth-1 text-long" type="text" id="Technology_Description_Helper" name="Technology_Description_Helper" rows="5" autofocus><%= record["Technology_Description_Helper"] %></textarea>
             </div>
             <div class="form-group">
                     <h3>Notes:</h3>
-                    <input class="form-control" type="text" value='<%= record["Notes_Text"] %>' id="Notes_Text" name="Notes_Text">
+                    <textarea class="form-control z-depth-1 text-long" type="text" id="Notes_Text" name="Notes_Text" rows="5" autofocus><%= record["Notes_Text"] %></textarea>
             </div>
             <div class="form-group">
                     <h3>Team Webpage:</h3>
-                    <input class="form-control" type="text" value='<%= record["Team_Webpage_External"] %>' id="Team_Webpage_External" name="Team_Webpage_External">
+                    <input class="form-control text-short" type="text" value='<%= record["Team_Webpage_External"] %>' id="Team_Webpage_External" name="Team_Webpage_External">
             </div>
             <div class="form-group">
                     <h3>Milestones:</h3>
-                    <input class="form-control" type="text" value='<%= record["Milestones_Text"] %>' id="Milestones_Text" name="Milestones_Text">
+                    <textarea class="form-control z-depth-1 text-long" type="text" id="Milestones_Text" name="Milestones_Text" rows="5" autofocus><%= record["Milestones_Text"] %></textarea>
             </div>
             <div class="form-group">
                 <h3>Supporting Docs:</h3>
-                <input class="form-control" type="text" value='<%= record["Supporting_Docs_External"] %>' id="Supporting_Docs_External" name="Supporting_Docs_External">
+                <textarea class="form-control z-depth-1 text-long" type="text" id="Supporting_Docs_External" name="Supporting_Docs_External" rows="5" autofocus><%= record["Supporting_Docs_External"] %></textarea>
             </div>
             <div class="form-group">
                     <h3>FY Launch:</h3>
@@ -103,13 +97,13 @@
     <%# heading","array of values","field name in record" %>
     <% arr_values=[["Members",members,"Member_Link"],["Team Categories",team_categories,"Team_Category_Link"],["Funding",fundings,"Funding_Link"]
     ,["Licensing Managers",licensing_managers,"Licensing_Manager_Link"],["Technology",technologies,"Technology_Link"],["Eir",eirs,"Eir_Link"],["Event",events,"Event_Link"]
-    ,["First Place Event Helper",events,"1st_Place_Event_Helper"],["Second Place Event Helper",events,"2nd_Place_Event_Helper"],["Third Place Event Helper",events,"3rd_Place_Event_Helper"],] %>
+    ,["First Place Event",events,"1st_Place_Event_Helper"],["Second Place Event",events,"2nd_Place_Event_Helper"],["Third Place Event",events,"3rd_Place_Event_Helper"],] %>
     <% for (var arr_key in arr_values) { %>
     <% heading= arr_values[arr_key][0] %>
     <% values= arr_values[arr_key][1] %>
     <% field_name= arr_values[arr_key][2] %>
     
-    <h3><%= heading %></h3>
+    <h3><%= heading %>:</h3>
     <select multiple id='<%= field_name %>' name='<%= field_name %>' style="width:600px;height:300px ;">
         <script>
         </script>
@@ -133,6 +127,8 @@
               <% } %>
               <button class="btn btn-primary" type="submit" id="edit-submit">Submit</button>
     </form>
+    </div>
+    </div>
     <script>
         /*
             These are the input values which I had to selectize as they were coming from another table.
@@ -154,5 +150,6 @@
             });*/
             //$("#test").hide();
         </script>
-</body>
-</html>
+        
+<% var footer = '../footer'; %>
+<%- include(footer) %>

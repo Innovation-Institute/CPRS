@@ -1,11 +1,16 @@
-const team = require('../models/team');
-const member = require('../models/member');
-const all= require('../models/all');
+const team = require('../Model/team');
+const member = require('../Model/member');
+const all= require('../Model/all');
 const async=require('async');
+
+exports.view = async function(req,res){
+    
+}
 
 
 exports.edit = async function(req, res){
     id=req.params.id;
+    table=req.params.table;
     department_companies=[];
     eirs=[];
     events=[];
@@ -16,7 +21,7 @@ exports.edit = async function(req, res){
     teams=[];
     technologies=[];
     async.parallel({
-    record: async.apply(all.getRecord,"team",id),
+    record: async.apply(all.getRecord,table,id),
     department_companies: async.apply(all.viewPrimaryKeys,"department_company"),
     eirs: async.apply(all.viewPrimaryKeys,"eir"),
     events: async.apply(all.viewPrimaryKeys,"event"),
@@ -28,7 +33,7 @@ exports.edit = async function(req, res){
     technologies: async.apply(all.viewPrimaryKeys,"technology")
     },function(err,results){
     console.log("Here");
-    res.render('index', {
+    res.render('team/edit', {
     id: id, 
     record: results["record"],
     department_companies: results["department_companies"],
@@ -73,7 +78,7 @@ exports.edit = async function(req, res){
         }
         //console.log(new_record["Name_Text"]);
         team.updateRecord(updated_record,id,function(new_record){
-            res.redirect('/edit/'+id);
+            res.redirect('/team/edit/'+id);
         });
         
     }

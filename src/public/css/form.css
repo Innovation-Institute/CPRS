@@ -4,3 +4,18 @@ form{
 #edit-submit{
     margin-top: 2%;
 }
+
+.text-short{
+    width: 70%;
+}
+
+.text-long{
+    width:70%;
+    height: 80px;
+}
+
+hr{
+    color:black;
+    background-color: black;
+    height: 1px;
+}
