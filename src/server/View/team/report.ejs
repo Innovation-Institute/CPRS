@@ -1,0 +1,44 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+<% arr_values=[["team","Teams"],["member","Members"],["team_category","Team Categories"],["funding","Funding"]
+,["licensing_manager","Licensing Managers"],["technology","Technology"],["eir","Eir"],["event","Event"]] %>
+<% for (var arr_key in arr_values) { %>
+<% table= arr_values[arr_key][0] %>
+<% heading= arr_values[arr_key][1] %>
+<h1><%= heading %></h1>
+<select id="<%= table %>" onclick='expandSelect("<%= table %>")' style="width:600px;height:40px ;">
+        <option style="display:none;" selected>Select <%= heading %></option>
+</select>
+<% } %>
+
+
+<script>
+function expandSelect(val){
+    curr_id=
+console.log('#'+val);
+$.post( "/list/"+val, function( data ) {
+  console.log(data);
+  var $select = $('#'+val).selectize({
+    maxItems: null,
+    valueField: 'id',
+    labelField: 'name',
+    searchField: 'name',
+    options: data,
+    create: false
+});
+});
+/*var options = [];
+$.each(data.platforms, function()
+{
+    options.push({
+        id: this.id,
+        title: this.name,
+        url: "hhtp://site.com/"+this.slug
+    });
+});*/
+
+}
+</script>
+<% var footer = '../footer'; %>
+<%- include(footer) %>
+

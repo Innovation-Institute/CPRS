@@ -50,7 +50,7 @@ exports.edit = async function(req, res){
     );
     }
 
-    exports.edit_post = async function(req, res){
+    exports.editPost = async function(req, res){
         id= req.params.id;
         updated_record={
         "Name_Text": checkText(req.body["Name_Text"]),
@@ -82,7 +82,21 @@ exports.edit = async function(req, res){
         });
         
     }
+    exports.report = async function(req,res){
+        table=req.params.table;
+        res.render('team/report',{
+            table:table
+        });
+    }
 
+    exports.reportPost = async function(req,res){
+        table=req.params.table;
+        res.render('team/report',{
+            table: table
+        });
+    }
+
+    /*Helper functions */
     function checkText(val){
         if(val == null){
             val='';
@@ -109,3 +123,5 @@ exports.edit = async function(req, res){
             return val;
         }
     }
+
+    

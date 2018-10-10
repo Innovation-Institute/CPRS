@@ -13,6 +13,7 @@ app.use(express.static(__dirname + '/src/public'));
 * Routes
 */
 const teamRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'team'));
+const indexRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'index'));
 
 /*
 * Views 
@@ -33,6 +34,7 @@ var server = app.listen(9000, function(){
 
 });
 
-app.use('/', teamRouter);
+app.get('/team/*', teamRouter);
+app.use('/', indexRouter);
 
 module.exports= app;
