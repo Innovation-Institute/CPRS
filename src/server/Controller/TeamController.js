@@ -3,8 +3,8 @@ const member = require('../Model/member');
 const all= require('../Model/all');
 const async=require('async');
 
-exports.view = async function(req,res){
-    
+exports.index = async function(req,res){
+    all.viewAll()
 }
 
 
@@ -95,7 +95,6 @@ exports.edit = async function(req, res){
             table: table
         });
     }
-
     /*Helper functions */
     function checkText(val){
         if(val == null){

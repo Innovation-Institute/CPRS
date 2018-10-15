@@ -3,7 +3,7 @@ const base= airtable.base;
 
 module.exports={
     updateRecord: updateRecord,
-    filterRecord: filterRecord
+    filterRecord: filterRecord,
 }
 
 

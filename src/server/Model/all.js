@@ -2,8 +2,27 @@ const airtable= require('../../../config');
 const base= airtable.base;
 
 module.exports={
-viewPrimaryKeys:viewPrimaryKeys,
-getRecord:getRecord
+viewPrimaryKeys: viewPrimaryKeys,
+getRecord: getRecord,
+filteredRecords: filteredRecords,
+viewAll: viewAll
+}
+
+function viewAll(table){
+    base(table).select({
+        view: 'all_'+table
+    }).eachPage(function page(records, fetchNextPage) {
+        records.forEach(function(record) {
+            set.push({"id": record["id"],"record": record["fields"]});
+            console.log(set);
+        });
+    
+        fetchNextPage();
+    }, function done(error) {
+        console.log(error);
+        callback(error,set);
+    });
+
 }
 function viewPrimaryKeys(table,callback){
 let set=[];
@@ -33,5 +52,22 @@ function getRecord(table,id,callback){
         if (err) { console.error(err); return; }
         console.log(record.get("Description_Text"));
         callback(null,record["fields"]);
+    });
+}
+
+function filteredRecords(table,filter,callback){
+    let set=[];
+    base(table).select({
+        filterByFormula: filter
+    }).eachPage(function page(records, fetchNextPage) {
+        records.forEach(function(record) {
+            set.push({"id": record["id"],"record": record["fields"]});
+            console.log(set);
+        });
+    
+        fetchNextPage();
+    }, function done(error) {
+        console.log(error);
+        callback(error,set);
     });
 }

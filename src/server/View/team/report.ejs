@@ -1,26 +1,53 @@
 <% var header = '../header'; %>
 <%- include(header) %>
-<% arr_values=[["team","Teams"],["member","Members"],["team_category","Team Categories"],["funding","Funding"]
-,["licensing_manager","Licensing Managers"],["technology","Technology"],["eir","Eir"],["event","Event"]] %>
-<% for (var arr_key in arr_values) { %>
-<% table= arr_values[arr_key][0] %>
-<% heading= arr_values[arr_key][1] %>
-<h1><%= heading %></h1>
-<select id="<%= table %>" onclick='expandSelect("<%= table %>")' style="width:600px;height:40px ;">
-        <option style="display:none;" selected>Select <%= heading %></option>
+
+<div class="container-fluid">
+    <div class="jumbotron mt-5">
+<form action="/filter/team" method="POST" id="edit">
+    <% arr_values=[["team","Teams","Name_Text"],["member","Members","Member_Link"],["team_category","Team Categories","Team_Category_Link"],["funding","Funding","Funding_Link"]
+    ,["licensing_manager","Licensing Managers","Licensing_Manager_Link"],["technology","Technology","Technology_Link"],["eir","Eir","Eir_Link"],["event","Event","Event_Link"]] %>
+    <% for (var arr_key in arr_values) { %>
+    <% table= arr_values[arr_key][0] %>
+    <% heading= arr_values[arr_key][1] %>
+    <% name= arr_values[arr_key][2] %>
+<div class="row mt-3">
+    <div class="col-sm-8">
+<h4><%= heading %></h4>
+<select id="<%= table %>" name="<%= name %>" onclick='expandSelect("<%= table %>")' class="white-back" style="width:600px;height:40px ;">
+        <option style="display:none;" value="" selected>Select <%= heading %></option>
 </select>
+</div>
+<br>
+</div>
 <% } %>
-
-
+<br>
+<h4>Choose Search Type:</h4>
+<div class="row mt-1">
+<div class="col-sm-2">
+<label class="radio-inline">
+        <input type="radio" name="condition" value="AND" checked> Matches All Conditions
+      </label>
+</div>
+<div class="col-sm-2">
+      <label class="radio-inline">
+        <input type="radio" name="condition" value="OR"> Matches Atleast One
+      </label>
+</div>
+</div>
+      <br>
+<button class="btn btn-primary" type="submit" id="edit-submit">Submit</button>
+</form>
+</div>
+</div>
 <script>
 function expandSelect(val){
-    curr_id=
-console.log('#'+val);
+    curr_id='#'+val;
+console.log(curr_id);
 $.post( "/list/"+val, function( data ) {
   console.log(data);
   var $select = $('#'+val).selectize({
     maxItems: null,
-    valueField: 'id',
+    valueField: 'name',
     labelField: 'name',
     searchField: 'name',
     options: data,

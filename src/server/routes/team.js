@@ -6,6 +6,8 @@ var bodyParser = require('body-parser');
 router.use(bodyParser.json()); // support json encoded bodies
 router.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 
+router.get('/:table', TeamController.index);
+
 router.get('/:table/edit/:id', TeamController.edit);
 router.post('/:table/edit/:id', TeamController.editPost);
 
