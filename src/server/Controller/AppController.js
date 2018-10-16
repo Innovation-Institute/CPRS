@@ -3,6 +3,10 @@ const member = require('../Model/member');
 const all= require('../Model/all');
 const async=require('async');
 
+exports.index =async function(req,res){
+    res.render('index');
+}
+
 exports.listField = async function(req,res){
     table= req.params.table;
     all.viewPrimaryKeys(table, function(err, set){
@@ -19,9 +23,9 @@ exports.filterField = async function(req,res){
     filter=createFilter(body);
     //filter='OR(FIND("1st Gear 2014.01",{Event_Link})>=1,FIND("!!! DO-NOT-DELETE",{Event_Link})>=1)';
     all.filteredRecords(table,filter, function(err, set){
-        res.render(table+'/filtered_report',{
+        res.render(table+'/index',{
             records: set
-        })
+        });
     });
 }
 

@@ -4,7 +4,23 @@ const all= require('../Model/all');
 const async=require('async');
 
 exports.index = async function(req,res){
-    all.viewAll()
+    table=req.params.table;
+    all.viewAll(table,function(err, set){
+        res.render('team/index',{
+            records: set
+        });
+    });
+}
+
+exports.view = async function(req,res){
+    table=req.params.table;
+    id=req.params.id;
+    all.getRecord(table,id,function(err, set){
+        res.render('team/view',{
+            record: set,
+            id: id
+        });
+    });
 }
 
 

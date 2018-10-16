@@ -29,12 +29,13 @@ app.set('view engine', 'ejs');
         });
   });*/
   
-var server = app.listen(5000, function(){
-    console.log('Listening on port 5000');
+var server = app.listen(9000, function(){
+    console.log('Listening on port 9000');
 
 });
 
-app.get('/team/*', teamRouter);
+app.get('/team*', teamRouter);
+app.post('/team/*', teamRouter);
 app.use('/', indexRouter);
 
 module.exports= app;

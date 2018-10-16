@@ -8,6 +8,8 @@ router.use(bodyParser.urlencoded({ extended: false })); // support encoded bodie
 
 router.get('/:table', TeamController.index);
 
+router.get('/:table/view/:id', TeamController.view);
+
 router.get('/:table/edit/:id', TeamController.edit);
 router.post('/:table/edit/:id', TeamController.editPost);
 

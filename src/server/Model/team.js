@@ -3,9 +3,8 @@ const base= airtable.base;
 
 module.exports={
     updateRecord: updateRecord,
-    filterRecord: filterRecord,
+    filterRecord: filterRecord
 }
-
 
 function updateRecord(updated_record,id,callback){
 base('team').update(id, updated_record, function(err, record) {

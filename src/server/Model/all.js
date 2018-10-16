@@ -8,7 +8,8 @@ filteredRecords: filteredRecords,
 viewAll: viewAll
 }
 
-function viewAll(table){
+function viewAll(table,callback){
+    let set=[];
     base(table).select({
         view: 'all_'+table
     }).eachPage(function page(records, fetchNextPage) {
@@ -25,7 +26,7 @@ function viewAll(table){
 
 }
 function viewPrimaryKeys(table,callback){
-let set=[];
+    let set=[];
 let fields=['id','Name_Text']
 base(table).select({
 // Selecting the first 3 records in all_team:
