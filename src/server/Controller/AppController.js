@@ -37,17 +37,18 @@ function createFilter(body){
     filter=condition+"(";
     for (var key in body) {
         if(key!="condition" && body[key]!="" &&  !(body[key] instanceof Array)){
-        filter=filter+'FIND("'+body[key]+'",{'+key+'})>=1,';
+        filter=filter+'AND(FIND("'+body[key]+'",{'+key+'})>=1,FIND({'+key+'},"'+body[key]+'")>=1),';
         }
         else if(key!="condition" && body[key]!="" &&  (body[key] instanceof Array)){
             arr_val=body[key];
 
             for (var arr_key in arr_val){
-                filter=filter+'FIND("'+body[key][arr_key]+'",{'+key+'})>=1,';
+                filter=filter+'AND(FIND("'+body[key][arr_key]+'",{'+key+'})>=1,FIND({'+key+'},"'+body[key][arr_key]+'")>=1),';
             }
         }
       }
       filter=filter.substring(0, filter.length - 1);
       filter=filter+")";
+      console.log(filter);
       return filter;
 }
