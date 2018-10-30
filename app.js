@@ -29,8 +29,8 @@ app.set('view engine', 'ejs');
         });
   });*/
   
-var server = app.listen(9000, function(){
-    console.log('Listening on port 9000');
+var server = app.listen(4000, function(){
+    console.log('Listening on port 4000');
 
 });
 

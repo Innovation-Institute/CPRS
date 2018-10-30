@@ -2,9 +2,16 @@ const team = require('../Model/team');
 const member = require('../Model/member');
 const all= require('../Model/all');
 const async=require('async');
-
+/* index page
+*  give funding amount as input graph. 
+*
+*/
 exports.index =async function(req,res){
-    res.render('index');
+    all.getFundingAmount(function(err,set){
+    res.render('index',{
+        records: set
+    });
+    });
 }
 
 exports.listField = async function(req,res){
@@ -29,6 +36,33 @@ exports.filterField = async function(req,res){
     });
 }
 
+exports.reportRecords = async function(req, res){
+    async.auto({
+        one: async.apply(all.filteredRecords, filter), 
+        // If two does not depend on one, then you can remove the 'one' string
+        //   from the array and they will run asynchronously (good for "parallel" IO tasks)
+        two: ['one', createFieldFilter("Name_Text","Team_Link", one)],
+        // Final depends on both 'one' and 'two' being completed and their results
+        final: ['one', 'two',function(err, results) {
+        // results is now equal to: {one: 1, two: 2}
+        res.render("report/chancellor",{
+            records: results
+        });
+        }]
+    });
+    /*report_name= req.params.report_name;
+    filter='FIND("Chancellor Funds", {Funding_Link})>=1';
+    all.filteredRecords("team",filter,function(err,set){
+        new_filter=createFieldFilter("Name_Text","Team_Link",set);
+        all.filteredRecords("funding",new_filter,function(err,set){
+            var groubedByTeam=groupBy(set,"Team_Link")
+            console.log(groubedByTeam);
+            res.render("report/chancellor",{
+                records: groubedByTeam
+            });
+        });
+    });*/
+}
 
 /* Helper functions */
 
@@ -43,7 +77,7 @@ function createFilter(body){
             arr_val=body[key];
 
             for (var arr_key in arr_val){
-                filter=filter+'AND(FIND("'+body[key][arr_key]+'",{'+key+'})>=1,FIND({'+key+'},"'+body[key][arr_key]+'")>=1),';
+                filter=filter+'AND(FIND("'+body[key][arr_key]+'",{'+key+'})>=1),';
             }
         }
       }
@@ -52,3 +86,23 @@ function createFilter(body){
       console.log(filter);
       return filter;
 }
+
+function createFieldFilter(oldField,newField,set){
+    let filter="OR(";
+    for(var key in set){
+        param=set[key]["record"][oldField];
+        filter+=newField+'="'+param+'",';
+    }
+    filter=filter.substring(0, filter.length - 1);
+    filter=filter+")";
+    console.log(filter);
+    return filter;
+}
+
+var groupBy = function(xs, key) {
+        return xs.reduce(function(rv, x) {
+          (rv[x["record"][key]] = rv[x["record"][key]] || []).push(x);
+          return rv;
+        }, {});
+      };
+      

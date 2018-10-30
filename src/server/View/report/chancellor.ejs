@@ -1,0 +1,12 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+
+<!--
+    These are static reports, each report would be based 
+    on the way it was created previously in the excel spreadsheet.
+-->
+
+
+<h3><%- JSON.stringify(records) %></h3>
+<% var footer = '../footer'; %>
+<%- include(footer) %>
