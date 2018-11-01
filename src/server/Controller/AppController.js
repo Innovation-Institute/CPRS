@@ -13,7 +13,13 @@ exports.index =async function(req,res){
     });
     });
 }
-
+/**
+ * 
+ * Get Primary key for the table specified
+ * 
+ * @returns null
+ * 
+ *  */ 
 exports.listField = async function(req,res){
     table= req.params.table;
     all.viewPrimaryKeys(table, function(err, set){
@@ -24,6 +30,10 @@ exports.listField = async function(req,res){
     } );
 }
 
+/**
+ * Filter record based on condition
+ * 
+ *  */ 
 exports.filterField = async function(req,res){
     table= req.params.table;
     body=req.body;
@@ -37,48 +47,62 @@ exports.filterField = async function(req,res){
 }
 
 exports.reportRecords = async function(req, res){
-    async.auto({
-        one: async.apply(all.filteredRecords, filter), 
-        // If two does not depend on one, then you can remove the 'one' string
-        //   from the array and they will run asynchronously (good for "parallel" IO tasks)
-        two: ['one', createFieldFilter("Name_Text","Team_Link", one)],
-        // Final depends on both 'one' and 'two' being completed and their results
-        final: ['one', 'two',function(err, results) {
-        // results is now equal to: {one: 1, two: 2}
+    filter='FIND("Chancellor Fund", {Funding_Link})>=1';//['one', createFieldFilter("Name_Text","Team_Link", results)],
+    all.filteredRecords("team", filter, function(err, set){
+    new_filter=createFieldFilter("Name_Text","Team_Link",set);
+    //var groupedByTeam=groupBy(set,"Team_Name")
+    async.parallel({
+        record: async.apply(all.filteredRecords,"funding",new_filter),
+        },function(err,results){
+        console.log("Here");
+        records=results["record"];
+        records= groupBy(records,"Team_Name");
+        new_set=setField(records,"Chancellor");
         res.render("report/chancellor",{
-            records: results
+            records: new_set
         });
-        }]
+        }
+    ); 
+    /*res.render("report/chancellor",{
+        records: new_filter
+
+   /* async.parallel({
+        record: async.apply(all.getRecord,table,id),
+        },function(err,results){
+        console.log("Here");
+        res.render("report/chancellor",{
+            records: results["records"]
+        });
+        }
+        ); */
+    /*res.render("report/chancellor",{
+        records: new_filter
     });
-    /*report_name= req.params.report_name;
-    filter='FIND("Chancellor Funds", {Funding_Link})>=1';
-    all.filteredRecords("team",filter,function(err,set){
-        new_filter=createFieldFilter("Name_Text","Team_Link",set);
-        all.filteredRecords("funding",new_filter,function(err,set){
-            var groubedByTeam=groupBy(set,"Team_Link")
-            console.log(groubedByTeam);
-            res.render("report/chancellor",{
-                records: groubedByTeam
-            });
-        });
     });*/
+    });
 }
-
 /* Helper functions */
-
+/**
+ * 
+ * @param {JSON} body 
+ * @returns {String}
+ */
 function createFilter(body){
     condition=body["condition"];
     filter=condition+"(";
     for (var key in body) {
         if(key!="condition" && body[key]!="" &&  !(body[key] instanceof Array)){
-        filter=filter+'AND(FIND("'+body[key]+'",{'+key+'})>=1,FIND({'+key+'},"'+body[key]+'")>=1),';
+        filter=filter+'SEARCH("'+body[key]+'",{'+key+'})>=1,';
+        //filter=filter+'AND(FIND("'+body[key]+'",{'+key+'})>=1,FIND({'+key+'},"'+body[key]+'")>=1),';
         }
         else if(key!="condition" && body[key]!="" &&  (body[key] instanceof Array)){
             arr_val=body[key];
-
+            filter=filter+condition+"(";
             for (var arr_key in arr_val){
-                filter=filter+'AND(FIND("'+body[key][arr_key]+'",{'+key+'})>=1),';
+                filter=filter+'SEARCH("'+body[key][arr_key]+'",{'+key+'})>=1,';
             }
+            filter=filter.substring(0, filter.length - 1);
+            filter=filter+"),";
         }
       }
       filter=filter.substring(0, filter.length - 1);
@@ -86,7 +110,15 @@ function createFilter(body){
       console.log(filter);
       return filter;
 }
-
+/**
+ * 
+ * @param {String} oldField 
+ * @param {String} newField 
+ * @param {JSON} set 
+ * 
+ * @param {String}
+ * 
+ */
 function createFieldFilter(oldField,newField,set){
     let filter="OR(";
     for(var key in set){
@@ -98,11 +130,46 @@ function createFieldFilter(oldField,newField,set){
     console.log(filter);
     return filter;
 }
-
+/**
+ * 
+ * @param {JSON} xs JSON object 
+ * @param {string} key key to which groupby should happen
+ * 
+ * @returns {JSON}
+ */
 var groupBy = function(xs, key) {
-        return xs.reduce(function(rv, x) {
+        new_val= xs.reduce(function(rv, x) {
           (rv[x["record"][key]] = rv[x["record"][key]] || []).push(x);
           return rv;
         }, {});
+        return this.new_val;
       };
+/**
+ * 
+ * @param {JSON} set 
+ * @param {String} report_name
+ * 
+ * @returns {JSON} 
+ */
+function setField(set, report_name){
+    newSet={}; // Final JSON to be sent on Front End
+    for(var key in set){
+        teamName=key;
+        subset=set[key];
+        newSet[key]={};
+        for(var subkey in subset){
+            fundingName=subset[subkey]["record"]["Name_Text"];
+            amountReceived=subset[subkey]["record"]["Amount_Received_Text"];
+            budgetRequestDate=subset[subkey]["record"]["Budget_Request_Date_Text"];
+            calendarYear=subset[subkey]["record"]["Calendar_Year_Select"];
+            eventName=subset[subkey]["record"]["Event_Name"];
+            newSet[key][fundingName]={};
+            newSet[key][fundingName]["amountReceived"]=amountReceived;
+            newSet[key][fundingName]["budgetRequestDate"]=budgetRequestDate;
+            newSet[key][fundingName]["calendarYear"]=calendarYear;
+            newSet[key][fundingName]["eventName"]=eventName;
+        }
+    }
+    return this.newSet;
+}
       
