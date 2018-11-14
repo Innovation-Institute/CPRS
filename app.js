@@ -1,41 +1,43 @@
-var express = require('express');
-var app =express();
+var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
-//form-urlencoded
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
-app.use(express.static(__dirname + '/src/public'));
-// for parsing multipart/form-data
-/*
-* Routes
-*/
-const teamRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'team'));
-const indexRouter = require(path.join(__dirname, 'src', 'server', 'routes', 'index'));
+var indexRouter = require('./routes/index');
+var teamsRouter = require('./routes/teams');
+var usersRouter = require('./routes/users');
 
-/*
-* Views 
-*/
+var app = express();
 
-app.set('views', path.join(__dirname, 'src', 'server', 'View'));
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-/*app.post('/api/data', (request, response) => {
-    const postBody = request.body;
-    console.log(postBody);
-    response.render('done',{
-        Name_Text: postBody
-        });
-  });*/
-  
-var server = app.listen(4000, function(){
-    console.log('Listening on port 4000');
 
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/team', teamsRouter);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-app.get('/team*', teamRouter);
-app.post('/team/*', teamRouter);
-app.use('/', indexRouter);
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-module.exports= app;
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;

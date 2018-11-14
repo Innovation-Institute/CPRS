@@ -1,10 +1,10 @@
-const team = require('../Model/team');
-const member = require('../Model/member');
-const all= require('../Model/all');
+const team = require('../models/team');
+const member = require('../models/member');
+const all= require('../models/all');
 const async=require('async');
 
 exports.index = async function(req,res){
-    table=req.params.table;
+    table="team";
     all.viewAll(table,function(err, set){
         res.render('team/index',{
             records: set
@@ -13,7 +13,7 @@ exports.index = async function(req,res){
 }
 
 exports.view = async function(req,res){
-    table=req.params.table;
+    table="team";
     id=req.params.id;
     all.getRecord(table,id,function(err, set){
         res.render('team/view',{
@@ -26,7 +26,7 @@ exports.view = async function(req,res){
 
 exports.edit = async function(req, res){
     id=req.params.id;
-    table=req.params.table;
+    table="team";
     department_companies=[];
     eirs=[];
     events=[];
@@ -99,14 +99,14 @@ exports.edit = async function(req, res){
         
     }
     exports.report = async function(req,res){
-        table=req.params.table;
+        table="team";
         res.render('team/report',{
             table:table
         });
     }
 
     exports.reportPost = async function(req,res){
-        table=req.params.table;
+        table="team";
         res.render('team/report',{
             table: table
         });

@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const AppController = require('../Controller/AppController');
+const AppController = require('../controllers/AppController');
 var bodyParser = require('body-parser');
-router.use(bodyParser.json()); // support json encoded bodies
-router.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
 
 router.get('/', AppController.index)
 

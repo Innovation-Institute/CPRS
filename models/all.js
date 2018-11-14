@@ -1,4 +1,4 @@
-const airtable= require('../../../config');
+const airtable= require('../config');
 const base= airtable.base;
 
 module.exports={

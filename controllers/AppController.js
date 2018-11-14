@@ -1,6 +1,6 @@
-const team = require('../Model/team');
-const member = require('../Model/member');
-const all= require('../Model/all');
+const team = require('../models/team');
+const member = require('../models/member');
+const all= require('../models/all');
 const async=require('async');
 /* index page
 *  give funding amount as input graph. 
