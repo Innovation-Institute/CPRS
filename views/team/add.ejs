@@ -1,42 +1,31 @@
 <% var header = '../header'; %>
 <%- include(header) %>
 
-    <!--<%= id %>
-    <br>
-    <%- JSON.stringify(record) %>
-    <form action="/api/data" method="POST">
-        Some data: <input type="text" name="data" id="data">
-        <button type="submit">Send</button>
-    </form> -->
    <div class="container-fluid mt-4">   
       <div class="jumbotron">
             <div class = "page-header">
                     <div class="page-header">
                             <div class="row">
                         <div class="col-sm-10">
-                            <h2><%= record["Name_Text"] %></h2>
+                            <h2>Add a new Team</h2>
                             <hr>
-                            </div>
-                        <div class="col-sm-2">
-                                <a class="btn btn-primary btn-lg active" href="/teams/view/<%= id %>" role="button">View</a>
-                                
                             </div>
                             </div>
                         </div>
            </div>
-    <form action="/teams/edit/<%= id %>" method="POST" id="edit">
+    <form action="/teams/add/" method="POST" id="add">
         
             <div class="form-group">
                     <h3>Team Name:</h3>
-                    <input class="form-control text-short" name="Name_Text" type="text" value='<%= record["Name_Text"] %>' id="Name_Text">
+                    <input class="form-control text-short" name="Name_Text" type="text"  id="Name_Text">
             </div>
             <div class="form-group">
                     <h3>Description:</h3>
-                    <textarea class="form-control z-depth-1 text-long" name="Description_Text" type="text" id="Description_Text" rows="5" autofocus><%= record["Description_Text"] %></textarea>
+                    <textarea class="form-control z-depth-1 text-long" name="Description_Text" type="text" id="Description_Text" rows="5" autofocus></textarea>
             </div>
             <div class="form-group">
                     <h3>Former Names:</h3>
-                    <input class="form-control text-short" name="Former_Names_Text" type="text" value='<%= record["Former_Names_Text"] %>' id="Former_Names_Text">
+                    <input class="form-control text-short" name="Former_Names_Text" type="text" id="Former_Names_Text">
             </div>
             <div class="form-group">
                     <h3>Portfolio Stage:</h3>
@@ -44,11 +33,7 @@
                             <option disabled selected value> -- select an option -- </option>
                             <% arr=["Spinout","License","Pipeline","Unknown"] %>
                             <% for (var key in arr){ %>
-                            <% if(arr[key]== record["Portfolio_Stage_Select"]){ %>
-                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
-                            <% } else {%>
                                 <option value="<%= arr[key] %>"><%= arr[key] %></option>
-                            <%   }   %>
                             <%   }   %>
                     </select>
             </div>
@@ -58,37 +43,33 @@
                             <option disabled selected value> -- select an option -- </option>
                             <% arr=["Stage 1: Funding","Stage 2: Research","Stage 3a: Disclosure","Stage 3b: IP Development","Stage 4: Technology and Market Validation","Stage 5: License/Spinout","Stage 6a: Pre-Seed","Stage 6b: Seed","Stage 6c: VC(a, b, c)"] %>
                             <% for (var key in arr){ %>
-                            <% if(arr[key]== record["Portfolio_Sub_Stage_Select"]){ %>
-                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
-                            <% } else {%>
                                 <option value="<%= arr[key] %>"><%= arr[key] %></option>
-                            <%   }   %>
                             <%   }   %>
                     </select>
             </div>
             <div class="form-group">
                     <h3>Case Number:</h3>
-                    <input class="form-control text-short" type="text" value='<%= record["Case_Number_Text"] %>' id="Case_Number_Text" name="Case_Number_Text">
+                    <input class="form-control text-short" type="text" id="Case_Number_Text" name="Case_Number_Text">
             </div>
             <div class="form-group">
                     <h3>Technology Description:</h3>
-                    <textarea class="form-control z-depth-1 text-long" type="text" id="Technology_Description_Helper" name="Technology_Description_Helper" rows="5" autofocus><%= record["Technology_Description_Helper"] %></textarea>
+                    <textarea class="form-control z-depth-1 text-long" type="text" id="Technology_Description_Helper" name="Technology_Description_Helper" rows="5" autofocus></textarea>
             </div>
             <div class="form-group">
                     <h3>Notes:</h3>
-                    <textarea class="form-control z-depth-1 text-long" type="text" id="Notes_Text" name="Notes_Text" rows="5" autofocus><%= record["Notes_Text"] %></textarea>
+                    <textarea class="form-control z-depth-1 text-long" type="text" id="Notes_Text" name="Notes_Text" rows="5" autofocus></textarea>
             </div>
             <div class="form-group">
                     <h3>Team Webpage:</h3>
-                    <input class="form-control text-short" type="text" value='<%= record["Team_Webpage_External"] %>' id="Team_Webpage_External" name="Team_Webpage_External">
+                    <input class="form-control text-short" type="text" id="Team_Webpage_External" name="Team_Webpage_External">
             </div>
             <div class="form-group">
                     <h3>Milestones:</h3>
-                    <textarea class="form-control z-depth-1 text-long" type="text" id="Milestones_Text" name="Milestones_Text" rows="5" autofocus><%= record["Milestones_Text"] %></textarea>
+                    <textarea class="form-control z-depth-1 text-long" type="text" id="Milestones_Text" name="Milestones_Text" rows="5" autofocus></textarea>
             </div>
             <div class="form-group">
                 <h3>Supporting Docs:</h3>
-                <textarea class="form-control z-depth-1 text-long" type="text" id="Supporting_Docs_External" name="Supporting_Docs_External" rows="5" autofocus><%= record["Supporting_Docs_External"] %></textarea>
+                <textarea class="form-control z-depth-1 text-long" type="text" id="Supporting_Docs_External" name="Supporting_Docs_External" rows="5" autofocus></textarea>
             </div>
             <div class="form-group">
                     <h3>FY Launch:</h3>
@@ -96,11 +77,7 @@
                             <option disabled selected value> -- select an option -- </option>
                             <% arr=[2018,2017,2016,2015,2014] %>
                             <% for (var key in arr){ %>
-                            <% if(arr[key]== record["FY_Launch_Select"]){ %>
                                 <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
-                            <% } else {%>
-                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
-                            <%   }   %>
                             <%   }   %>
                     </select>
             </div>
@@ -116,24 +93,9 @@
     
     <h3><%= heading %>:</h3>
     <select multiple id='<%= field_name %>' name='<%= field_name %>' style="width:600px;height:300px ;">
-        <script>
-        </script>
             <% for (var key in values) { %>
-                
-                <% if(typeof record[field_name]!= 'undefined') { %>
-                <% for (var recordKey in record[field_name]){ %>
-                    <% if(record[field_name][recordKey] ==  values[key]['id']){ %>
-                        <option value="<%= values[key]['id'] %>" selected="selected"><%= values[key]['name'] %></option>
-                        <% break %>
-                        <br>
-                    <% } else if((recordKey)==(record[field_name].length-1)){%>
-                        <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
-                    <% } %>
-                <% } %>
-                <% } else { %>
                     <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
                     <% } %>
-            <% } %>
               </select>
               <% } %>
               <button class="btn btn-primary" type="submit" id="edit-submit">Submit</button>
@@ -156,10 +118,6 @@
         $('#FY_Launch_Select').selectize();
         $('#Portfolio_Sub_Stage_Select').selectize(); 
         $('#Portfolio_Stage_Select').selectize();
-            /*$('#e1').on('change', function() {
-                alert( $("select#e1").val() );
-            });*/
-            //$("#test").hide();
         </script>
         
 <% var footer = '../footer'; %>

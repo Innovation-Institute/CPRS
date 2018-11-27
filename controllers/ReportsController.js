@@ -33,21 +33,10 @@ exports.createReport = async function(req, res){
     });
 }
 
-function addChosenCols(new_set,old_set,chosenCols){
-    for(currNewSet in new_set){
-        new_set[currNewSet]["chosenCols"]={}
-        for(currOldSet in old_set){
-            if(currNewSet==old_set[currOldSet]["record"]["Name_Text"]){
-                for(x in chosenCols){
-                    //console.log(chosenCols[x])
-                    new_set[currNewSet]["chosenCols"][chosenCols[x]]=old_set[currOldSet]["record"][chosenCols[x]];
-                }
-                break;
-            }
-        }
-    }
-    return new_set;
-}
+/**
+ * Index page of Reports
+ * 
+ */
 
 exports.All = async function(req,res){
     res.render("report/index");
@@ -142,8 +131,30 @@ function setField(set, report_name){
         }
     return this.newSet;
 }
-
-
+/**
+ * 
+ * Add chosen Columns from old_set(Team Table) to the new_set 
+ * (which is a JSON funding report in the current and only instance.). 
+ * 
+ * @param {JSON} new_set 
+ * @param {JSON} old_set 
+ * @param {Array} chosenCols 
+ */
+function addChosenCols(new_set,old_set,chosenCols){
+    for(currNewSet in new_set){
+        new_set[currNewSet]["chosenCols"]={}
+        for(currOldSet in old_set){
+            if(currNewSet==old_set[currOldSet]["record"]["Name_Text"]){
+                for(x in chosenCols){
+                    //console.log(chosenCols[x])
+                    new_set[currNewSet]["chosenCols"][chosenCols[x]]=old_set[currOldSet]["record"][chosenCols[x]];
+                }
+                break;
+            }
+        }
+    }
+    return new_set;
+}
 /**
  * 
  * Need to change this to make this per report basis
@@ -222,6 +233,7 @@ amountCol=amountCol+1 // add one as the workbook starts with 1.
 AmountIndex=String.fromCharCode(64+amountCol);
 row=2; // assign each to each variable in array
 teamID=0;
+
 for(x in data){
     col=1;
     teamID=teamID+1;

@@ -32,6 +32,14 @@ exports.listField = async function(req,res){
     } );
 }
 
+
+/**
+ * Testing Box
+ */
+
+exports.boxTest = async function(req,res){
+    res.render('test');
+}
 /**
  * Filter record based on condition
  * 

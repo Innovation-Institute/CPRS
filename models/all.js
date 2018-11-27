@@ -4,13 +4,33 @@ const base= airtable.base;
 module.exports={
 viewPrimaryKeys: viewPrimaryKeys,
 getRecord: getRecord,
+createRecord: createRecord,
 filteredRecords: filteredRecords,
 viewAll: viewAll,
 getFundingAmount: getFundingAmount
 }
-// FIND("Chancellor Funds", {Funding_Link})
 
+/**
+ * Create a new record.
+ * 
+ * @param {String} table 
+ * @param {JSON} record 
+ * @param {callback} callback 
+ */
+function createRecord(table,record,callback){
+    base(table).create(record, function(err, record) {
+        if (err) { console.error(err);  }
+        record=record.getId();
+        callback(err,record);
+    });
+}
 
+/**
+ * View All records of table
+ * 
+ * @param {String} table 
+ * @param {callback} callback 
+ */
 function viewAll(table,callback){
     let set=[];
     base(table).select({
@@ -28,6 +48,12 @@ function viewAll(table,callback){
     });
 
 }
+/**
+ * View Primary Keys of the table.
+ * 
+ * @param {String} table 
+ * @param {callback} callback 
+ */
 function viewPrimaryKeys(table,callback){
     let set=[];
 let fields=['id','Name_Text']
@@ -50,7 +76,13 @@ callback(null,set);
 });
 // async function to avoid callback hell !!!
 }
-
+/**
+ * Get Specfic Record.
+ * 
+ * @param {String} table 
+ * @param {String} id 
+ * @param {callback} callback 
+ */
 function getRecord(table,id,callback){
     base(table).find(id, function(err, record) {
         if (err) { console.error(err); return; }
@@ -58,7 +90,14 @@ function getRecord(table,id,callback){
         callback(null,record["fields"]);
     });
 }
-
+/**
+ * 
+ * Filter records of table
+ * 
+ * @param {String} table 
+ * @param {String} filter 
+ * @param {callback} callback 
+ */
 function filteredRecords(table,filter,callback){
     let set=[];
     base(table).select({
@@ -75,6 +114,12 @@ function filteredRecords(table,filter,callback){
         callback(error,set);
     });
 }
+
+/**
+ * Get specific Funding Amount, not used for now.
+ * 
+ * @param {callback} callback 
+ */
 function getFundingAmount(callback){
     table="team";
     let set=[];

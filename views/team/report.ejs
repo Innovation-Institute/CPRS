@@ -2,7 +2,19 @@
 <%- include(header) %>
 
 <div class="container-fluid">
-    <div class="jumbotron mt-5">
+<div class="jumbotron mt-5">
+        <div class="page-header">
+                <div class="row">
+                    <div class="col-md-10">
+                        <h1>Reports</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        Create your own reports here:
+                    </div>
+                </div>
+        </div>
 <form action="/filter/team" method="POST" id="edit">
     <% arr_values=[["team","Teams","Name_Text"],["member","Members","Member_Link"],["team_category","Team Categories","Team_Category_Link"],["funding","Funding","Funding_Link"]
     ,["licensing_manager","Licensing Managers","Licensing_Manager_Link"],["technology","Technology","Technology_Link"],["eir","Eir","Eir_Link"],["event","Event","Event_Link"]] %>
