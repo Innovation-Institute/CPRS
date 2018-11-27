@@ -1,0 +1,51 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+<div class="container-fluid mt-3">
+    <div class="page-header mt-3">
+        <div class="row">
+            <div class="col-md-10">
+                <h1>Reports</h1>
+            </div>
+            <div class="col-md-10">
+                Pre-defined requested reports will be shown here.
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron mt-4">
+            <div class="header">
+                <h2>Create a Report:</h2>
+              </div>
+          <% if(typeof message != 'undefined'){ %>
+              <div class="alert alert-success alert-dismissible">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      <strong><%= message %></strong> 
+              </div>
+          <% } %>
+              <form action="/reports/" method="POST" id="login">
+                      <div class="form-group">
+                        <label for="report_name">Type Funding Name</label>
+                        <input type="text" class="form-control" id="report_name" name="report_name" aria-describedby="report_name" placeholder="Choose Fund Name">
+                        <small id="emailHelp" class="form-text text-muted">Funding Name </small>
+                      </div>
+                      <div class="form-group">
+                        <label for=""></label>
+                        <div class="form-group">
+                            <h3>Chose Columns to appear in CSV:</h3>
+                            <select multiple id='chosenCols' name="chosenCols" style="width:600px;height:300px ;">
+                                    <% arr=["Portfolio_Stage_Select","Notes_Text","Milestones_Text","Supporting_Docs_External"] %>
+                                    <% arrValues=["Portfolio Stage","Notes","Milestones","Supporting Docs"] %>
+                                    <% for(var key in arr){ %>
+                                        <option value="<%= arr[key] %>"><%= arrValues[key] %></option>
+                                    <%   }   %>
+                            </select>
+                    </div>
+                      </div>
+                      <button type="submit" class="btn btn-primary">Create Report</button>
+              </form>
+        </div>
+</div>
+<script>
+$('#chosenCols').selectize();
+</script>
+<% var footer = '../footer'; %>
+<%- include(footer) %>

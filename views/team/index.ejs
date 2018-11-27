@@ -9,7 +9,7 @@
   <h1>Teams</h1>
   </div>
   <div class="col-md-2 pull-right">
-      <a class="btn btn-primary btn-lg active" href="/team/report/" role="button">Custom Report/Filter</a>
+      <a class="btn btn-primary btn-lg active" href="/teams/report/" role="button">Custom Report/Filter</a>
   </div>
   </div>
 </div>
@@ -39,7 +39,7 @@
     <tbody>
 <% for (arr_key in records) { %>
         <tr>
-            <td><a href='/team/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
+            <td><a href='/teams/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
             <td><%= records[arr_key]["record"]["Team_Category_Name"] %></td>
             <td><%= records[arr_key]["record"]["Portfolio_Stage_Select"] %></td>
             <td><%= records[arr_key]["record"]["Funding_Name"] %></td>
@@ -47,12 +47,12 @@
             <td>
                 <div class="row mt-2">
                     <div class="col">
-                <a class="btn btn-primary btn-block" href='/team/view/<%= records[arr_key]["id"] %>' role="button">View</a>
+                <a class="btn btn-primary btn-block" href='/teams/view/<%= records[arr_key]["id"] %>' role="button">View</a>
                         </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col">
-                <a class="btn btn-primary btn-block" href='/team/edit/<%= records[arr_key]["id"] %>' role="button">Edit</a>
+                <a class="btn btn-primary btn-block" href='/teams/edit/<%= records[arr_key]["id"] %>' role="button">Edit</a>
                 </div>
                 </div>
             </td>

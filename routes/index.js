@@ -8,6 +8,4 @@ router.get('/', AppController.index)
 router.post('/list/:table', AppController.listField);
 router.post('/filter/:table', AppController.filterField);
 
-router.get('/report/:report_name', AppController.reportRecords)
-
 module.exports = router;

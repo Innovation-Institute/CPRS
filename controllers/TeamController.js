@@ -94,9 +94,9 @@ exports.edit = async function(req, res){
         }
         //console.log(new_record["Name_Text"]);
         team.updateRecord(updated_record,id,function(new_record){
-            res.redirect('/team/edit/'+id);
+            /* res.redirect('/teams/edit/'+id); */
+            exports.view(req,res);
         });
-        
     }
     exports.report = async function(req,res){
         table="team";

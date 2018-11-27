@@ -2,11 +2,14 @@ const team = require('../models/team');
 const member = require('../models/member');
 const all= require('../models/all');
 const async=require('async');
-/* index page
-*  give funding amount as input graph. 
-*
-*/
-exports.index =async function(req,res){
+
+/**
+ * Renders the index page.
+ * 
+ * @param {Request} req 
+ * @param {Response} res 
+ */
+exports.index = async function(req,res){
     all.getFundingAmount(function(err,set){
     res.render('index',{
         records: set
@@ -14,12 +17,11 @@ exports.index =async function(req,res){
     });
 }
 /**
+ * Will list 
  * 
- * Get Primary key for the table specified
- * 
- * @returns null
- * 
- *  */ 
+ * @param {Request} req 
+ * @param {Response} res 
+ */
 exports.listField = async function(req,res){
     table= req.params.table;
     all.viewPrimaryKeys(table, function(err, set){
@@ -46,41 +48,7 @@ exports.filterField = async function(req,res){
     });
 }
 
-exports.reportRecords = async function(req, res){
-    filter='FIND("Chancellor Fund", {Funding_Link})>=1';//['one', createFieldFilter("Name_Text","Team_Link", results)],
-    all.filteredRecords("team", filter, function(err, set){
-    new_filter=createFieldFilter("Name_Text","Team_Link",set);
-    //var groupedByTeam=groupBy(set,"Team_Name")
-    async.parallel({
-        record: async.apply(all.filteredRecords,"funding",new_filter),
-        },function(err,results){
-        console.log("Here");
-        records=results["record"];
-        records= groupBy(records,"Team_Name");
-        new_set=setField(records,"Chancellor");
-        res.render("report/chancellor",{
-            records: new_set
-        });
-        }
-    ); 
-    /*res.render("report/chancellor",{
-        records: new_filter
 
-   /* async.parallel({
-        record: async.apply(all.getRecord,table,id),
-        },function(err,results){
-        console.log("Here");
-        res.render("report/chancellor",{
-            records: results["records"]
-        });
-        }
-        ); */
-    /*res.render("report/chancellor",{
-        records: new_filter
-    });
-    });*/
-    });
-}
 /* Helper functions */
 /**
  * 
