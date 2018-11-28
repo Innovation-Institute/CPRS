@@ -1,22 +1,29 @@
-const team = require('../models/team');
-const member = require('../models/member');
-const all= require('../models/all');
+const airtable= require('../models/airtable');
 const async=require('async');
+const checkInput=require('../controllers/components/checkInput');
+/** Separated all CRUD operations for Team Table */
 
+/**
+ * 
+ */
 exports.index = async function(req,res){
     table="team";
-    all.viewAll(table,function(err, set){
+    airtable.viewAll(table,function(err, set){
         if(err) throw err;
         res.render('team/index',{
             records: set
         });
     });
 }
-
+/**
+ * 
+ * Read Specific Row from team database
+ * 
+ */
 exports.view = async function(req,res){
     table="team";
     id=req.params.id;
-    all.getRecord(table,id,function(err, set){
+    airtable.getRecord(table,id,function(err, set){
         res.render('team/view',{
             record: set,
             id: id
@@ -24,7 +31,10 @@ exports.view = async function(req,res){
     });
 }
 
-
+/**
+ * Edit Get Request
+ * 
+ */
 exports.edit = async function(req, res){
     id=req.params.id;
     table="team";
@@ -38,18 +48,17 @@ exports.edit = async function(req, res){
     teams=[];
     technologies=[];
     async.parallel({
-    record: async.apply(all.getRecord,table,id),
-    department_companies: async.apply(all.viewPrimaryKeys,"department_company"),
-    eirs: async.apply(all.viewPrimaryKeys,"eir"),
-    events: async.apply(all.viewPrimaryKeys,"event"),
-    fundings: async.apply(all.viewPrimaryKeys,"funding"),
-    licensing_managers: async.apply(all.viewPrimaryKeys,"licensing_manager"),
-    members: async.apply(all.viewPrimaryKeys,"member"),
-    team_categories: async.apply(all.viewPrimaryKeys,"team_category"),
-    teams: async.apply(all.viewPrimaryKeys,"team"),
-    technologies: async.apply(all.viewPrimaryKeys,"technology")
+    record: async.apply(airtable.getRecord,table,id),
+    department_companies: async.apply(airtable.viewPrimaryKeys,"department_company"),
+    eirs: async.apply(airtable.viewPrimaryKeys,"eir"),
+    events: async.apply(airtable.viewPrimaryKeys,"event"),
+    fundings: async.apply(airtable.viewPrimaryKeys,"funding"),
+    licensing_managers: async.apply(airtable.viewPrimaryKeys,"licensing_manager"),
+    members: async.apply(airtable.viewPrimaryKeys,"member"),
+    team_categories: async.apply(airtable.viewPrimaryKeys,"team_category"),
+    teams: async.apply(airtable.viewPrimaryKeys,"team"),
+    technologies: async.apply(airtable.viewPrimaryKeys,"technology")
     },function(err,results){
-    console.log("Here");
     res.render('team/edit', {
     id: id, 
     record: results["record"],
@@ -66,6 +75,89 @@ exports.edit = async function(req, res){
     }
     );
     }
+
+    /**
+     * Edit Post Request
+     * 
+     */
+    exports.editPost = async function(req, res){
+        id= req.params.id;
+        table="team";
+        updatedRecord={
+        "Name_Text": checkInput.checkText(req.body["Name_Text"]),
+        "Description_Text": checkInput.checkText(req.body["Description_Text"]),
+        "Former_Names_Text": checkInput.checkText(req.body["Former_Names_Text"]),
+        "Portfolio_Stage_Select": checkInput.checkSelect(req.body["Portfolio_Stage_Select"]),
+        "Portfolio_Sub_Stage_Select": checkInput.checkSelect(req.body["Portfolio_Sub_Stage_Select"]),
+        "Case_Number_Text": checkInput.checkText(req.body["Case_Number_Text"]),
+        "Technology_Description_Helper": checkInput.checkText(req.body["Technology_Description_Helper"]),
+        "Notes_Text": checkInput.checkText(req.body["Notes_Text"]),
+        "Team_Webpage_External": checkInput.checkText(req.body["Team_Webpage_External"]),
+        "Milestones_Text": checkInput.checkText(req.body["Milestones_Text"]),
+        "Supporting_Docs_External": checkInput.checkText(req.body["Supporting_Docs_External"]),
+        "FY_Launch_Select": checkInput.checkSelect(req.body["FY_Launch_Select"]),
+        "Eir_Link": checkInput.checkLink(req.body["Eir_Link"]),
+        "Licensing_Manager_Link": checkInput.checkLink(req.body["Licensing_Manager_Link"]),
+        "Event_Link": checkInput.checkLink(req.body["Event_Link"]),
+        "Funding_Link": checkInput.checkLink(req.body["Funding_Link"]),
+        "Member_Link": checkInput.checkLink(req.body["Member_Link"]),
+        "Technology_Link": checkInput.checkLink(req.body["Technology_Link"]),
+        "Team_Category_Link": checkInput.checkLink(req.body["Team_Category_Link"]),
+        "1st_Place_Event_Helper": checkInput.checkLink(req.body["1st_Place_Event_Helper"]),
+        "2nd_Place_Event_Helper": checkInput.checkLink(req.body["2nd_Place_Event_Helper"]),
+        "3rd_Place_Event_Helper": checkInput.checkLink(req.body["3rd_Place_Event_Helper"])
+        }
+        airtable.updateRecord(table,updatedRecord,id,function(new_record){
+            /* res.redirect('/teams/edit/'+id); */
+            exports.view(req,res);
+        });
+    }
+
+    /**
+     * 
+     * Add Get Request
+     * 
+     */
+    exports.add = async function(req, res){
+        table="team";
+        department_companies=[];
+        eirs=[];
+        events=[];
+        fundings=[];
+        licensing_managers=[];
+        members=[];
+        team_categories=[];
+        teams=[];
+        technologies=[];
+        async.parallel({
+        department_companies: async.apply(airtable.viewPrimaryKeys,"department_company"),
+        eirs: async.apply(airtable.viewPrimaryKeys,"eir"),
+        events: async.apply(airtable.viewPrimaryKeys,"event"),
+        fundings: async.apply(airtable.viewPrimaryKeys,"funding"),
+        licensing_managers: async.apply(airtable.viewPrimaryKeys,"licensing_manager"),
+        members: async.apply(airtable.viewPrimaryKeys,"member"),
+        team_categories: async.apply(airtable.viewPrimaryKeys,"team_category"),
+        teams: async.apply(airtable.viewPrimaryKeys,"team"),
+        technologies: async.apply(airtable.viewPrimaryKeys,"technology")
+        },function(err,results){
+        res.render('team/add', {
+        department_companies: results["department_companies"],
+        eirs: results["eirs"],
+        events: results["events"],
+        fundings: results["fundings"],
+        licensing_managers: results["licensing_managers"],
+        members: results["members"],
+        team_categories: results["team_categories"],
+        teams: results["teams"],
+        technologies: results["technologies"]
+        });
+        });
+    }
+
+    /**
+     * 
+     * Add Post Request
+     */
     exports.addPost = async function(req,res){
             id= req.params.id;
             newRecord={
@@ -92,123 +184,31 @@ exports.edit = async function(req, res){
             "2nd_Place_Event_Helper": checkLink(req.body["2nd_Place_Event_Helper"]),
             "3rd_Place_Event_Helper": checkLink(req.body["3rd_Place_Event_Helper"])
             }
-            //console.log(new_record["Name_Text"]);
-            all.createRecord("team",newRecord,function(err,new_record){
+            airtable.createRecord("team",newRecord,function(err,new_record){
                 /* res.redirect('/teams/edit/'+id); */
                 if(err) throw err;
                 req.params.id= new_record;
                 exports.view(req,res);
             });
     } 
-    exports.add = async function(req, res){
-        table="team";
-        department_companies=[];
-        eirs=[];
-        events=[];
-        fundings=[];
-        licensing_managers=[];
-        members=[];
-        team_categories=[];
-        teams=[];
-        technologies=[];
-        async.parallel({
-        department_companies: async.apply(all.viewPrimaryKeys,"department_company"),
-        eirs: async.apply(all.viewPrimaryKeys,"eir"),
-        events: async.apply(all.viewPrimaryKeys,"event"),
-        fundings: async.apply(all.viewPrimaryKeys,"funding"),
-        licensing_managers: async.apply(all.viewPrimaryKeys,"licensing_manager"),
-        members: async.apply(all.viewPrimaryKeys,"member"),
-        team_categories: async.apply(all.viewPrimaryKeys,"team_category"),
-        teams: async.apply(all.viewPrimaryKeys,"team"),
-        technologies: async.apply(all.viewPrimaryKeys,"technology")
-        },function(err,results){
-        console.log("Here");
-        res.render('team/add', {
-        department_companies: results["department_companies"],
-        eirs: results["eirs"],
-        events: results["events"],
-        fundings: results["fundings"],
-        licensing_managers: results["licensing_managers"],
-        members: results["members"],
-        team_categories: results["team_categories"],
-        teams: results["teams"],
-        technologies: results["technologies"]
-        });
-        });
-    }
-
-    exports.editPost = async function(req, res){
-        id= req.params.id;
-        updatedRecord={
-        "Name_Text": checkText(req.body["Name_Text"]),
-        "Description_Text": checkText(req.body["Description_Text"]),
-        "Former_Names_Text": checkText(req.body["Former_Names_Text"]),
-        "Portfolio_Stage_Select": checkSelect(req.body["Portfolio_Stage_Select"]),
-        "Portfolio_Sub_Stage_Select": checkSelect(req.body["Portfolio_Sub_Stage_Select"]),
-        "Case_Number_Text": checkText(req.body["Case_Number_Text"]),
-        "Technology_Description_Helper": checkText(req.body["Technology_Description_Helper"]),
-        "Notes_Text": checkText(req.body["Notes_Text"]),
-        "Team_Webpage_External": checkText(req.body["Team_Webpage_External"]),
-        "Milestones_Text": checkText(req.body["Milestones_Text"]),
-        "Supporting_Docs_External": checkText(req.body["Supporting_Docs_External"]),
-        "FY_Launch_Select": checkSelect(req.body["FY_Launch_Select"]),
-        "Eir_Link": checkLink(req.body["Eir_Link"]),
-        "Licensing_Manager_Link": checkLink(req.body["Licensing_Manager_Link"]),
-        "Event_Link": checkLink(req.body["Event_Link"]),
-        "Funding_Link": checkLink(req.body["Funding_Link"]),
-        "Member_Link": checkLink(req.body["Member_Link"]),
-        "Technology_Link": checkLink(req.body["Technology_Link"]),
-        "Team_Category_Link": checkLink(req.body["Team_Category_Link"]),
-        "1st_Place_Event_Helper": checkLink(req.body["1st_Place_Event_Helper"]),
-        "2nd_Place_Event_Helper": checkLink(req.body["2nd_Place_Event_Helper"]),
-        "3rd_Place_Event_Helper": checkLink(req.body["3rd_Place_Event_Helper"])
-        }
-        //console.log(new_record["Name_Text"]);
-        team.updateRecord(updatedRecord,id,function(new_record){
-            /* res.redirect('/teams/edit/'+id); */
-            
-            exports.view(req,res);
-        });
-    }
+    /**
+     * 
+     * Report Get Request (Shows parameters of report)
+     * 
+     */
     exports.report = async function(req,res){
         table="team";
         res.render('team/report',{
             table:table
         });
     }
-
+    /**
+     * 
+     * Report Post Request (Runs the report)
+     */
     exports.reportPost = async function(req,res){
         table="team";
         res.render('team/report',{
             table: table
         });
     }
-    /*Helper functions to check for nulls, Strings to Arrays and empty responses. */
-    function checkText(val){
-        if(val == null){
-            val='';
-            return val;
-        }
-        return val;
-    }
-    function checkSelect(val){
-        if(val === ''){
-            val=null;
-            return val;
-        }
-        return val;
-    }
-
-    function checkLink(val){
-        if (val instanceof Array) {
-            return val;
-        } else if(typeof val == 'string' || val instanceof String) {
-          val= [ val ];
-          return val;
-        } else {
-            val = [];
-            return val;
-        }
-    }
-
-    

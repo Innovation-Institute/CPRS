@@ -1,6 +1,4 @@
-const team = require('../models/team');
-const member = require('../models/member');
-const all= require('../models/all');
+const airtable= require('../models/airtable');
 const async=require('async');
 
 /**
@@ -10,7 +8,7 @@ const async=require('async');
  * @param {Response} res 
  */
 exports.index = async function(req,res){
-    all.getFundingAmount(function(err,set){
+    airtable.getFundingAmount(function(err,set){
     res.render('index',{
         records: set
     });
@@ -24,7 +22,7 @@ exports.index = async function(req,res){
  */
 exports.listField = async function(req,res){
     table= req.params.table;
-    all.viewPrimaryKeys(table, function(err, set){
+    airtable.viewPrimaryKeys(table, function(err, set){
         if(err){
             res.send( {err: err} )
         }
@@ -49,7 +47,7 @@ exports.filterField = async function(req,res){
     body=req.body;
     filter=createFilter(body);
     //filter='OR(FIND("1st Gear 2014.01",{Event_Link})>=1,FIND("!!! DO-NOT-DELETE",{Event_Link})>=1)';
-    all.filteredRecords(table,filter, function(err, set){
+    airtable.filteredRecords(table,filter, function(err, set){
         res.render(table+'/index',{
             records: set
         });
@@ -147,5 +145,5 @@ function setField(set, report_name){
         }
     }
     return this.newSet;
-}
+} 
       

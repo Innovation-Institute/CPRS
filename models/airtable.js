@@ -5,13 +5,20 @@ module.exports={
 viewPrimaryKeys: viewPrimaryKeys,
 getRecord: getRecord,
 createRecord: createRecord,
+updateRecord: updateRecord,
 filteredRecords: filteredRecords,
 viewAll: viewAll,
 getFundingAmount: getFundingAmount
 }
+/** 
+ * 
+ * You access all of them in the same way, so 
+ * you don't need to have multiple models, if you have a task 
+ * create a separate model table for that particular model itself.
+ */
 
 /**
- * Create a new record.
+ * Create a new record. (Create)
  * 
  * @param {String} table 
  * @param {JSON} record 
@@ -24,12 +31,43 @@ function createRecord(table,record,callback){
         callback(err,record);
     });
 }
-
 /**
- * View All records of table
+ * 
+ * Update Existing Record (Update)
+ * 
+ * @param {String} table 
+ * @param {JSON} updated_record 
+ * @param {String} id 
+ * @param {callback} callback 
+ */
+function updateRecord(table,updated_record,id,callback){
+    base(table).update(id, updated_record, function(err, record) {
+          if (err) { console.error(err); return; }
+          //console.log(record.get('Name_Text'));
+          callback(record);
+      });
+    
+}
+/**
+ * Get Specfic Record. (Read)
+ * 
+ * @param {String} table 
+ * @param {String} id 
+ * @param {callback} callback 
+ */
+function getRecord(table,id,callback){
+    base(table).find(id, function(err, record) {
+        if (err) { console.error(err); return; }
+        //console.log(record.get("Description_Text"));
+        callback(null,record["fields"]);
+    });
+}
+/**
+ * View All records of table (Index)
  * 
  * @param {String} table 
  * @param {callback} callback 
+ * 
  */
 function viewAll(table,callback){
     let set=[];
@@ -38,18 +76,19 @@ function viewAll(table,callback){
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach(function(record) {
             set.push({"id": record["id"],"record": record["fields"]});
-            console.log(set);
+            //console.log(set);
         });
     
         fetchNextPage();
     }, function done(error) {
-        console.log(error);
+        //console.log(error);
         callback(error,set);
     });
 
 }
+
 /**
- * View Primary Keys of the table.
+ * View Primary Keys of the table. 
  * 
  * @param {String} table 
  * @param {callback} callback 
@@ -71,25 +110,12 @@ set.push({"id": record["id"],"name": record["fields"]["Name_Text"]});
 fetchNextPage();
 }, function done(err) {
 if (err) { console.error(err); return; }
-console.log("Here");
+//console.log("Here");
 callback(null,set);
 });
 // async function to avoid callback hell !!!
 }
-/**
- * Get Specfic Record.
- * 
- * @param {String} table 
- * @param {String} id 
- * @param {callback} callback 
- */
-function getRecord(table,id,callback){
-    base(table).find(id, function(err, record) {
-        if (err) { console.error(err); return; }
-        console.log(record.get("Description_Text"));
-        callback(null,record["fields"]);
-    });
-}
+
 /**
  * 
  * Filter records of table
@@ -105,12 +131,12 @@ function filteredRecords(table,filter,callback){
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach(function(record) {
             set.push({"id": record["id"],"record": record["fields"]});
-            console.log(set);
+            //console.log(set);
         });
     
         fetchNextPage();
     }, function done(error) {
-        console.log(error);
+        //console.log(error);
         callback(error,set);
     });
 }
@@ -139,7 +165,7 @@ function getFundingAmount(callback){
         fetchNextPage();
         }, function done(err) {
         if (err) { console.error(err); return; }
-        console.log("Here");
+        //console.log("Here");
         callback(null,set);
         });
 

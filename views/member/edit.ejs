@@ -1,0 +1,225 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+<% columnNames= ["Last_Name_Text","First_Name_Text","Phone_Text","Email_Text","Last_Served","Comments_Text","Personal_Website_External"] %>
+<% selectizeColumns= ["Role_Select","Role_Within_Univ_Select","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name"] %>
+<% title= ["Last Name","First Name","Phone Number","Email","Last Served","Comments","Personal Website"] %>
+
+  <!--<%= id %>
+    <br>
+    <%- JSON.stringify(record) %>
+    <form action="/api/data" method="POST">
+        Some data: <input type="text" name="data" id="data">
+        <button type="submit">Send</button>
+    </form> -->
+    <div class="container-fluid mt-4">   
+        <div class="jumbotron">
+              <div class = "page-header">
+                      <div class="page-header">
+                              <div class="row">
+                          <div class="col-sm-10">
+                              <h2><%= record["Name_Text"] %></h2>
+                              <hr>
+                              </div>
+                          <div class="col-sm-2">
+                                  <a class="btn btn-primary btn-lg active" href="/members/view/<%= id %>" role="button">View</a>
+                                  
+                              </div>
+                              </div>
+                          </div>
+             </div>
+      <form action="/members/edit/<%= id %>" method="POST" id="edit">
+          
+              <div class="form-group">
+                      <h3>Member Name:</h3>
+                      <input class="form-control text-short" name="Name_Text" type="text" value='<%= record["Name_Text"] %>' id="Name_Text">
+              </div>
+              <% for(x in columnNames){ %>
+                <div class="form-group">
+                    <h3><%= title[x] %></h3>
+                    <input class="form-control text-short" name="<%= columnNames[x] %>" type="text" value='<%= record[columnNames[x]] %>' id="<%= columnNames[x] %>">
+            </div>
+              <% } %>
+              <div class="form-group">
+                      <h3>Role:</h3>
+                      <select id='Role_Select' name='Role_Select' style="width:600px;height:300px ;">
+                              <option disabled selected value> -- select an option -- </option>
+                              <% arr=["Principal Investigator","Entrepreneurial Lead","Mentor","Co-Principal Investigator","Student Entrepreneurial Lead","Co-Entrepreneurial Lead","Unknown"] %>
+                              <% for (var key in arr){ %>
+                              <% if(arr[key]== record["Role_Select"]){ %>
+                                  <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                              <% } else {%>
+                                  <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                              <%   }   %>
+                              <%   }   %>
+                      </select>
+              </div>
+              <div class="form-group">
+                      <h3>Role Within Univ:</h3>
+                      <select id='Role_Within_Univ_Select' name="Role_Within_Univ_Select" style="width:600px;height:300px ;">
+                              <option disabled selected value> -- select an option -- </option>
+                              <% arr=["Student","Faculty","Retired Faculty","Staff","UPMC","Other"] %>
+                              <% for (var key in arr){ %>
+                              <% if(arr[key]== record["Role_Within_Univ_Select"]){ %>
+                                  <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                              <% } else { %>
+                                  <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                              <%   }   %>
+                              <%   }   %>
+                      </select>
+              </div>
+                <div class="form-group">
+                      <h3>Gender:</h3>
+                      <select id='Gender_Select' name="Gender_Select" style="width:600px;height:300px ;">
+                              <option disabled selected value> -- select an option -- </option>
+                              <% arr=["Male","Female"] %>
+                              <% for (var key in arr){ %>
+                              <% if(arr[key]== record["Gender_Select"]){ %>
+                                  <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                              <% } else { %>
+                                  <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                              <%   }   %>
+                              <%   }   %>
+                      </select>
+                </div>
+                <div class="form-group">
+                    <h3>Non White:</h3>
+                    <select id='Non_White_Select' name="Non_White_Select" style="width:600px;height:300px ;">
+                            <option disabled selected value> -- select an option -- </option>
+                            <% arr=["Yes","No"] %>
+                            <% for (var key in arr){ %>
+                            <% if(arr[key]== record["Non_White_Select"]){ %>
+                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                            <% } else { %>
+                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                            <%   }   %>
+                            <%   }   %>
+                    </select>
+              </div>
+              <div class="form-group">
+                <h3>Disability:</h3>
+                <select id='Disability_Select' name="Disability_Select" style="width:600px;height:300px ;">
+                        <option disabled selected value> -- select an option -- </option>
+                        <% arr=["Yes","No"] %>
+                        <% for (var key in arr){ %>
+                        <% if(arr[key]== record["Disability_Select"]){ %>
+                            <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                        <% } else { %>
+                            <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                        <%   }   %>
+                        <%   }   %>
+                </select>
+              </div>
+              <div class="form-group">
+                <h3>Veteran:</h3>
+                <select id='Veteran_Select' name="Veteran_Select" style="width:600px;height:300px ;">
+                        <option disabled selected value> -- select an option -- </option>
+                        <% arr=["Yes","No"] %>
+                        <% for (var key in arr){ %>
+                        <% if(arr[key]== record["Veteran_Select"]){ %>
+                            <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                        <% } else { %>
+                            <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                        <%   }   %>
+                        <%   }   %>
+                </select>
+              </div>
+              <div class="form-group">
+                <h3>Non-National:</h3>
+                <select id='Non_National_Select' name="Non_National_Select" style="width:600px;height:300px ;">
+                        <option disabled selected value> -- select an option -- </option>
+                        <% arr=["Yes","No"] %>
+                        <% for (var key in arr){ %>
+                        <% if(arr[key]== record["Non_National_Select"]){ %>
+                            <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                        <% } else { %>
+                            <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                        <%   }   %>
+                        <%   }   %>
+                </select>
+              </div>
+                <div class="form-group">
+                      <h3>First Year Participated:</h3>
+                      <select id='Year_First_Participated_Select' name="Year_First_Participated_Select" style="width:600px;height:300px ;">
+                              <option disabled selected value> -- select an option -- </option>
+                              <% arr=[2018,2017,2016,2015,2014,2013] %>
+                              <% for (var key in arr){ %>
+                              <% if(arr[key]== record["Year_First_Participated_Select"]){ %>
+                                  <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                              <% } else { %>
+                                  <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                              <%   }   %>
+                              <%   }   %>
+                      </select>
+                </div>
+              <div class="form-group">
+                      <h3>4th Gear Role:</h3>
+                      <select id='4th_Gear_Role_Select' name="4th_Gear_Role_Select" style="width:600px;height:300px ;">
+                              <option disabled selected value> -- select an option -- </option>
+                              <% arr=["Did Not Participate","Owner"] %>
+                              <% for (var key in arr){ %>
+                              <% if(arr[key]== record["4th_Gear_Role_Select"]){ %>
+                                  <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
+                              <% } else { %>
+                                  <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                              <%   }   %>
+                              <%   }   %>
+                      </select>
+              </div>
+          
+      <%# heading","array of values","field name in record" %>
+      <% arr_values=[["Teams",teams,"Team_Link"],["Department Company",departmentCompanies,"Department_Company_Link"]] %>
+      <% for (var arr_key in arr_values) { %>
+      <% heading= arr_values[arr_key][0] %>
+      <% values= arr_values[arr_key][1] %>
+      <% field_name= arr_values[arr_key][2] %>
+      
+      <h3><%= heading %>:</h3>
+      <select multiple id='<%= field_name %>' name='<%= field_name %>' style="width:600px;height:300px ;">
+          <script>
+          </script>
+              <% for (var key in values) { %>
+                  
+                  <% if(typeof record[field_name]!= 'undefined') { %>
+                  <% for (var recordKey in record[field_name]){ %>
+                      <% if(record[field_name][recordKey] ==  values[key]['id']){ %>
+                          <option value="<%= values[key]['id'] %>" selected="selected"><%= values[key]['name'] %></option>
+                          <% break %>
+                          <br>
+                      <% } else if((recordKey)==(record[field_name].length-1)){%>
+                          <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
+                      <% } %>
+                  <% } %>
+                  <% } else { %>
+                      <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
+                      <% } %>
+              <% } %>
+                </select>
+                <% } %>
+                <button class="btn btn-primary" type="submit" id="edit-submit">Submit</button>
+      </form>
+      </div>
+      </div>
+      <script>
+          /*
+              These are the input values which I had to selectize as they were coming from another table.
+  
+  
+          */
+          <% for (var arr_key in arr_values) { %>
+             $('<%= "#"+arr_values[arr_key][2] %>').selectize();
+             
+          <%  } %>
+              /*
+                  These are the values which are static options.
+              */
+              <% for (var arr_key in selectizeColumns) { %>
+                $('<%= "#"+selectizeColumns[arr_key] %>').selectize();
+                <%  } %>
+              /*$('#e1').on('change', function() {
+                  alert( $("select#e1").val() );
+              });*/
+              //$("#test").hide();
+          </script>
+          
+  <% var footer = '../footer'; %>
+  <%- include(footer) %>

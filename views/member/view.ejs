@@ -1,0 +1,35 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+<% JSON.stringify(record) %>
+<div class="container-fluid mt-4">
+    <div class="jumbotron">
+        <div class="page-header">
+            <div class="row">
+        <div class="col-sm-10">
+            <h2><%= record["Name_Text"] %></h2>
+            <hr>
+            </div>
+        <div class="col-sm-2">
+                <a class="btn btn-primary btn-lg active" href="/members/edit/<%= id %>" role="button">Edit</a>
+                
+            </div>
+            </div>
+        </div>
+        <% columnNames= ["Name_Text","Last_Name_Text","First_Name_Text","Role_Select","Role_Within_Univ_Select","Phone_Text","Email_Text","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Last_Served","Underrepresented_Member","Comments_Text","Personal_Website_External","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name","Event_Name"] %>
+        <% title= ["Member Name","Last Name","First Name","Role","Role Within University","Phone Number","Email","Gender","Non White","Disability","Veteran","Non National","Last Served","Underrepresented Member","Comments","Personal Website","First Participation Year","4th Gear Year","Team/Teams","Department Company","Event"] %>
+        <% for(x in columnNames){ %>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4><%= title[x] %></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p><%= record[columnNames[x]] %></p>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<% var footer = '../footer'; %>
+<%- include(footer) %>

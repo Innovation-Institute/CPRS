@@ -1,6 +1,4 @@
-const team = require('../models/team');
-const member = require('../models/member');
-const all= require('../models/all');
+const airtable= require('../models/airtable');
 const async=require('async');
 const xl= require('excel4node');
 
@@ -16,12 +14,12 @@ exports.createReport = async function(req, res){
         chosenCols.push(chosenCols);
     }
     filter='FIND("'+report_name+'", {Funding_Link})>=1';//['one', createFieldFilter("Name_Text","Team_Link", results)],
-    all.filteredRecords("team", filter, function(err, set){
+    airtable.filteredRecords("team", filter, function(err, set){
     new_filter=createFieldFilter("Name_Text","Team_Link",set);
     old_set=set;
     //var groupedByTeam=groupBy(set,"Team_Name")
-        async.parallel({
-            record: async.apply(all.filteredRecords,"funding",new_filter),
+        async.parairtableel({
+            record: async.apply(airtable.filteredRecords,"funding",new_filter),
             },function(err,results){
             records=results["record"];
             records= groupBy(records,"Team_Name");
@@ -38,7 +36,7 @@ exports.createReport = async function(req, res){
  * 
  */
 
-exports.All = async function(req,res){
+exports.airtable = async function(req,res){
     res.render("report/index");
 }
 
@@ -54,7 +52,7 @@ exports.All = async function(req,res){
  * 
  * We have a query from Team table- Name_Text -> oldField Name_Text
  * Funding Table- Team_Link - > newField
- * set -> consists of all queries consisting with Name_Text and Record_ID
+ * set -> consists of airtable queries consisting with Name_Text and Record_ID
  * 
  * 
  * @param {String} oldField 
@@ -212,20 +210,20 @@ preCols=["id","Team"];
 chosenCols=chosenCols;
 postCols=["Funding Source","Amount($)","Total","Event","Cal Year","Budget Requested/Award Date","Post CF $"];
 if((chosenCols!=null) & (chosenCols!="")){
-    allCols=preCols.concat(chosenCols);
+    airtableCols=preCols.concat(chosenCols);
 }
 else{
-    allCols=preCols;
+    airtableCols=preCols;
 }
-allCols=allCols.concat(postCols);
+airtableCols=airtableCols.concat(postCols);
 col=1;
-for(x in allCols){
+for(x in airtableCols){
     ws.cell(1, col)
-    .string(allCols[x])
+    .string(airtableCols[x])
     .style(header_style);
     col++;
     /**Get the array index of Amount($) */
-    if(allCols[x]=="Amount($)"){
+    if(airtableCols[x]=="Amount($)"){
         amountCol=Number(x);
     }
 }
@@ -300,13 +298,14 @@ for(x in data){
     lastRow=row;
     sumFormula='SUM('+AmountIndex+firstRow+':'+AmountIndex+(lastRow-1)+')';
     //console.log(sumFormula);
-    ws.cell(row,amountCol+1) // Show total one ahead of amount
+    // Add the Sum to the WorkSheet.
+    ws.cell(row,amountCol+1) // Show total one ahead of amount( Magic Numbers?! Change it.)
         .formula(sumFormula)
         .style(bold_style);
         col++;
     row=row+2;
 }
-for(i=1;i<allCols.length;i++){
+for(i=1;i<airtableCols.length;i++){
     ws.column(i).setWidth(30);
 }
   wb.write('ExcelFile.xlsx', res);

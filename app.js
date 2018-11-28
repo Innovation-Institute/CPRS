@@ -8,6 +8,7 @@ var indexRouter = require('./routes/index');
 var teamsRouter = require('./routes/teams');
 var usersRouter = require('./routes/users');
 var reportsRouter= require('./routes/reports');
+var membersRouter=require('./routes/members');
 var app = express();
 
 // view engine setup
@@ -24,6 +25,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/teams', teamsRouter);
 app.use('/reports', reportsRouter);
+app.use('/members', membersRouter);
 
 
 // catch 404 and forward to error handler
