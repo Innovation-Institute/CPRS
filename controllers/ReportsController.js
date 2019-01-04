@@ -5,7 +5,12 @@ const xl= require('excel4node');
 exports.index = async function(req, res){
     res.render("report/index");
 }
-
+/**
+ * Create Report Function
+ * 
+ * Entry Point for Creating a Report:
+ * 
+ */
 exports.createReport = async function(req, res){
     report_name=req.body.report_name;
     chosenCols=req.body.chosenCols;
@@ -18,7 +23,7 @@ exports.createReport = async function(req, res){
     new_filter=createFieldFilter("Name_Text","Team_Link",set);
     old_set=set;
     //var groupedByTeam=groupBy(set,"Team_Name")
-        async.parairtableel({
+        async.parallel({
             record: async.apply(airtable.filteredRecords,"funding",new_filter),
             },function(err,results){
             records=results["record"];

@@ -1,6 +1,37 @@
 <% var header = 'header'; %>
 <%- include(header) %>
 <% data=records %>
-
+<div class="container" id="container-svg">
+        <div class="header">
+            <div class="row">
+                <div class="col-sm-6">
+                    <!--
+                        Replaced by login name, when login is added over this.
+                    -->
+                    <h3>Hi, Phil Brooks! </h3>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-sm-6">
+                    <h5>How are your teams doing? </h5>
+                </div>
+        </div>
+        <div class="row mt-3">
+        <svg width="1200" height="800"></svg>
+        </div>
+</div>
+<!--
+    Scripts Required for the dashboard.
+    Can be added and edited here.
+    Will use an Angular Service 
+    instead of using a pre-defined variable 
+    in javascript.
+-->
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+var data= <%- JSON.stringify(data) %>
+</script>
+<script src="javascripts/dashboard.js"></script>
 <% var footer = 'footer'; %>
 <%- include(footer) %>
