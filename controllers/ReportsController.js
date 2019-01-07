@@ -30,7 +30,7 @@ exports.createReport = async function(req, res){
             records= groupBy(records,"Team_Name");
             new_set=setField(records,"Chancellor");
             finalSet=addChosenCols(new_set,old_set,chosenCols);
-            createExcel(res,finalSet,chosenCols);
+            createExcel(report_name,res,finalSet,chosenCols);
             }
         ); 
     });
@@ -139,6 +139,7 @@ function setField(set, report_name){
  * Add chosen Columns from old_set(Team Table) to the new_set 
  * (which is a JSON funding report in the current and only instance.). 
  * 
+ * @param {String} report_name 
  * @param {JSON} new_set 
  * @param {JSON} old_set 
  * @param {Array} chosenCols 
@@ -165,12 +166,12 @@ function addChosenCols(new_set,old_set,chosenCols){
  * @param {Object} res 
  * @param {JSON} data 
  */
-function createExcel(res,data,chosenCols){
+function createExcel(report_name,res,data,chosenCols){
     // Create a new instance of a Workbook class
 var wb = new xl.Workbook();
  
 // Add Worksheets to the workbook
-var ws = wb.addWorksheet('Chancellor Funds Team-Funding');
+var ws = wb.addWorksheet(report_name+' Team-Funding');
 var header_style = wb.createStyle({
     fill: {
         type: 'pattern',
@@ -313,5 +314,8 @@ for(x in data){
 for(i=1;i<airtableCols.length;i++){
     ws.column(i).setWidth(30);
 }
-  wb.write('ExcelFile.xlsx', res);
+  stringCols= (chosenCols==null)? "" : " Columns: "+chosenCols.toString();
+  report_name= (report_name=="")? "All Funding Sources": report_name;
+  console.log(report_name+stringCols+'.xlsx');
+  wb.write(report_name+stringCols+'.xlsx', res);
 }
