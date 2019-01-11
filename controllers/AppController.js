@@ -8,10 +8,18 @@ const async=require('async');
  * @param {Response} res 
  */
 exports.index = async function(req,res){
-    airtable.getFundingAmount(function(err,set){
-    res.render('index',{
-        records: set
-    });
+    // Search for name in EIR column for linked record and then do a search on it.
+    searchCondition='FIND("'+req.session.user["Username_Text"]+'",{User_Link})>=1';
+    async.parallel({
+        record: async.apply(airtable.filteredRecords, "eir", searchCondition)  
+      },
+      function(err,results){
+        eir=results["record"][0]["record"]
+        airtable.getFundingAmount(eir.Name_Text,function(err,set){
+            res.render('index',{
+                records: set
+            });
+        });
     });
 }
 /**

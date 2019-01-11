@@ -1,0 +1,46 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+    <body class="text-center">
+        <div class="container mt-5">
+            <div class="jumbotron">
+                <form class="form-signin mt-4" action="/users/add" method="POST" id="signin">
+                    <img class="mb-4 form-control" src="/images/logo.png" alt="">
+                    <h2 class="h3 mb-3 font-weight-normal">Create a new account</h2>
+                    <div class="form-group text-left">
+                        <label for="Username_Text">Username:</label>
+                        <input type="text" class="form-control" name="Username_Text" id="Username_Text" required>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="Name_Text">Full Name:</label>
+                        <input type="text" class="form-control" name="Name_Text" id="Name_Text" required>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="Email_Text">Email address:</label>
+                        <input type="email" class="form-control" name="Email_Text" id="Email_Text" required>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="Password_Text">Password:</label>
+                        <input type="password" class="form-control" name="Password_Text" id="Password_Text" required>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="Phone_Text">Contact Number:</label>
+                        <input type="number" class="form-control" name="Phone_Text" id="Phone_Text" required>
+                    </div>
+                    <div class="form-group text-left">
+                        <label for="Role_Select">Role:</label>
+                        <select class="form-control custom-select" id="Role_Select" name="Role_Select" required>
+                        <option>EIR</option>
+                        <option>Administrator</option>
+                        <option>WebMaster</option>
+                        <option>Marketing</option>
+                        <option>Accounting</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
+                </form>
+            </div>
+        </div>
+<% var footer = '../footer'; %>
+<%- include(footer) %>
+
+

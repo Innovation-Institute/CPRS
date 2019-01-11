@@ -8,12 +8,14 @@
   "dependencies": {
     "airtable": "^0.5.7",
     "async": "^2.6.1",
+    "bcrypt": "^3.0.3",
     "cookie-parser": "^1.4.3",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "event-stream": "^4.0.1",
     "excel4node": "^1.7.0",
     "express": "~4.16.0",
+    "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.6"

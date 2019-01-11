@@ -1,9 +1,13 @@
 const airtable= require('../models/airtable');
 const async=require('async');
 const xl= require('excel4node');
-
+/**
+ * Index Page
+ */
 exports.index = async function(req, res){
-    res.render("report/index");
+    res.render("report/index",{
+        user: req.session.user
+    });
 }
 /**
  * Create Report Function
@@ -15,8 +19,9 @@ exports.createReport = async function(req, res){
     report_name=req.body.report_name;
     chosenCols=req.body.chosenCols;
     if(typeof chosenCols== "string"){
+        temp=chosenCols;
         chosenCols=[];
-        chosenCols.push(chosenCols);
+        chosenCols.push(temp);
     }
     filter='FIND("'+report_name+'", {Funding_Link})>=1';//['one', createFieldFilter("Name_Text","Team_Link", results)],
     airtable.filteredRecords("team", filter, function(err, set){
@@ -168,152 +173,152 @@ function addChosenCols(new_set,old_set,chosenCols){
  */
 function createExcel(report_name,res,data,chosenCols){
     // Create a new instance of a Workbook class
-var wb = new xl.Workbook();
- 
-// Add Worksheets to the workbook
-var ws = wb.addWorksheet(report_name+' Team-Funding');
-var header_style = wb.createStyle({
-    fill: {
-        type: 'pattern',
-        patternType: 'solid',
-        bgColor: '#eedd82',
-        fgColor: '#eedd82',
-      },
-    font: {
-      color: '#b8860b',
-      size: 15,
-      bold: true,
-      underline: true,
-    },
-    numberFormat: '$#,##0.00; ($#,##0.00); -',
-  }); 
+    var wb = new xl.Workbook();
+    
+    // Add Worksheets to the workbook
+    var ws = wb.addWorksheet(report_name+' Team-Funding');
+    var header_style = wb.createStyle({
+        fill: {
+            type: 'pattern',
+            patternType: 'solid',
+            bgColor: '#eedd82',
+            fgColor: '#eedd82',
+        },
+        font: {
+        color: '#b8860b',
+        size: 15,
+        bold: true,
+        underline: true,
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -',
+    }); 
 
-  var bold_style = wb.createStyle({
-    font: {
-      color: '#000000',
-      size: 15,
-      bold: true
-    },
-    numberFormat: '$#,##0.00; ($#,##0.00); -',
-  }); 
+    var bold_style = wb.createStyle({
+        font: {
+        color: '#000000',
+        size: 15,
+        bold: true
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -',
+    }); 
 
-// Create a reusable style
-var style = wb.createStyle({
-    font: {
-      color: '#000000',
-      size: 12,
-    },
-  });
+    // Create a reusable style
+    var style = wb.createStyle({
+        font: {
+        color: '#000000',
+        size: 12,
+        },
+    });
 
-var dollar_style = wb.createStyle({
-  font: {
-    color: '#000000',
-    size: 12,
-  },
-  numberFormat: '$#,##0.00; ($#,##0.00); -',
-});
-preCols=["id","Team"];
-chosenCols=chosenCols;
-postCols=["Funding Source","Amount($)","Total","Event","Cal Year","Budget Requested/Award Date","Post CF $"];
-if((chosenCols!=null) & (chosenCols!="")){
-    airtableCols=preCols.concat(chosenCols);
-}
-else{
-    airtableCols=preCols;
-}
-airtableCols=airtableCols.concat(postCols);
-col=1;
-for(x in airtableCols){
-    ws.cell(1, col)
-    .string(airtableCols[x])
-    .style(header_style);
-    col++;
-    /**Get the array index of Amount($) */
-    if(airtableCols[x]=="Amount($)"){
-        amountCol=Number(x);
+    var dollar_style = wb.createStyle({
+        font: {
+            color: '#000000',
+            size: 12,
+        },
+        numberFormat: '$#,##0.00; ($#,##0.00); -',
+        });
+    preCols=["id","Team"];
+    chosenCols=chosenCols;
+    postCols=["Funding Source","Amount($)","Total","Event","Cal Year","Budget Requested/Award Date","Post CF $"];
+    if((chosenCols!=null) & (chosenCols!="")){
+        airtableCols=preCols.concat(chosenCols);
     }
-}
-amountCol=amountCol+1 // add one as the workbook starts with 1.
-AmountIndex=String.fromCharCode(64+amountCol);
-row=2; // assign each to each variable in array
-teamID=0;
-
-for(x in data){
+    else{
+        airtableCols=preCols;
+    }
+    airtableCols=airtableCols.concat(postCols);
     col=1;
-    teamID=teamID+1;
-    //console.log(row);
-    ws.cell(row, col)
-    .number(teamID)
-    .style(style);
-    col++;
-    currentTeam=data[x];
-    ws.cell(row, col)
-    .string(x)
-    .style(bold_style);
-    currentTeam=data[x];
-    firstRow=row;
-    for(chosen in chosenCols){
+    for(x in airtableCols){
+        ws.cell(1, col)
+        .string(airtableCols[x])
+        .style(header_style);
         col++;
-        if(chosen!=null){
-        if(data[x]["chosenCols"][chosenCols[chosen]]!=null){
-        ws.cell(row,col)
-        .string(data[x]["chosenCols"][chosenCols[chosen]])
-        .style(style);
-        }else{
-        ws.cell(row,col)
-        .string("")
-        .style(style);
-        }
+        /**Get the array index of Amount($) */
+        if(airtableCols[x]=="Amount($)"){
+            amountCol=Number(x);
         }
     }
-    columnStart=col+1;
-    for(funding in currentTeam){
-        col=columnStart;
-        if(funding!="chosenCols"){
+    amountCol=amountCol+1 // add one as the workbook starts with 1.
+    AmountIndex=String.fromCharCode(64+amountCol);
+    row=2; // assign each to each variable in array
+    teamID=0;
+
+    for(x in data){
+        col=1;
+        teamID=teamID+1;
+        //console.log(row);
         ws.cell(row, col)
-        .string(funding)
+        .number(teamID)
         .style(style);
         col++;
-        if(typeof currentTeam[funding]["amountReceived"] === "undefined" || currentTeam[funding]["amountReceived"] === null){
-            currentTeam[funding]["amountReceived"]=0;
-        }
-        //console.log(currentTeam[funding]["amountReceived"]);
-        ws.cell(row,col)
-        .number(currentTeam[funding]["amountReceived"]+0)
-        .style(dollar_style);
-        col++;
-        ws.cell(row,col)
-        .string('')
-        .style(style);
-        col++;
-        ws.cell(row,col)
-        .string(currentTeam[funding]["eventName"])
-        .style(style);
-        col++;
-        ws.cell(row,col)
-        .string(currentTeam[funding]["calendarYear"])
-        .style(style);
-        col++;
-        ws.cell(row,col)
-        .string(currentTeam[funding]["budgetRequestDate"])
-        .style(style);
-        col++;
-        row++;
-    }
-    }
-    lastRow=row;
-    sumFormula='SUM('+AmountIndex+firstRow+':'+AmountIndex+(lastRow-1)+')';
-    //console.log(sumFormula);
-    // Add the Sum to the WorkSheet.
-    ws.cell(row,amountCol+1) // Show total one ahead of amount( Magic Numbers?! Change it.)
-        .formula(sumFormula)
+        currentTeam=data[x];
+        ws.cell(row, col)
+        .string(x)
         .style(bold_style);
-        col++;
-    row=row+2;
-}
-for(i=1;i<airtableCols.length;i++){
-    ws.column(i).setWidth(30);
-}
+        currentTeam=data[x];
+        firstRow=row;
+        for(chosen in chosenCols){
+            col++;
+            if(chosen!=null){
+                if(data[x]["chosenCols"][chosenCols[chosen]]!=null){
+                ws.cell(row,col)
+                .string(data[x]["chosenCols"][chosenCols[chosen]])
+                .style(style);
+                }   else   {
+                ws.cell(row,col)
+                .string("")
+                .style(style);
+                }
+            }
+        }
+        columnStart=col+1;
+        for(funding in currentTeam){
+            col=columnStart;
+            if(funding!="chosenCols"){
+            ws.cell(row, col)
+            .string(funding)
+            .style(style);
+            col++;
+            if(typeof currentTeam[funding]["amountReceived"] === "undefined" || currentTeam[funding]["amountReceived"] === null){
+                currentTeam[funding]["amountReceived"]=0;
+            }
+            //console.log(currentTeam[funding]["amountReceived"]);
+            ws.cell(row,col)
+            .number(currentTeam[funding]["amountReceived"]+0)
+            .style(dollar_style);
+            col++;
+            ws.cell(row,col)
+            .string('')
+            .style(style);
+            col++;
+            ws.cell(row,col)
+            .string(currentTeam[funding]["eventName"])
+            .style(style);
+            col++;
+            ws.cell(row,col)
+            .string(currentTeam[funding]["calendarYear"])
+            .style(style);
+            col++;
+            ws.cell(row,col)
+            .string(currentTeam[funding]["budgetRequestDate"])
+            .style(style);
+            col++;
+            row++;
+        }
+        }
+        lastRow=row;
+        sumFormula='SUM('+AmountIndex+firstRow+':'+AmountIndex+(lastRow-1)+')';
+        //console.log(sumFormula);
+        // Add the Sum to the WorkSheet.
+        ws.cell(row,amountCol+1) // Show total one ahead of amount( Magic Numbers?! Change it.)
+            .formula(sumFormula)
+            .style(bold_style);
+            col++;
+        row=row+2;
+    }
+    for(i=1;i<airtableCols.length;i++){
+        ws.column(i).setWidth(30);
+    }
   stringCols= (chosenCols==null)? "" : " Columns: "+chosenCols.toString();
   report_name= (report_name=="")? "All Funding Sources": report_name;
   console.log(report_name+stringCols+'.xlsx');

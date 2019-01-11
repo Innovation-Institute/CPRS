@@ -32,6 +32,22 @@ exports.view = async function(req,res){
 }
 
 /**
+ * 
+ * Pipeline Reports
+ * 
+ */
+exports.filteredReports = async function(req,res){
+    table="team";
+    id=req.params.id;
+    airtable.getRecord(table,id,function(err, set){
+        res.render('team/view',{
+            record: set,
+            id: id
+        });
+    });
+}
+
+/**
  * Edit Get Request
  * 
  */
@@ -161,28 +177,28 @@ exports.edit = async function(req, res){
     exports.addPost = async function(req,res){
             id= req.params.id;
             newRecord={
-            "Name_Text": checkText(req.body["Name_Text"]),
-            "Description_Text": checkText(req.body["Description_Text"]),
-            "Former_Names_Text": checkText(req.body["Former_Names_Text"]),
-            "Portfolio_Stage_Select": checkSelect(req.body["Portfolio_Stage_Select"]),
-            "Portfolio_Sub_Stage_Select": checkSelect(req.body["Portfolio_Sub_Stage_Select"]),
-            "Case_Number_Text": checkText(req.body["Case_Number_Text"]),
-            "Technology_Description_Helper": checkText(req.body["Technology_Description_Helper"]),
-            "Notes_Text": checkText(req.body["Notes_Text"]),
-            "Team_Webpage_External": checkText(req.body["Team_Webpage_External"]),
-            "Milestones_Text": checkText(req.body["Milestones_Text"]),
-            "Supporting_Docs_External": checkText(req.body["Supporting_Docs_External"]),
-            "FY_Launch_Select": checkSelect(req.body["FY_Launch_Select"]),
-            "Eir_Link": checkLink(req.body["Eir_Link"]),
-            "Licensing_Manager_Link": checkLink(req.body["Licensing_Manager_Link"]),
-            "Event_Link": checkLink(req.body["Event_Link"]),
-            "Funding_Link": checkLink(req.body["Funding_Link"]),
-            "Member_Link": checkLink(req.body["Member_Link"]),
-            "Technology_Link": checkLink(req.body["Technology_Link"]),
-            "Team_Category_Link": checkLink(req.body["Team_Category_Link"]),
-            "1st_Place_Event_Helper": checkLink(req.body["1st_Place_Event_Helper"]),
-            "2nd_Place_Event_Helper": checkLink(req.body["2nd_Place_Event_Helper"]),
-            "3rd_Place_Event_Helper": checkLink(req.body["3rd_Place_Event_Helper"])
+            "Name_Text": checkInput.checkText(req.body["Name_Text"]),
+            "Description_Text": checkInput.checkText(req.body["Description_Text"]),
+            "Former_Names_Text": checkInput.checkText(req.body["Former_Names_Text"]),
+            "Portfolio_Stage_Select": checkInput.checkSelect(req.body["Portfolio_Stage_Select"]),
+            "Portfolio_Sub_Stage_Select": checkInput.checkSelect(req.body["Portfolio_Sub_Stage_Select"]),
+            "Case_Number_Text": checkInput.checkText(req.body["Case_Number_Text"]),
+            "Technology_Description_Helper": checkInput.checkText(req.body["Technology_Description_Helper"]),
+            "Notes_Text": checkInput.checkText(req.body["Notes_Text"]),
+            "Team_Webpage_External": checkInput.checkText(req.body["Team_Webpage_External"]),
+            "Milestones_Text": checkInput.checkText(req.body["Milestones_Text"]),
+            "Supporting_Docs_External": checkInput.checkText(req.body["Supporting_Docs_External"]),
+            "FY_Launch_Select": checkInput.checkSelect(req.body["FY_Launch_Select"]),
+            "Eir_Link": checkInput.checkLink(req.body["Eir_Link"]),
+            "Licensing_Manager_Link": checkInput.checkLink(req.body["Licensing_Manager_Link"]),
+            "Event_Link": checkInput.checkLink(req.body["Event_Link"]),
+            "Funding_Link": checkInput.checkLink(req.body["Funding_Link"]),
+            "Member_Link": checkInput.checkLink(req.body["Member_Link"]),
+            "Technology_Link": checkInput.checkLink(req.body["Technology_Link"]),
+            "Team_Category_Link": checkInput.checkLink(req.body["Team_Category_Link"]),
+            "1st_Place_Event_Helper": checkInput.checkLink(req.body["1st_Place_Event_Helper"]),
+            "2nd_Place_Event_Helper": checkInput.checkLink(req.body["2nd_Place_Event_Helper"]),
+            "3rd_Place_Event_Helper": checkInput.checkLink(req.body["3rd_Place_Event_Helper"])
             }
             airtable.createRecord("team",newRecord,function(err,new_record){
                 /* res.redirect('/teams/edit/'+id); */

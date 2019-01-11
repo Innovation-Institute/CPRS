@@ -146,13 +146,13 @@ function filteredRecords(table,filter,callback){
  * 
  * @param {callback} callback 
  */
-function getFundingAmount(callback){
+function getFundingAmount(name,callback){
     table="team";
     let set=[];
     base(table).select({
         // Selecting the first 3 records in all_team:
         view: "all_"+table,
-        filterByFormula: 'FIND("Phil Brooks",{Eir_Link})>=1' // Will replace it with EIR 
+        filterByFormula: 'FIND("'+name+'",{Eir_Link})>=1' // Will replace it with EIR 
         //from login once I begin making login.
         }).eachPage(async function page(records, fetchNextPage) {
         // This function (`page`) will get called for each page of records.
