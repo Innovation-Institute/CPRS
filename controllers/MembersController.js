@@ -1,12 +1,12 @@
 const airtable = require('../models/airtable');
 const checkInput=require('../controllers/components/checkInput');
 const async=require('async');
+const table="member"
 /**
  * Index Page, display airtable records
  * 
  */
 exports.index = async function(req,res){
-    table="member";
     airtable.viewAll(table,function(err, set){
         if(err) throw err;
         res.render('member/index',{
@@ -20,7 +20,6 @@ exports.index = async function(req,res){
  * 
  */
 exports.view = async function(req,res){
-    table="member";
     id=req.params.id;
     airtable.getRecord(table,id,function(err, set){
         res.render('member/view',{
@@ -38,7 +37,6 @@ exports.view = async function(req,res){
 exports.edit = async function(req, res){
     // "","Last_Name_Text","First_Name_Text","Role_Select","Role_Within_Univ_Select","Phone_Text","Email_Text","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Last_Served","Underrepresented_Member","Comments_Text","Personal_Website_External","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name","Event_Name"
     id=req.params.id;
-    table="member";
     teams=[];
     departmentCompanies=[];
     async.parallel({
@@ -61,7 +59,6 @@ exports.edit = async function(req, res){
 
  exports.editPost= async function(req, res){
     id=req.params.id;
-    table="member";
     updatedRecord={
         "Name_Text": checkInput.checkText(req.body["Name_Text"]),
         "Last_Name_Text": checkInput.checkText(req.body["Last_Name_Text"]),
@@ -93,14 +90,12 @@ exports.edit = async function(req, res){
  exports.add = async function(req, res){
     // "","Last_Name_Text","First_Name_Text","Role_Select","Role_Within_Univ_Select","Phone_Text","Email_Text","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Last_Served","Underrepresented_Member","Comments_Text","Personal_Website_External","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name","Event_Name"
     id=req.params.id;
-    table="member";
     teams=[];
     departmentCompanies=[];
     async.parallel({
         departmentCompanies: async.apply(airtable.viewPrimaryKeys,"department_company"),
         teams: async.apply(airtable.viewPrimaryKeys,"team")
         },function(err,results){
-        console.log("Here");
         res.render('member/add', {
         departmentCompanies: results["departmentCompanies"],
         teams: results["teams"]
@@ -110,7 +105,6 @@ exports.edit = async function(req, res){
 
  exports.addPost = async function(req,res){
     id=req.params.id;
-    table="member";
     newRecord={
         "Name_Text": checkInput.checkText(req.body["Name_Text"]),
         "Last_Name_Text": checkInput.checkText(req.body["Last_Name_Text"]),
@@ -140,3 +134,14 @@ exports.edit = async function(req, res){
         exports.view(req,res);
     });
  }
+
+/**
+ * 
+ * Report Get Request (Shows parameters of report)
+ * 
+ */
+exports.report = async function(req,res){
+    res.render('member/report',{
+        table:table
+    });
+}

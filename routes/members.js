@@ -27,6 +27,11 @@ router.post('/add/', MembersController.addPost);
 
 /**
  * Report
+ */
+router.get('/report', MembersController.report);
+
+/**
+ * Report
  *
 router.get('/report', MembersController.report);
 router.post('/report', MembersController.reportPost);

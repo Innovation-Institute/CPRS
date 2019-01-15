@@ -1,105 +1,83 @@
 const airtable= require('../models/airtable');
 const async=require('async');
+const es6bindall= require('es6bindall');
 const checkInput=require('../controllers/components/checkInput');
+const AppController=require('../controllers/AppController');
 /** Separated all CRUD operations for Team Table */
 
-/**
- * 
- */
-exports.index = async function(req,res){
-    table="team";
-    airtable.viewAll(table,function(err, set){
-        if(err) throw err;
-        res.render('team/index',{
-            records: set
-        });
-    });
-}
-/**
- * 
- * Read Specific Row from team database
- * 
- */
-exports.view = async function(req,res){
-    table="team";
-    id=req.params.id;
-    airtable.getRecord(table,id,function(err, set){
-        res.render('team/view',{
-            record: set,
-            id: id
-        });
-    });
-}
-
-/**
- * 
- * Pipeline Reports
- * 
- */
-exports.filteredReports = async function(req,res){
-    table="team";
-    id=req.params.id;
-    airtable.getRecord(table,id,function(err, set){
-        res.render('team/view',{
-            record: set,
-            id: id
-        });
-    });
-}
-
-/**
- * Edit Get Request
- * 
- */
-exports.edit = async function(req, res){
-    id=req.params.id;
-    table="team";
-    department_companies=[];
-    eirs=[];
-    events=[];
-    fundings=[];
-    licensing_managers=[];
-    members=[];
-    team_categories=[];
-    teams=[];
-    technologies=[];
-    async.parallel({
-    record: async.apply(airtable.getRecord,table,id),
-    department_companies: async.apply(airtable.viewPrimaryKeys,"department_company"),
-    eirs: async.apply(airtable.viewPrimaryKeys,"eir"),
-    events: async.apply(airtable.viewPrimaryKeys,"event"),
-    fundings: async.apply(airtable.viewPrimaryKeys,"funding"),
-    licensing_managers: async.apply(airtable.viewPrimaryKeys,"licensing_manager"),
-    members: async.apply(airtable.viewPrimaryKeys,"member"),
-    team_categories: async.apply(airtable.viewPrimaryKeys,"team_category"),
-    teams: async.apply(airtable.viewPrimaryKeys,"team"),
-    technologies: async.apply(airtable.viewPrimaryKeys,"technology")
-    },function(err,results){
-    res.render('team/edit', {
-    id: id, 
-    record: results["record"],
-    department_companies: results["department_companies"],
-    eirs: results["eirs"],
-    events: results["events"],
-    fundings: results["fundings"],
-    licensing_managers: results["licensing_managers"],
-    members: results["members"],
-    team_categories: results["team_categories"],
-    teams: results["teams"],
-    technologies: results["technologies"]
-    });
+class TeamsController extends AppController{
+    constructor(){
+        super();
+        this.table="team";
+        es6bindall(this,["index","view","filteredReports","edit","editPost","add","addPost","report"]);
     }
-    );
+
+    /**
+     * 
+     * Pipeline Reports
+     * 
+     */
+    filteredReports(req,res){
+        let id=req.params.id;
+        airtable.getRecord(this.table,id,function(err, set){
+            res.render('team/view',{
+                record: set,
+                id: id
+            });
+        });
+    }
+
+    /**
+     * Edit Get Request
+     * 
+     */
+    edit(req, res){
+        let id=req.params.id;
+        let department_companies=[];
+        let eirs=[];
+        let events=[];
+        let fundings=[];
+        let licensing_managers=[];
+        let members=[];
+        let team_categories=[];
+        let teams=[];
+        let technologies=[];
+        async.parallel({
+        record: async.apply(airtable.getRecord,this.table,id),
+        department_companies: async.apply(airtable.viewPrimaryKeys,"department_company"),
+        eirs: async.apply(airtable.viewPrimaryKeys,"eir"),
+        events: async.apply(airtable.viewPrimaryKeys,"event"),
+        fundings: async.apply(airtable.viewPrimaryKeys,"funding"),
+        licensing_managers: async.apply(airtable.viewPrimaryKeys,"licensing_manager"),
+        members: async.apply(airtable.viewPrimaryKeys,"member"),
+        team_categories: async.apply(airtable.viewPrimaryKeys,"team_category"),
+        teams: async.apply(airtable.viewPrimaryKeys,"team"),
+        technologies: async.apply(airtable.viewPrimaryKeys,"technology")
+        },function(err,results){
+        res.render('team/edit', {
+        id: id, 
+        record: results["record"],
+        department_companies: results["department_companies"],
+        eirs: results["eirs"],
+        events: results["events"],
+        fundings: results["fundings"],
+        licensing_managers: results["licensing_managers"],
+        members: results["members"],
+        team_categories: results["team_categories"],
+        teams: results["teams"],
+        technologies: results["technologies"]
+        });
+        }
+        );
     }
 
     /**
      * Edit Post Request
      * 
      */
-    exports.editPost = async function(req, res){
-        id= req.params.id;
-        table="team";
-        updatedRecord={
+    editPost(req, res, next){
+        let id= req.params.id;
+        let updatedRecord={
         "Name_Text": checkInput.checkText(req.body["Name_Text"]),
         "Description_Text": checkInput.checkText(req.body["Description_Text"]),
         "Former_Names_Text": checkInput.checkText(req.body["Former_Names_Text"]),
@@ -123,9 +101,8 @@ exports.edit = async function(req, res){
         "2nd_Place_Event_Helper": checkInput.checkLink(req.body["2nd_Place_Event_Helper"]),
         "3rd_Place_Event_Helper": checkInput.checkLink(req.body["3rd_Place_Event_Helper"])
         }
-        airtable.updateRecord(table,updatedRecord,id,function(new_record){
-            /* res.redirect('/teams/edit/'+id); */
-            exports.view(req,res);
+        airtable.updateRecord(this.table,updatedRecord,id,function(new_record){
+            next();
         });
     }
 
@@ -134,17 +111,16 @@ exports.edit = async function(req, res){
      * Add Get Request
      * 
      */
-    exports.add = async function(req, res){
-        table="team";
-        department_companies=[];
-        eirs=[];
-        events=[];
-        fundings=[];
-        licensing_managers=[];
-        members=[];
-        team_categories=[];
-        teams=[];
-        technologies=[];
+    add(req, res){
+        let department_companies=[];
+        let eirs=[];
+        let events=[];
+        let fundings=[];
+        let licensing_managers=[];
+        let members=[];
+        let team_categories=[];
+        let teams=[];
+        let technologies=[];
         async.parallel({
         department_companies: async.apply(airtable.viewPrimaryKeys,"department_company"),
         eirs: async.apply(airtable.viewPrimaryKeys,"eir"),
@@ -169,14 +145,16 @@ exports.edit = async function(req, res){
         });
         });
     }
-
     /**
-     * 
      * Add Post Request
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next
      */
-    exports.addPost = async function(req,res){
-            id= req.params.id;
-            newRecord={
+    addPost(req,res,next){
+            let id= req.params.id;
+            let newRecord={
             "Name_Text": checkInput.checkText(req.body["Name_Text"]),
             "Description_Text": checkInput.checkText(req.body["Description_Text"]),
             "Former_Names_Text": checkInput.checkText(req.body["Former_Names_Text"]),
@@ -200,31 +178,13 @@ exports.edit = async function(req, res){
             "2nd_Place_Event_Helper": checkInput.checkLink(req.body["2nd_Place_Event_Helper"]),
             "3rd_Place_Event_Helper": checkInput.checkLink(req.body["3rd_Place_Event_Helper"])
             }
-            airtable.createRecord("team",newRecord,function(err,new_record){
+            airtable.createRecord(this.table,newRecord,function(err,new_record){
                 /* res.redirect('/teams/edit/'+id); */
                 if(err) throw err;
                 req.params.id= new_record;
-                exports.view(req,res);
+                next();
             });
     } 
-    /**
-     * 
-     * Report Get Request (Shows parameters of report)
-     * 
-     */
-    exports.report = async function(req,res){
-        table="team";
-        res.render('team/report',{
-            table:table
-        });
-    }
-    /**
-     * 
-     * Report Post Request (Runs the report)
-     */
-    exports.reportPost = async function(req,res){
-        table="team";
-        res.render('team/report',{
-            table: table
-        });
-    }
+}
+
+module.exports=TeamsController;

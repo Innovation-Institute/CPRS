@@ -2,7 +2,8 @@ var bcrypt = require('bcrypt');
 const async=require('async');
 const airtable= require('../models/airtable');
 const checkInput=require('../controllers/components/checkInput');
-const AppController=require('../controllers/AppController');
+const App=require('../controllers/AppController');
+const AppController=new App();
 const saltRounds = 10;
 /**
  * Check if authenticated

@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const AppController = require('../controllers/AppController');
+const App = require('../controllers/AppController');
 var bodyParser = require('body-parser');
 
-router.get('/', AppController.index)
-router.get('/box', AppController.boxTest)
+const AppController=new App();
 
+/** Get the dashboard */
+router.get('/', AppController.dashboard)
 
-/** Legacy code. */
+/** List Keys */
 router.post('/list/:table', AppController.listField);
+
+/** Report Generator */
 router.post('/filter/:table', AppController.filterField);
 
 module.exports = router;
