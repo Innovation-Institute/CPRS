@@ -58,13 +58,12 @@ class AppController{
      */
     dashboard(req,res){
         // Search for name in EIR column for linked record and then do a search on it.
-        searchCondition='FIND("'+req.session.user["Username_Text"]+'",{User_Link})>=1';
+        let searchCondition='FIND("'+req.session.user["Username_Text"]+'",{User_Link})>=1';
         async.parallel({
             record: async.apply(airtable.filteredRecords, "eir", searchCondition)  
         },
         function(err,results){
-            var eir="";
-            eir=results.record[0].record
+            let eir=results.record[0].record
             console.log(eir);
             airtable.getFundingAmount(eir.Name_Text,function(err,set){
                 res.render('index',{
