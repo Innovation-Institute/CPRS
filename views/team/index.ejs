@@ -31,7 +31,10 @@
                       <th class="th-sm">Eir
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm">Actions
+                      <th class="th-sm not-visible">Milestones
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm last-column">Actions
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                     </tr>
@@ -44,6 +47,7 @@
             <td><%= records[arr_key]["record"]["Portfolio_Stage_Select"] %></td>
             <td><%= records[arr_key]["record"]["Funding_Name"] %></td>
             <td><%= records[arr_key]["record"]["Eir_Name"] %></td>
+            <td><%= records[arr_key]["record"]["Milestones_Text"] %></td>
             <td>
                 <div class="row mt-2">
                     <div class="col">
@@ -63,48 +67,6 @@
 </table>
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#example').DataTable({
-      dom: 'Bfrtip',
-      buttons: [
-   {
-        extend: 'copy',
-        text: 'Copy Table',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'csv',
-        text: 'Export CSV',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'excel',
-        text: 'Export Excel',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'pdf',
-        text: 'Export PDF',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'print',
-        text: 'Print',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    }]
-    });
-  });
-
- /* buttons: [
-'copy', 'csv', 'excel', 'pdf', 'print'
-]*/
-</script>
+<script src="/javascripts/datatable.js"></script>
 <% var footer = '../footer'; %>
 <%- include(footer) %>

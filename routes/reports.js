@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const ReportsController = require('../controllers/ReportsController');
+const Reports = require('../controllers/ReportsController');
+
+const ReportsController= new Reports();
 
 /**
  * Index

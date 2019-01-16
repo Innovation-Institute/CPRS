@@ -32,7 +32,7 @@
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm">Actions
-                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                        <i class="fa fa-sort float-right last-column" aria-hidden="true"></i>
                       </th>
                     </tr>
                   </thead>
@@ -63,48 +63,6 @@
 </table>
 </div>
 
-<script>
-$(document).ready(function() {
-    $('#example').DataTable({
-      dom: 'Bfrtip',
-      buttons: [
-   {
-        extend: 'copy',
-        text: 'Copy Table',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'csv',
-        text: 'Export CSV',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'excel',
-        text: 'Export Excel',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'pdf',
-        text: 'Export PDF',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    },{
-        extend: 'print',
-        text: 'Print',
-        exportOptions: {
-            columns: 'th:not(:last-child)'
-        }
-    }]
-    });
-  });
-
- /* buttons: [
-'copy', 'csv', 'excel', 'pdf', 'print'
-]*/
-</script>
+<script src="/javascripts/datatable.js"></script>
 <% var footer = '../footer'; %>
 <%- include(footer) %>
