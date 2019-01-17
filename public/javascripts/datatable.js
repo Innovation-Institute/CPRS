@@ -30,31 +30,31 @@ $(document).ready(function() {
         extend: 'copy',
         text: 'Copy Table',
         exportOptions: {
-            columns: 'th:not(:last-child)'
+            columns: ':visible th:not(:last-child)'
         }
     },{
         extend: 'csv',
         text: 'Export CSV',
         exportOptions: {
-            columns: 'th:not(:last-child)'
+            columns: ':visible th:not(:last-child)'
         }
     },{
         extend: 'excel',
         text: 'Export Excel',
         exportOptions: {
-            columns: 'th:not(:last-child)'
+            columns: ':visible th:not(:last-child)'
         }
     },{
         extend: 'pdf',
         text: 'Export PDF',
         exportOptions: {
-            columns: 'th:not(:last-child)'
+            columns: ':visible th:not(:last-child)'
         }
     },{
         extend: 'print',
         text: 'Print',
         exportOptions: {
-            columns: 'th:not(:last-child)'
+            columns: ':visible th:not(:last-child)'
         }
     },{
             extend: 'colvis',
@@ -62,5 +62,6 @@ $(document).ready(function() {
             columns: ':not(.noVis)'
             }],
     });
-    table.columns('.not-visible').visible( false );
+    table.columns('.not-visible').visible( false, false );
+    table.columns.adjust().draw( false ); 
   });
