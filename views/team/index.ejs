@@ -19,10 +19,22 @@
                       <th class="th-sm">Team Name
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
+                      <th class="th-sm not-visible">Team Description
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
                       <th class="th-sm">Team Category
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
+                      <th class="th-sm not-visible">Members
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
                       <th class="th-sm">Portfolio Stage
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Portfolio Sub-Stage
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Events
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm">Funding
@@ -34,6 +46,27 @@
                       <th class="th-sm not-visible">Milestones
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
+                      <th class="th-sm not-visible">Former Names
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Licensing Manager
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Case Number
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Total Funding
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Technology Description
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Notes
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Team WebPage
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
                       <th class="th-sm last-column">Actions
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
@@ -43,11 +76,37 @@
 <% for (arr_key in records) { %>
         <tr>
             <td><a href='/teams/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
+            <td><%= records[arr_key]["record"]["Description_Text"] %></td>
             <td><%= records[arr_key]["record"]["Team_Category_Name"] %></td>
-            <td><%= records[arr_key]["record"]["Portfolio_Stage_Select"] %></td>
-            <td><%= records[arr_key]["record"]["Funding_Name"] %></td>
-            <td><%= records[arr_key]["record"]["Eir_Name"] %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Member_Link"],records[arr_key]["record"]["Member_Name"],"members") %></td>
+            <td><%= records[arr_key]["record"]["Portfolio_Stage_Select"] %></td> 
+            <td><%= records[arr_key]["record"]["Portfolio_Sub_Stage_Select"] %></td> 
+            <td><%= records[arr_key]["record"]["Event_Name"] %></td> 
+            <td><%= records[arr_key]["record"]["Funding_Name"] %></td> 
+            <td><%= records[arr_key]["record"]["Eir_Name"] %></td> 
+            
+            <!--
+              Portfolio_Sub_Stage_Select
+              Event_Name
+              Funding_Name
+              Eir_Name
+              Milestones_Text
+              Former_Names_Text
+              Licensing_Manager_Name
+              Case_Number_Text              
+              Total_Funding
+              Technology_Description_Helper
+              Notes_Text
+              Team_Webpage_External
+            -->
             <td><%= records[arr_key]["record"]["Milestones_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Former_Names_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Licensing_Manager_Name"] %></td>
+            <td><%= records[arr_key]["record"]["Case_Number_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Total_Funding"] %></td>
+            <td><%= records[arr_key]["record"]["Technology_Description_Helper"] %></td>
+            <td><%= records[arr_key]["record"]["Notes_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Team_Webpage_External"] %></td>
             <td>
                 <div class="row mt-2">
                     <div class="col">

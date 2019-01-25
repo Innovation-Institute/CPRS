@@ -31,8 +31,29 @@
                       <th class="th-sm">Events
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm">Actions
+                      <th class="th-sm not-visible">Role Within University
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Gender
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Non White
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Disability
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Veteran
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Non National
                         <i class="fa fa-sort float-right last-column" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Last Served
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm last-column">Actions
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                     </tr>
                   </thead>
@@ -41,9 +62,16 @@
         <tr>
             <td><a href='/members/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
             <td><%= records[arr_key]["record"]["Role_Select"] %></td>
-            <td><%= records[arr_key]["record"]["Team_Name"] %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Team_Link"],records[arr_key]["record"]["Team_Name"],"teams") %></td>
             <td><%= records[arr_key]["record"]["Department_Company_Name"] %></td>
             <td><%= records[arr_key]["record"]["Event_Name"] %></td>
+            <td><%= records[arr_key]["record"]["Role_Within_Univ_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Gender_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Non_White_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Disability_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Veteran_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Non_National_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Last_Served"] %></td>
             <td>
                 <div class="row mt-2">
                     <div class="col">

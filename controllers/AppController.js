@@ -1,6 +1,7 @@
 const airtable= require('../models/airtable');
 const es6bindall= require('es6bindall');
 const async=require('async');
+const createLinks=require('../controllers/helpers/createLinks')
 
 class AppController{
     /**
@@ -21,7 +22,8 @@ class AppController{
         airtable.viewAll(this.table,(function(err, set){
             if(err) throw err;
             res.render(this.table+'/index',{
-                records: set
+                records: set,
+                createLinks: createLinks.createClickableLinks
             });
         }).bind(this));
     }
@@ -155,48 +157,6 @@ class AppController{
         console.log(filter);
         return filter;
     }
-    /**
-     * 
-     * @param {JSON} xs JSON object 
-     * @param {string} key key to which groupby should happen
-     * 
-     * @returns {JSON}
-     */
-    groupBy(xs, key) {
-            let new_val= xs.reduce(function(rv, x) {
-            (rv[x["record"][key]] = rv[x["record"][key]] || []).push(x);
-            return rv;
-            }, {});
-            return this.new_val;
-        };
-    /**
-     * 
-     * @param {JSON} set 
-     * @param {String} report_name
-     * 
-     * @returns {JSON} 
-    setField(set, report_name){
-        let newSet={}; // Final JSON to be sent on Front End
-        for(var key in set){
-            teamName=key;
-            subset=set[key];
-            newSet[key]={};
-            for(var subkey in subset){
-                fundingName=subset[subkey]["record"]["Name_Text"];
-                amountReceived=subset[subkey]["record"]["Amount_Received_Text"];
-                budgetRequestDate=subset[subkey]["record"]["Budget_Request_Date_Text"];
-                calendarYear=subset[subkey]["record"]["Calendar_Year_Select"];
-                eventName=subset[subkey]["record"]["Event_Name"];
-                newSet[key][fundingName]={};
-                newSet[key][fundingName]["amountReceived"]=amountReceived;
-                newSet[key][fundingName]["budgetRequestDate"]=budgetRequestDate;
-                newSet[key][fundingName]["calendarYear"]=calendarYear;
-                newSet[key][fundingName]["eventName"]=eventName;
-            }
-        }
-        return this.newSet;
-    }
-    */ 
 }
       
 module.exports=AppController;
