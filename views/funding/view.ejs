@@ -1,0 +1,35 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+<% JSON.stringify(record) %>
+<div class="container-fluid mt-4">
+    <div class="jumbotron">
+        <div class="page-header">
+            <div class="row">
+        <div class="col-sm-10">
+            <h2><%= record["Name_Text"] %></h2>
+            <hr>
+            </div>
+        <div class="col-sm-2">
+                <a class="btn btn-primary btn-lg active" href="/fundings/edit/<%= id %>" role="button">Edit</a>
+                
+            </div>
+            </div>
+        </div>
+        <% columnNames= ["Name_Text","Funding_Class_Select","Amount_Received_Text","Budget_Request_Date_Text","Budget_Approval_Date_Text","Issue_Award_Letter_Date_Text","Recieved_Signed_Award_Letter_Date_Text","Award_Begin_Date_Text","Award_End_Date","Grant_Information_Text","Grant_Number_Text","Internal_Award_Number_Text","Calendar_Year_Select","FY_Select","Grant_Type_Select","Team_Name","Event_Name"] %>
+        <% title= ["Funding Name","Funding Class","Amount Received","Budget Request","Budget Approval","Issue Award Letter Date","Recieved Signed Award Letter Date","Award Begin Date","Award End Date","Grant Information","Grant Number","Internal Award Number","Calendar Year","FY","Grant Type","Teams","Events"] %>
+        <% for(x in columnNames){ %>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4><%= title[x] %></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p><%= record[columnNames[x]] %></p>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<% var footer = '../footer'; %>
+<%- include(footer) %>

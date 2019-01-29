@@ -1,0 +1,126 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+
+<% columnNames= [["Name_Text","text"],["Amount_Received_Text","number"],["Budget_Request_Date_Text","date"],["Budget_Approval_Date_Text","date"],["Issue_Award_Letter_Date_Text","date"],["Received_Signed_Award_Letter_Date_Text","date"],["Award_Begin_Date_Text","date"],["Award_End_Date","date"],
+["Grant_Information_Text","text"],["Grant_Number_Text","number"],["Internal_Award_Number_Text","text"]] %>
+<% selectizeColumns= ["Funding_Name","Calendar_Year_Select","FY_Select","Grant_Type_Select","Team_Link","Event_Link"] %>
+<% title= ["Funding Name","Amount Received","Budget Request","Budget Approval","Issue Award Letter Date","Received Signed Award Letter Date","Award Begin Date","Award End Date","Grant Information","Grant Number","Internal Award Number"] %>
+
+   <div class="container-fluid mt-4">   
+      <div class="jumbotron">
+            <div class = "page-header">
+                    <div class="page-header">
+                            <div class="row">
+                        <div class="col-sm-10">
+                            <h2>Edit Funding Source:</h2>
+                            <hr>
+                            </div>
+                            </div>
+                        </div>
+           </div>
+    <form action="/fundings/add/" method="POST" id="add">
+        <% for(x in columnNames){ %>
+          <div class="form-group">
+              <h3><%= title[x] %></h3>
+              <input class="form-control text-short" name="<%= columnNames[x][0] %>" type="<%= columnNames[x][1] %>" id="<%= columnNames[x][0] %>" value="<%= record[columnNames[x][0]] %>">
+      </div>
+        <% } %>
+        <div class="form-group">
+                <h3>Calendar Year:</h3>
+                <select id='Calendar_Year_Select' name='Calendar_Year_Select' style="width:600px;height:300px ;">
+                        <option disabled selected value> -- select an option -- </option>
+                        <% arr=[2018,2017,2016,2015,2014] %>
+                        <% for (var key in arr){ %>
+                            <%  if(arr[key]==record["Calendar_Year_Select"]){ %>
+                                <option value="<%= arr[key] %>" selected><%= arr[key] %></option>
+                            <%  } else { %>
+                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                            <%  } %>
+                        <%   }   %>
+                </select>
+        </div>
+        <div class="form-group">
+                <h3>First Year:</h3>
+                <select id='FY_Select' name="FY_Select" style="width:600px;height:300px ;">
+                        <option disabled selected value> -- select an option -- </option>
+                        <% arr=[2018,2017,2016,2015,2014] %>
+                        <% for (var key in arr){ %>
+                            <%  if(arr[key]==record["FY_Select"]){ %>
+                                <option value="<%= arr[key] %>" selected><%= arr[key] %></option>
+                            <%  } else { %>
+                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                            <%  } %>
+                        <%   }   %>
+                </select>
+        </div>
+          <div class="form-group">
+                <h3>Grant Type:</h3>
+                <select id='Grant_Type_Select' name="Grant_Type_Select" style="width:600px;height:300px ;">
+                        <option disabled selected value> -- select an option -- </option>
+                        <% arr=["Contract","SBIR","Investment"] %>
+                        <% for (var key in arr){ %>
+                            <%  if(arr[key]==record["Grant_Type_Select"]){ %>
+                                <option value="<%= arr[key] %>" selected><%= arr[key] %></option>
+                            <%  } else { %>
+                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
+                            <%  } %>
+                        <%   }   %>
+                </select>
+          </div>
+    
+<%# heading","array of values","field name in record" %>
+<% arr_values=[["Teams",teams,"Team_Link"],["Events",events,"Event_Link"]] %>
+<% for (var arr_key in arr_values) { %>
+<% heading= arr_values[arr_key][0] %>
+<% values= arr_values[arr_key][1] %>
+<% field_name= arr_values[arr_key][2] %>
+
+<h3><%= heading %>:</h3>
+<select multiple id='<%= field_name %>' name='<%= field_name %>' style="width:600px;height:300px ;">
+    <script>
+    </script>
+        <% for (var key in values) { %>
+            <% if(typeof record[field_name]!= 'undefined') { %>
+                <% for (var recordKey in record[field_name]){ %>
+                    <% if(record[field_name][recordKey] ==  values[key]['id']){ %>
+                        <option value="<%= values[key]['id'] %>" selected="selected"><%= values[key]['name'] %></option>
+                        <% break %>
+                        <br>
+                    <% } else if((recordKey)==(record[field_name].length-1)){%>
+                        <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
+                    <% } %>
+                <% } %>
+                <% } else { %>
+                    <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
+                    <% } %>
+        <% } %>
+          </select>
+          <% } %>
+          <button class="btn btn-primary" type="submit" id="edit-submit">Submit</button>
+</form>
+</div>
+</div>
+<script>
+    /*
+        These are the input values which I had to selectize as they were coming from another table.
+
+
+    */
+    <% for (var arr_key in arr_values) { %>
+       $('<%= "#"+arr_values[arr_key][2] %>').selectize();
+       
+    <%  } %>
+        /*
+            These are the values which are static options.
+        */
+        <% for (var arr_key in selectizeColumns) { %>
+          $('<%= "#"+selectizeColumns[arr_key] %>').selectize();
+          <%  } %>
+        /*$('#e1').on('change', function() {
+            alert( $("select#e1").val() );
+        });*/
+        //$("#test").hide();
+    </script>
+        
+<% var footer = '../footer'; %>
+<%- include(footer) %>

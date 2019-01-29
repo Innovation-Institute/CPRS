@@ -1,0 +1,125 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+
+<% JSON.stringify(records) %>
+<div class="container-fluid mt-3">
+<div class="page-header mt-3">
+  <div class="row">
+    <div class="col-md-10">
+  <h1>Funding</h1>
+  </div>
+  <div class="col-md-2 pull-right">
+      <a class="btn btn-primary btn-lg active" href="/members/report/" role="button">Custom Report/Filter</a>
+  </div>
+  </div>
+</div>
+<table id="example" class="table table-striped table-bordered mt-5" cellspacing="20" style="width:100%">
+            <thead>
+                    <tr>
+                      <th class="th-sm">Funding Name
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Funding Class Select 
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Amount Received
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Calendar Year
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Team/Teams
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Event/Events
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">FY
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Budget Request Date
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Default Funding Date
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Budget Approval Date
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Issue Award Letter Date
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Received Signed Award Date
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Award Begin Date
+                        <i class="fa fa-sort float-right last-column" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Award End Date
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Grant Type
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm last-column">Actions
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                    </tr>
+                  </thead>
+    <tbody>
+<% for (arr_key in records) { %>
+        <tr>
+            <td><a href='/members/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
+            <td><%= records[arr_key]["record"]["Funding_Class_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Amount_Received_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Calendar_Year_Select"] %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Team_Link"],records[arr_key]["record"]["Team_Name"],"teams") %></td>
+            <td><%= records[arr_key]["record"]["Event_Name"] %></td>
+            <td><%= records[arr_key]["record"]["FY_Select"] %></td>
+            <td><%= records[arr_key]["record"]["Budget_Request_Date_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Default_Funding_Date"] %></td>
+            <td><%= records[arr_key]["record"]["Budget_Approval_Date_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Issue_Award_Letter_Date_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Received_Signed_Award_Letter_Date_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Award_Begin_Date_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Award_End_Date"] %></td>
+            <td><%= records[arr_key]["record"]["Grant_Type_Select"] %></td>
+            <!--
+                        Amount Received
+                        Calendar Year
+                        Team/Teams
+                        Event/Events
+                        Calendar Year
+                        FY
+                        Budget Request Date
+                        Default Funding Date
+                        Budget Approval Date
+                        Issue Award Letter Date
+                        Received Signed Award Date
+                        Award Begin Date
+                        Award End Date
+                        Grant Type
+
+                      -->
+            <td>
+                <div class="row mt-2">
+                    <div class="col">
+                <a class="btn btn-primary btn-block" href='/fundings/view/<%= records[arr_key]["id"] %>' role="button">View</a>
+                        </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                <a class="btn btn-primary btn-block" href='/fundings/edit/<%= records[arr_key]["id"] %>' role="button">Edit</a>
+                </div>
+                </div>
+            </td>
+        </tr>
+<% } %>
+
+    </tbody>
+</table>
+</div>
+
+<script src="/javascripts/datatable.js"></script>
+<% var footer = '../footer'; %>
+<%- include(footer) %>
