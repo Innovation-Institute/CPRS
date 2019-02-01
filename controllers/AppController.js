@@ -100,7 +100,8 @@ class AppController{
         //filter='OR(FIND("1st Gear 2014.01",{Event_Link})>=1,FIND("!!! DO-NOT-DELETE",{Event_Link})>=1)';
         airtable.filteredRecords(table,filter, function(err, set){
             res.render(table+'/index',{
-                records: set
+                records: set,
+                createLinks: createLinks.createClickableLinks
             });
         });
     }
