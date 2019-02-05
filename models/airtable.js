@@ -8,7 +8,8 @@ createRecord: createRecord,
 updateRecord: updateRecord,
 filteredRecords: filteredRecords,
 viewAll: viewAll,
-getFundingAmount: getFundingAmount
+getFundingAmount: getFundingAmount,
+viewMetadataColumn: viewMetadataColumn
 }
 /** 
  * 
@@ -85,6 +86,24 @@ function viewAll(table,callback){
         callback(error,set);
     });
 
+}
+
+function viewMetadataColumn(table,attribute,callback){
+    let set = new Set();
+    base(table).select({
+        view: 'all_'+table
+    }).eachPage(function page(records, fetchNextPage) {
+        records.forEach(function(record) {
+            set.add(record["fields"][attribute]);
+            //console.log(set);
+        });
+    
+        fetchNextPage();
+    }, function done(error) {
+        //console.log(error);
+        set=Array.from(set)
+        callback(error,set);
+    });
 }
 
 /**

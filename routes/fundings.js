@@ -29,4 +29,6 @@ router.post('/add/', Fundings.addPost, Fundings.view);
  */
 router.get('/report', Fundings.report);
 
+router.get('/meta', Fundings.metaColumns);
+
 module.exports = router;

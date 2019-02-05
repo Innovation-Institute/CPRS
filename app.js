@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
@@ -12,6 +11,7 @@ const usersRouter = require('./routes/users');
 const reportsRouter= require('./routes/reports');
 const membersRouter=require('./routes/members');
 const fundingsRouter=require('./routes/fundings');
+
 const app = express();
 
 // view engine setup
