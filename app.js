@@ -1,18 +1,18 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var teamsRouter = require('./routes/teams');
-var usersRouter = require('./routes/users');
-var reportsRouter= require('./routes/reports');
-var membersRouter=require('./routes/members');
-var fundingsRouter=require('./routes/fundings');
-var app = express();
+const indexRouter = require('./routes/index');
+const teamsRouter = require('./routes/teams');
+const usersRouter = require('./routes/users');
+const reportsRouter= require('./routes/reports');
+const membersRouter=require('./routes/members');
+const fundingsRouter=require('./routes/fundings');
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
