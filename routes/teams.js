@@ -29,4 +29,17 @@ router.post('/add/', Teams.addPost, Teams.view);
  */
 router.get('/report', Teams.report);
 
+/**
+ * Fundings get,add,update(set) metadata
+ */
+router.get('/meta/:fieldName', Teams.getMetadata);
+router.post('/meta/add', Teams.addMetadata);
+router.get('/meta/update', Teams.setMetadata);
+
+/**
+ * 
+ * 
+ */
+
+
 module.exports = router;

@@ -8,6 +8,7 @@ class MembersController extends AppController{
     constructor(){
         super();
         this.table="member";
+        this.metadataColumns=["Role_Select","Role_Within_Univ_Select","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Year_First_Participated_Select"]
         es6bindall(this,["index","view","edit","editPost","add","addPost","report"]);
     }
     /**

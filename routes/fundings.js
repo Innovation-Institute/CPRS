@@ -29,6 +29,9 @@ router.post('/add/', Fundings.addPost, Fundings.view);
  */
 router.get('/report', Fundings.report);
 
-router.get('/meta', Fundings.metaColumns);
+/**
+ * Set and Clear Metadata
+ */
+router.get('/meta', Fundings.setMetadata);
 
 module.exports = router;

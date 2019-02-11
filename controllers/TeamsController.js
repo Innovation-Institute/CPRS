@@ -9,6 +9,7 @@ class TeamsController extends AppController{
     constructor(){
         super();
         this.table="team";
+        this.metadataColumns=["Portfolio_Stage_Select","Portfolio_Sub_Stage_Select","FY_Launch_Select"];
         es6bindall(this,["index","view","filteredReports","edit","editPost","add","addPost","report"]);
     }
 

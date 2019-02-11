@@ -1,7 +1,9 @@
 const airtable= require('../models/airtable');
 const es6bindall= require('es6bindall');
 const async=require('async');
-const createLinks=require('../controllers/helpers/createLinks')
+const createLinks=require('../controllers/helpers/createLinks');
+const redis=require('redis')
+const redisClient=require('../controllers/connections/RedisConnect');
 
 class AppController{
     /**
@@ -9,7 +11,7 @@ class AppController{
      */
     constructor(){
         this.table="";
-        es6bindall(this,["index","view","report","createFilter","filterField"]);
+        es6bindall(this,["index","view","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata"]);
     }
     /**
      * Renders the index page.
@@ -105,7 +107,83 @@ class AppController{
             });
         });
     }
+    /**
+     * 
+     * @param {request} req 
+     * @param {response} res 
+     */
+    getMetadata(req,res){
+        redisClient.smembers(`${this.table}_${req.params.fieldName}`, function(err, reply) {
+            console.log(reply); 
+            if(err) res.send(err);
+            res.send(reply);
+        });
+    }
+    /**
+     * 
+     * Sometimes the database wouldn't be using a metadata value,
+     * you could use this api to add the data then.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     */
+    addMetadata(req,res){
+        redisClient.sadd(`${this.table}_${req.body.fieldName}`,req.body.value, function(err, reply) {
+                console.log(reply); 
+                if(err) res.send(err);
+                res.send("Successful")
+            });
+    }
+    /**
+     * Clear existing Metadata in Redis, so as to add new 
+     * data. There would be an expiry before I send it to 
+     * prod but this would still be run, as a user may also 
+     * require the cache to be re-run in case any new 
+     * meta-data is added and fail-safe.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next 
+     */
 
+    clearMetadata(req,res,next){
+        async.eachOfSeries(this.metadataColumns, (function (field, key, callback) {
+            console.log(`The key: ${key} for value: ${field}`); 
+            redisClient.del(`${this.table}_${field}`, function(err, reply) {
+                    console.log(reply); //prints 2
+                    callback();
+                });
+        }).bind(this), 
+            function (err) {
+            if (err) console.error(err.message);
+            // configs is now a map of JSON data
+            next();
+        });
+    }
+    /**
+     * Set the MetaData.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     */
+    setMetadata(req,res){
+        async.eachOfSeries(this.metadataColumns, (function (field, key, callback) {
+            console.log(`The key: ${key} for value: ${field}`); 
+            airtable.viewMetadataColumn(this.table,field,(function(err,values){
+                if (err) console.error(err.message);
+                values.unshift(`${this.table}_${field}`);
+                redisClient.sadd(values, function(err, reply) {
+                    console.log(reply); //prints 2
+                    callback();
+                });
+            }).bind(this))
+        }).bind(this), 
+            function (err) {
+            if (err) console.error(err.message);
+            // configs is now a map of JSON data
+            res.send("Complete");
+        });
+    }
 
     /* Helper functions */
     /**
@@ -159,5 +237,6 @@ class AppController{
         return filter;
     }
 }
+
       
 module.exports=AppController;

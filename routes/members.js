@@ -31,9 +31,9 @@ router.post('/add/', MembersController.addPost, MembersController.view);
 router.get('/report', MembersController.report);
 
 /**
- * Report
- *
-router.get('/report', MembersController.report);
-router.post('/report', MembersController.reportPost);
-**/
+ * Metadata Set and Clear
+ */
+
+router.get('/meta', MembersController.setMetadata);
+
 module.exports = router;

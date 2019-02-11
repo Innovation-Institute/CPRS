@@ -3,14 +3,13 @@ const checkInput=require('../controllers/components/checkInput');
 const async=require('async');
 const es6bindall= require('es6bindall');
 const AppController=require('../controllers/AppController');
-const redis=require('redis')
-const redisClient=require('../controllers/connections/RedisConnect');
 
 class FundingsController extends AppController{
     constructor(){
         super();
         this.table="funding";
-        es6bindall(this,["index","view","edit","editPost","add","addPost","report","metaColumns"]);
+        this.metadataColumns= ["Funding_Class_Select","Calendar_Year_Select","FY_Select","Grant_Type_Select"];
+        es6bindall(this,["index","view","edit","editPost","add","addPost","report","setMetadata","clearMetadata"]);
     }
     /**
      * Edit Get Request
@@ -115,20 +114,7 @@ class FundingsController extends AppController{
             next();
         });
     }
-    /**
-     * We will search the columns for meta data and store it in Redis
-     */
-    metaColumns(req,res){
-        async.parallel({
-            Funding_Class_Select: async.apply(airtable.viewMetadataColumn,this.table,"Funding_Class_Select")
-        },function(err,results){
-            results["Funding_Class_Select"].unshift("Funding_Class_Select");
-            redisClient.rpush(results["Funding_Class_Select"], function(err, reply) {
-                console.log(reply); //prints 2
-            });
-            res.send(results["Funding_Class_Select"]);
-        });
-    }
+
 }
 
 module.exports=FundingsController;
