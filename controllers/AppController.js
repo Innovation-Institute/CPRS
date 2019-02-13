@@ -11,7 +11,7 @@ class AppController{
      */
     constructor(){
         this.table="";
-        es6bindall(this,["index","view","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata"]);
+        es6bindall(this,["index","view","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata","indexMetadata","deleteMetadata"]);
     }
     /**
      * Renders the index page.
@@ -116,7 +116,14 @@ class AppController{
         redisClient.smembers(`${this.table}_${req.params.fieldName}`, function(err, reply) {
             console.log(reply); 
             if(err) res.send(err);
-            res.send(reply);
+            let myOptions=reply;
+            myOptions = myOptions.map(function(value) {
+                return {
+                    text: value,
+                    value: value
+                };
+            });
+            res.json(myOptions);
         });
     }
     /**
@@ -184,7 +191,43 @@ class AppController{
             res.send("Complete");
         });
     }
-
+    /**
+     * Delete Specific value from a field
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     */
+    deleteMetadata(req,res){
+        redisClient.srem(`${this.table}_${req.params.fieldName}`,req.params.fieldValue, function(err, reply) {
+            console.log(reply); 
+            if(err) res.send(err);
+            if(reply==1){
+                res.send(`Successfully removed ${req.params.fieldValue} from ${req.params.fieldName}`);
+            }
+            else{
+                res.send("Unable to find such a value");
+            }
+        });
+    }
+    
+    /**
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     */
+    indexMetadata(req,res){
+        let myOptions=this.metadataColumns;
+        myOptions = myOptions.map(function(value) {
+            return {
+                text: value,
+                value: value
+            };
+        });
+        res.render('metadata',{
+            table: this.table,
+            columns: myOptions
+        });
+    }
     /* Helper functions */
     /**
      * 

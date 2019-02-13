@@ -1,0 +1,57 @@
+<% var header = 'header'; %>
+<%- include(header) %>
+<div class="row">
+    <div class="col-sm-6">
+            <h1>Add/Delete Data for your Airtable Columns:</h1>
+    </div>
+    <div class="col-sm-6">
+        <%= table %>
+        <%= columns %>
+    </div>
+</div>
+<div ng-app="metadataApp" ng-controller="metaController" ng-init='metaColumns=<%- JSON.stringify(columns) %>'>
+    <selectize id="metaColumn" config="singleConfig" style="width:600px;height:300px ;" options="metaColumns" ng-change="change()" ng-model="metaColumn">
+    </selectize>
+    <div class="row"> 
+        <div class="col-sm-6">
+            <selectize id="metaColumn" config="singleConfig" style="width:600px;height:300px ;" ng-model="metadata" options="currentData">
+            </selectize>
+        </div>
+    </div>
+    <button type="button" class="btn btn-danger" ng-click="deleteValue()">Delete Selected Records</button>
+{{ result }}   
+</div>
+<script>
+    let app = angular.module('metadataApp', ['selectize']);
+    app.controller('metaController', function($scope, $http) {
+       /* $("#metaColumn").selectize({
+            create: true,
+            sortField: {
+                field: 'text',
+                direction: 'asc'
+            }
+        }); */
+
+        $scope.singleConfig = {
+        //    options: [{value: 1, text: 'Chuck Testa'}, {value: 2, text:'Nikola Tesla'}],
+        //    create: true,
+            openOnFocus: false, // Illustrate monkeypatch!
+            maxItems: 1,
+        };
+        $scope.deleteValue = () => {
+            $http.delete(`/teams/meta/delete/${$scope.metaColumn}/${$scope.metadata}`)
+            .then(function(response) {
+                $scope.result = response.data;
+                console.log($scope.result);
+            });
+        } 
+        $scope.change = () => {
+        $http.get('/teams/meta/view/'+$scope.metaColumn)
+        .then(function(response) {
+            $scope.currentData = response.data;
+        });
+        }
+    });
+</script>
+<% var footer = 'footer'; %>
+<%- include(footer) %>

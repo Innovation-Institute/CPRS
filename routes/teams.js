@@ -32,9 +32,11 @@ router.get('/report', Teams.report);
 /**
  * Fundings get,add,update(set) metadata
  */
-router.get('/meta/:fieldName', Teams.getMetadata);
-router.post('/meta/add', Teams.addMetadata);
+router.get('/meta/view/:fieldName', Teams.getMetadata);
+router.put('/meta/add', Teams.addMetadata);
 router.get('/meta/update', Teams.setMetadata);
+router.get('/meta/', Teams.indexMetadata);
+router.delete('/meta/delete/:fieldName/:fieldValue',Teams.deleteMetadata);
 
 /**
  * 
