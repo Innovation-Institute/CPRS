@@ -30,8 +30,12 @@ router.post('/add/', Fundings.addPost, Fundings.view);
 router.get('/report', Fundings.report);
 
 /**
- * Set and Clear Metadata
+ * Fundings get,add,update(set) metadata
  */
-router.get('/meta', Fundings.setMetadata);
+router.get('/meta/view/:fieldName', Fundings.getMetadata);
+router.put('/meta/add', Fundings.addMetadata);
+router.get('/meta/update', Fundings.setMetadata);
+router.get('/meta/', Fundings.indexMetadata);
+router.delete('/meta/delete/:fieldName/:fieldValue',Fundings.deleteMetadata);
 
 module.exports = router;

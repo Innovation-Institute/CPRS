@@ -135,7 +135,7 @@ class AppController{
      * @param {Response} res 
      */
     addMetadata(req,res){
-        redisClient.sadd(`${this.table}_${req.body.fieldName}`,req.body.value, function(err, reply) {
+        redisClient.sadd(`${this.table}_${req.body.fieldName}`,req.body.fieldValue, function(err, reply) {
                 console.log(reply); 
                 if(err) res.send(err);
                 res.send("Successful")

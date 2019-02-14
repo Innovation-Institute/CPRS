@@ -1,55 +1,108 @@
 <% var header = 'header'; %>
 <%- include(header) %>
-<div class="row">
-    <div class="col-sm-6">
-            <h1>Add/Delete Data for your Airtable Columns:</h1>
-    </div>
-    <div class="col-sm-6">
-        <%= table %>
-        <%= columns %>
-    </div>
-</div>
-<div ng-app="metadataApp" ng-controller="metaController" ng-init='metaColumns=<%- JSON.stringify(columns) %>'>
-    <selectize id="metaColumn" config="singleConfig" style="width:600px;height:300px ;" options="metaColumns" ng-change="change()" ng-model="metaColumn">
-    </selectize>
-    <div class="row"> 
-        <div class="col-sm-6">
-            <selectize id="metaColumn" config="singleConfig" style="width:600px;height:300px ;" ng-model="metadata" options="currentData">
-            </selectize>
+
+<div class="container-fluid">
+    <div class="jumbotron mt-2">
+        <div ng-app="metadataApp" ng-controller="metaController" ng-init='metaColumns=<%- JSON.stringify(columns) %>;table="<%= table %>"'>
+            <div class="row mt-2">
+                <div class="col-sm-8">
+                        <h1>Add/Delete Data for the table <%= table %>:<small> <small>Add airtable data which doesn't show up as options here.</small></small></h1>
+                        <hr>
+                </div>
+                <div class="col-sm-4 mt-2">
+                        <button class="btn btn-primary" ng-click="refreshValues()"><i class="fa fa-refresh" aria-hidden="true"></i> Refresh Cache</button>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="col-sm-6 mt-4">
+                    <selectize config="singleConfig" style="width:600px;height:300px ;" options="metaColumns" ng-change="change()" ng-model="metaColumn">
+                    </selectize>
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="col-sm-6 mt-4">
+                    <selectize config="singleConfig" style="width:600px;height:300px ;" ng-model="metadataDelete" options="currentData">
+                    </selectize>
+                </div>
+                <div class="col-sm-6 mt-4">
+                        <input type="text" style="width:600px;" ng-model="metadataAdd" options="currentData">
+                        </selectize>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-danger" ng-click="deleteValue()">Delete Selected Records</button>    
+                </div>
+                <div class="col-sm-6">
+                    <button type="button" class="btn btn-primary" ng-click="addValue()">Add New Record</button>    
+                </div>
+            </div>
+        {{ result }}   
         </div>
     </div>
-    <button type="button" class="btn btn-danger" ng-click="deleteValue()">Delete Selected Records</button>
-{{ result }}   
 </div>
 <script>
     let app = angular.module('metadataApp', ['selectize']);
     app.controller('metaController', function($scope, $http) {
-       /* $("#metaColumn").selectize({
-            create: true,
-            sortField: {
-                field: 'text',
-                direction: 'asc'
-            }
-        }); */
-
         $scope.singleConfig = {
         //    options: [{value: 1, text: 'Chuck Testa'}, {value: 2, text:'Nikola Tesla'}],
         //    create: true,
             openOnFocus: false, // Illustrate monkeypatch!
             maxItems: 1,
         };
+        /**
+         * Refresh Values by checking all the rows in all the columns in all the tables.
+         *  
+         **/
+        $scope.refreshValues = () => {
+            $http.get(`/${$scope.table}s/meta/update`)
+            .then(
+                function(response){
+                    $scope.result="Successfully Refreshed Data";
+                    $scope.change();
+                },
+                function(response){
+                    $scope.result="An Error has occured";
+                }
+            );
+        }
+        $scope.addValue = () => {
+            let data={
+                fieldName: $scope.metaColumn,
+                fieldValue: $scope.metadataAdd
+            }
+            let config = {
+                headers : {'Accept' : 'application/json'}
+            };
+            $http.put(`/${$scope.table}s/meta/add/`,data,config)
+            .then(
+                function(response){
+                    $scope.result=response.data;
+                    $scope.change();
+                }, 
+                function(response){
+                    $scope.result=response;
+                }
+                );
+
+        } 
         $scope.deleteValue = () => {
-            $http.delete(`/teams/meta/delete/${$scope.metaColumn}/${$scope.metadata}`)
-            .then(function(response) {
+            $http.delete(`/${$scope.table}s/meta/delete/${$scope.metaColumn}/${$scope.metadataDelete}`)
+            .then(
+                function(response) {
                 $scope.result = response.data;
                 console.log($scope.result);
-            });
+                $scope.change();
+                }, 
+                function(response){
+                    $scope.result=response;
+                });
         } 
         $scope.change = () => {
-        $http.get('/teams/meta/view/'+$scope.metaColumn)
-        .then(function(response) {
-            $scope.currentData = response.data;
-        });
+            $http.get(`/${$scope.table}s/meta/view/${$scope.metaColumn}`)
+            .then(function(response) {
+                $scope.currentData = response.data;
+            });
         }
     });
 </script>

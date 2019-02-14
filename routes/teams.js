@@ -38,10 +38,4 @@ router.get('/meta/update', Teams.setMetadata);
 router.get('/meta/', Teams.indexMetadata);
 router.delete('/meta/delete/:fieldName/:fieldValue',Teams.deleteMetadata);
 
-/**
- * 
- * 
- */
-
-
 module.exports = router;
