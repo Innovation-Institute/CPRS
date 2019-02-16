@@ -42,13 +42,8 @@
                     <h3>Portfolio Stage:</h3>
                     <select id='Portfolio_Stage_Select' name='Portfolio_Stage_Select' style="width:600px;height:300px ;">
                             <option disabled selected value> -- select an option -- </option>
-                            <% arr=["Spinout","License","Pipeline","Unknown"] %>
-                            <% for (var key in arr){ %>
-                            <% if(arr[key]== record["Portfolio_Stage_Select"]){ %>
-                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
-                            <% } else {%>
-                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
-                            <%   }   %>
+                            <% if(record["Portfolio_Stage_Select"]!=null){ %>
+                                <option value='<%= record["Portfolio_Stage_Select"] %>' selected="selected"><%= record["Portfolio_Stage_Select"] %></option>
                             <%   }   %>
                     </select>
             </div>
@@ -56,13 +51,8 @@
                     <h3>Portfolio Sub Stage:</h3>
                     <select id='Portfolio_Sub_Stage_Select' name="Portfolio_Sub_Stage_Select" style="width:600px;height:300px ;">
                             <option disabled selected value> -- select an option -- </option>
-                            <% arr=["Stage 1: Funding","Stage 2: Research","Stage 3a: Disclosure","Stage 3b: IP Development","Stage 4: Technology and Market Validation","Stage 5: License/Spinout","Stage 6a: Pre-Seed","Stage 6b: Seed","Stage 6c: VC(a, b, c)"] %>
-                            <% for (var key in arr){ %>
-                            <% if(arr[key]== record["Portfolio_Sub_Stage_Select"]){ %>
-                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
-                            <% } else {%>
-                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
-                            <%   }   %>
+                            <% if(record["Portfolio_Sub_Stage_Select"]!=null){ %>
+                                <option value='<%= record["Portfolio_Sub_Stage_Select"]%>' selected="selected"><%= record["Portfolio_Sub_Stage_Select"]%></option>
                             <%   }   %>
                     </select>
             </div>
@@ -94,13 +84,8 @@
                     <h3>FY Launch:</h3>
                     <select id='FY_Launch_Select' name="FY_Launch_Select" style="width:600px;height:300px ;">
                             <option disabled selected value> -- select an option -- </option>
-                            <% arr=[2018,2017,2016,2015,2014] %>
-                            <% for (var key in arr){ %>
-                            <% if(arr[key]== record["FY_Launch_Select"]){ %>
-                                <option value="<%= arr[key] %>" selected="selected"><%= arr[key] %></option>
-                            <% } else {%>
-                                <option value="<%= arr[key] %>"><%= arr[key] %></option>
-                            <%   }   %>
+                            <% if(record["FY_Launch_Select"]!=null){ %>
+                                <option value='<%= record["FY_Launch_Select"] %>' selected="selected"><%= record["FY_Launch_Select"] %></option>
                             <%   }   %>
                     </select>
             </div>
@@ -141,26 +126,19 @@
     </div>
     </div>
     <script>
-        /*
-            These are the input values which I had to selectize as they were coming from another table.
-
-
-        */
-        <% for (var arr_key in arr_values) { %>
-           $('<%= "#"+arr_values[arr_key][2] %>').selectize();
-           
-        <%  } %>
             /*
-                These are the values which are static options.
+                These are the input values which I had to selectize as they were coming from another table.
             */
-        $('#FY_Launch_Select').selectize();
-        $('#Portfolio_Sub_Stage_Select').selectize(); 
-        $('#Portfolio_Stage_Select').selectize();
-            /*$('#e1').on('change', function() {
-                alert( $("select#e1").val() );
-            });*/
-            //$("#test").hide();
-        </script>
-        
+            <% for (var arr_key in arr_values) { %>
+               $('<%= "#"+arr_values[arr_key][2] %>').selectize();
+            <%  } %>
+            /**
+             * Stringifying the metadata Columns so it could be used by the 
+             * metadata-view script to populate the metadata coumn values.
+             * 
+             */
+            metadataColumns=<%- JSON.stringify(metadataColumns) %>;
+    </script>
+    <script src="/javascripts/metadata-view.js"></script>
 <% var footer = '../footer'; %>
 <%- include(footer) %>

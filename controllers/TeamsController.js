@@ -43,6 +43,7 @@ class TeamsController extends AppController{
         let team_categories=[];
         let teams=[];
         let technologies=[];
+        let metadataColumns=this.metadataColumns;
         async.parallel({
         record: async.apply(airtable.getRecord,this.table,id),
         department_companies: async.apply(airtable.viewPrimaryKeys,"department_company"),
@@ -57,6 +58,7 @@ class TeamsController extends AppController{
         },function(err,results){
         res.render('team/edit', {
         id: id, 
+        metadataColumns: metadataColumns,
         record: results["record"],
         department_companies: results["department_companies"],
         eirs: results["eirs"],
@@ -113,6 +115,7 @@ class TeamsController extends AppController{
      * 
      */
     add(req, res){
+        console.log(this.metadataColumns);
         let department_companies=[];
         let eirs=[];
         let events=[];
@@ -122,6 +125,7 @@ class TeamsController extends AppController{
         let team_categories=[];
         let teams=[];
         let technologies=[];
+        let metadataColumns=this.metadataColumns;
         async.parallel({
         department_companies: async.apply(airtable.viewPrimaryKeys,"department_company"),
         eirs: async.apply(airtable.viewPrimaryKeys,"eir"),
@@ -131,9 +135,11 @@ class TeamsController extends AppController{
         members: async.apply(airtable.viewPrimaryKeys,"member"),
         team_categories: async.apply(airtable.viewPrimaryKeys,"team_category"),
         teams: async.apply(airtable.viewPrimaryKeys,"team"),
-        technologies: async.apply(airtable.viewPrimaryKeys,"technology")
+        technologies: async.apply(airtable.viewPrimaryKeys,"technology"),
+        metadataColumns: async.constant(metadataColumns)
         },function(err,results){
         res.render('team/add', {
+        metadataColumns: metadataColumns,
         department_companies: results["department_companies"],
         eirs: results["eirs"],
         events: results["events"],
