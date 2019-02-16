@@ -15,5 +15,5 @@ for(x in metadataColumns){
                 console.log(currElem);
         }
 for(x in metadataColumns){
-        funcs[metadataColumns[x]]()
+        funcs[metadataColumns[x]]();
 }
