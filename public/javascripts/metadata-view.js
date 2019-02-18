@@ -1,7 +1,7 @@
 var funcs = [];
-function teamView(currElem){
+function view(currElem){
         console.log(currElem)
-        $.get( `/teams/meta/view/${currElem}`, function( data ) {
+        $.get( `/${table}/meta/view/${currElem}`, function( data ) {
                 console.log(data)
                 $(`#${currElem}`).selectize({
                 options: data
@@ -11,7 +11,7 @@ function teamView(currElem){
 for(x in metadataColumns){
                 console.log(`#${metadataColumns[x]}`);
                 let currElem=metadataColumns[x];
-                funcs[currElem] = teamView.bind(this,currElem)
+                funcs[currElem] = view.bind(this,currElem)
                 console.log(currElem);
         }
 for(x in metadataColumns){

@@ -116,7 +116,7 @@ class AppController{
         redisClient.smembers(`${this.table}_${req.params.fieldName}`, function(err, reply) {
             console.log(reply); 
             if(err) res.send(err);
-            let myOptions=reply;
+            let myOptions=reply.sort();
             myOptions = myOptions.map(function(value) {
                 return {
                     text: value,

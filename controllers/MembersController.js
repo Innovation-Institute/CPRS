@@ -8,7 +8,7 @@ class MembersController extends AppController{
     constructor(){
         super();
         this.table="member";
-        this.metadataColumns=["Role_Select","Role_Within_Univ_Select","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Year_First_Participated_Select"]
+        this.metadataColumns=["Role_Select","Role_Within_Univ_Select","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Year_First_Participated_Select","4th_Gear_Role_Select"]
         es6bindall(this,["index","view","edit","editPost","add","addPost","report"]);
     }
     /**
@@ -21,6 +21,7 @@ class MembersController extends AppController{
         let id=req.params.id;
         let teams=[];
         let departmentCompanies=[];
+        let metadataColumns=this.metadataColumns;
         async.parallel({
             record: async.apply(airtable.getRecord,this.table,id),
             departmentCompanies: async.apply(airtable.viewPrimaryKeys,"department_company"),
@@ -28,6 +29,8 @@ class MembersController extends AppController{
             },function(err,results){
             res.render('member/edit', {
             id: id, 
+            metadataColumns: metadataColumns,
+            table: "members",
             record: results["record"],
             departmentCompanies: results["departmentCompanies"],
             teams: results["teams"]
@@ -74,11 +77,14 @@ class MembersController extends AppController{
         let id=req.params.id;
         let teams=[];
         let departmentCompanies=[];
+        let metadataColumns=this.metadataColumns;
         async.parallel({
             departmentCompanies: async.apply(airtable.viewPrimaryKeys,"department_company"),
             teams: async.apply(airtable.viewPrimaryKeys,"team")
             },function(err,results){
             res.render('member/add', {
+            metadataColumns: metadataColumns,
+            table: "members",
             departmentCompanies: results["departmentCompanies"],
             teams: results["teams"]
             });

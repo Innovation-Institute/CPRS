@@ -59,6 +59,7 @@ class TeamsController extends AppController{
         res.render('team/edit', {
         id: id, 
         metadataColumns: metadataColumns,
+        table: "teams",
         record: results["record"],
         department_companies: results["department_companies"],
         eirs: results["eirs"],
@@ -140,6 +141,7 @@ class TeamsController extends AppController{
         },function(err,results){
         res.render('team/add', {
         metadataColumns: metadataColumns,
+        table: "teams",
         department_companies: results["department_companies"],
         eirs: results["eirs"],
         events: results["events"],

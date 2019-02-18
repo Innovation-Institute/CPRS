@@ -94,7 +94,7 @@ function viewMetadataColumn(table,attribute,callback){
         view: 'all_'+table
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach(function(record) {
-            set.add(record["fields"][attribute]);
+            (record["fields"][attribute] != null) ? set.add(record["fields"][attribute]) : null;
             //console.log(set);
         });
     

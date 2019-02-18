@@ -21,6 +21,7 @@ class FundingsController extends AppController{
         let id=req.params.id;
         let teams=[];
         let events=[];
+        let metadataColumns=this.metadataColumns;
         async.parallel({
             record: async.apply(airtable.getRecord,this.table,id),
             events: async.apply(airtable.viewPrimaryKeys,"event"),
@@ -28,6 +29,8 @@ class FundingsController extends AppController{
             },function(err,results){
             res.render('funding/edit', {
             id: id, 
+            table: "fundings",
+            metadataColumns: metadataColumns,
             record: results["record"],
             events: results["events"],
             teams: results["teams"]
@@ -73,11 +76,14 @@ class FundingsController extends AppController{
         let id=req.params.id;
         let teams=[];
         let events=[];
+        let metadataColumns=this.metadataColumns;
         async.parallel({
             events: async.apply(airtable.viewPrimaryKeys,"event"),
             teams: async.apply(airtable.viewPrimaryKeys,"team")
             },function(err,results){
             res.render('funding/add', {
+            table: "fundings",
+            metadataColumns: metadataColumns,
             events: results["events"],
             teams: results["teams"]
             });
