@@ -42,7 +42,7 @@ class ReportsController extends AppController{
                 },(function(err,results){
                 let records=results["record"];
                 records= this.groupBy(records,"Team_Name");
-                let new_set=this.setField(records,"Chancellor");
+                let new_set=this.setField(records);
                 let finalSet=this.addChosenCols(new_set,old_set,chosenCols);
                 this.createExcel(report_name,res,finalSet,chosenCols);
                 }
@@ -125,7 +125,7 @@ class ReportsController extends AppController{
      * 
      * @returns {JSON} 
      */
-    setField(set, report_name){
+    setField(set){
         let newSet={}; // Final JSON to be sent on Front End
             for(var key in set)
             {
