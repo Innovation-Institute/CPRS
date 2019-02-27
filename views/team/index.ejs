@@ -81,12 +81,12 @@
         <tr>
             <td><a href='/teams/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
             <td><%= records[arr_key]["record"]["Description_Text"] %></td>
-            <td><%= records[arr_key]["record"]["Team_Category_Name"] %></td>
-            <td><%- createLinks(records[arr_key]["record"]["Member_Link"],records[arr_key]["record"]["Member_Name"],"members") %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Team_Category_Link"],records[arr_key]["record"]["Team_Category_Name"],"team_category") %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Member_Link"],records[arr_key]["record"]["Member_Name"],"member") %></td>
             <td><%= records[arr_key]["record"]["Portfolio_Stage_Select"] %></td> 
             <td><%= records[arr_key]["record"]["Portfolio_Sub_Stage_Select"] %></td> 
-            <td><%= records[arr_key]["record"]["Event_Name"] %></td> 
-            <td><%= records[arr_key]["record"]["Funding_Name"] %></td> 
+            <td><%- createLinks(records[arr_key]["record"]["Event_Link"],records[arr_key]["record"]["Event_Name"],"event") %></td> 
+            <td><%- createLinks(records[arr_key]["record"]["Funding_Link"],records[arr_key]["record"]["Funding_Name"],"team") %></td> 
             <td><%= records[arr_key]["record"]["Eir_Name"] %></td> 
             
             <!--
