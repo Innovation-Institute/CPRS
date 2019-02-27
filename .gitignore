@@ -75,3 +75,6 @@ typings/
 
 # Serverless directories
 .serverless
+
+# Baked controllers, models and routes
+.baked/
