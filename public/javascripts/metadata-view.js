@@ -7,13 +7,13 @@ function view(currElem){
                 options: data
                 });
         });
-        }
-for(x in metadataColumns){
-                console.log(`#${metadataColumns[x]}`);
-                let currElem=metadataColumns[x];
+}
+for(key in metadataColumns){
+                console.log(`#${JSON.stringify(metadataColumns)}`);
+                let currElem=key;
                 funcs[currElem] = view.bind(this,currElem)
                 console.log(currElem);
         }
-for(x in metadataColumns){
-        funcs[metadataColumns[x]]();
+for(key in metadataColumns){
+        funcs[key]();
 }

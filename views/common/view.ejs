@@ -1,0 +1,56 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+<% JSON.stringify(record) %>
+<div class="container-fluid mt-4">
+    <div class="jumbotron">
+        <div class="page-header">
+            <div class="row">
+        <div class="col-sm-10">
+            <h2><%= record["Name_Text"] %></h2>
+            <hr>
+            </div>
+        <div class="col-sm-2">
+                <a class="btn btn-primary btn-lg active" href="/<%= tableUrl %>/edit/<%= id %>" role="button">Edit</a>
+        </div>
+        </div>
+        </div>
+        <% for(key in inputColumns){ %>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4><%= inputColumns[key].displayName %></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p><%= record[key] %></p>
+            </div>
+        </div>
+        <% } %>
+        <% for(key in metadataColumns){ %>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4><%= metadataColumns[key].displayName %></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p><%= record[key] %></p>
+            </div>
+        </div>
+        <% } %>
+        <% for(key in referencedColumns){ %>
+        <div class="row">
+            <div class="col-sm-6">
+                <h4><%= referencedColumns[key].displayName %></h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <p><%- createLinks(record[referencedColumns[key].columnName],record[referencedColumns[key].columnValueName],referencedColumns[key].table) %></p>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<% var footer = '../footer'; %>
+<%- include(footer) %>

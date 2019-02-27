@@ -23,14 +23,24 @@
           <% } %>
               <form action="/reports/" method="POST" id="login">
                       <div class="form-group">
-                        <label for="report_name">Type Funding Name</label>
+                        <label for="report_name">Type Funding/Event Name</label>
                         <input type="text" class="form-control" id="report_name" name="report_name" aria-describedby="report_name" placeholder="Choose Fund Name">
-                        <small id="emailHelp" class="form-text text-muted">Funding Name </small>
+                        <small id="emailHelp" class="form-text text-muted">Funding/Event Name </small>
+                      </div>
+                      <div class="form-group">
+                            <h3>Choose Funding/Event Report:</h3>
+                            <select id='columnName' name="columnName" style="width:600px;height:300px ;">
+                                    <% arr=["Funding_Link","Event_Link"] %>
+                                    <% arrValues=["Funding Name", "Event Name"] %>
+                                    <% for(var key in arr){ %>
+                                        <option value="<%= arr[key] %>"><%= arrValues[key] %></option>
+                                    <%   }   %>
+                            </select>
                       </div>
                       <div class="form-group">
                         <label for=""></label>
                         <div class="form-group">
-                            <h3>Chose Additional Columns to appear in Report:</h3>
+                            <h3>Choose Additional Columns to appear in Report:</h3>
                             <select multiple id='chosenCols' name="chosenCols" style="width:600px;height:300px ;">
                                     <% arr=["Portfolio_Stage_Select","Notes_Text","Milestones_Text","Supporting_Docs_External"] %>
                                     <% arrValues=["Portfolio Stage","Notes","Milestones","Supporting Docs"] %>
@@ -46,6 +56,7 @@
 </div>
 <script>
 $('#chosenCols').selectize();
+$('#columnName').selectize();
 </script>
 <% var footer = '../footer'; %>
 <%- include(footer) %>

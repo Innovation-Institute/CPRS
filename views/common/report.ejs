@@ -6,7 +6,7 @@
         <div class="page-header">
                 <div class="row">
                     <div class="col-md-10">
-                        <h1>Reports</h1>
+                        <h1>Reports <small><%= table %></small></h1>
                     </div>
                 </div>
                 <div class="row">
@@ -15,13 +15,12 @@
                     </div>
                 </div>
         </div>
-<form action="/filter/team" method="POST" id="edit">
-    <% arr_values=[["team","Teams","Name_Text"],["member","Members","Member_Link"],["team_category","Team Categories","Team_Category_Link"],["funding","Funding","Funding_Link"]
-    ,["licensing_manager","Licensing Managers","Licensing_Manager_Link"],["technology","Technology","Technology_Link"],["eir","Eir","Eir_Link"],["event","Event","Event_Link"]] %>
+<form action="/filter/<%= table %>" method="POST" id="edit">
+    <% arr_values=referencedColumnNames  %>
     <% for (var arr_key in arr_values) { %>
-    <% table= arr_values[arr_key][0] %>
-    <% heading= arr_values[arr_key][1] %>
-    <% name= arr_values[arr_key][2] %>
+    <% table= arr_values[arr_key].table %>
+    <% heading= arr_values[arr_key].displayName %>
+    <% name= arr_values[arr_key].columnValueName %>
 <div class="row mt-3">
     <div class="col-sm-8">
 <h4><%= heading %></h4>
