@@ -11,7 +11,7 @@ class AppController{
      */
     constructor(){
         this.table="";
-        es6bindall(this,["index","view","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata","indexMetadata","deleteMetadata"]);
+        es6bindall(this,["index","view","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata","indexMetadata","deleteMetadata","setDataReferencedColumns"]);
     }
     /**
      * Renders the index page.
@@ -37,9 +37,15 @@ class AppController{
     view(req,res){
         let id=req.params.id;
         airtable.getRecord(this.table,id,(function(err, set){
-            res.render(this.table+'/view',{
+            let model= new this.model();
+            res.render('common/view',{
+                id: id,
                 record: set,
-                id: id
+                tableUrl: this.tableUrl,
+                referencedColumns: model.referencedColumnNames,
+                inputColumns: model.inputColumnNames,
+                metadataColumns: model.metadataColumnNames,
+                createLinks: createLinks.createClickableLinks
             });
         }).bind(this));
     }
@@ -50,8 +56,10 @@ class AppController{
      * @param {Response} res 
      */
     report(req,res){
-        res.render(this.table+'/report',{
-            table:this.table
+        let referencedColumnNames= new this.model().referencedColumnNames;
+        res.render('common/report',{
+            referencedColumnNames: referencedColumnNames,
+            table: this.table
         });
     }
     /**
@@ -154,9 +162,11 @@ class AppController{
      */
 
     clearMetadata(req,res,next){
-        async.eachOfSeries(this.metadataColumns, (function (field, key, callback) {
+        let model=new this.model();
+        let metadataColumnNames=model.metadataColumnNames;
+        async.eachOfSeries(metadataColumnNames, (function (field, key, callback) {
             console.log(`The key: ${key} for value: ${field}`); 
-            redisClient.del(`${this.table}_${field}`, function(err, reply) {
+            redisClient.del(`${this.table}_${key}`, function(err, reply) {
                     console.log(reply); //prints 2
                     callback();
                 });
@@ -174,11 +184,13 @@ class AppController{
      * @param {Response} res 
      */
     setMetadata(req,res){
-        async.eachOfSeries(this.metadataColumns, (function (field, key, callback) {
+        let model=new this.model();
+        let metadataColumnNames=model.metadataColumnNames;
+        async.eachOfSeries(metadataColumnNames, (function (field, key, callback) {
             console.log(`The key: ${key} for value: ${field}`); 
-            airtable.viewMetadataColumn(this.table,field,(function(err,values){
+            airtable.viewMetadataColumn(this.table,key,(function(err,values){
                 if (err) console.error(err.message);
-                values.unshift(`${this.table}_${field}`);
+                values.unshift(`${this.table}_${key}`);
                 redisClient.sadd(values, function(err, reply) {
                     console.log(reply); //prints 2
                     callback();
@@ -216,7 +228,12 @@ class AppController{
      * @param {Response} res 
      */
     indexMetadata(req,res){
-        let myOptions=this.metadataColumns;
+        let myOptions=[];
+        let model=new this.model();
+        let metadataColumnNames=model.metadataColumnNames;
+        for(var key in metadataColumnNames){
+            myOptions.push(key);
+        }
         myOptions = myOptions.map(function(value) {
             return {
                 text: value,
@@ -258,6 +275,7 @@ class AppController{
         console.log(filter);
         return filter;
     }
+    
     /**
      * 
      * @param {String} oldField 
@@ -279,6 +297,37 @@ class AppController{
         console.log(filter);
         return filter;
     }
+    /**
+     * 
+     * When an add or edit form is called we will need to
+     * pass in the data to the referenced columns so it could 
+     * appear as options.
+     * 
+     * @param {Object} referencedColumnNames 
+     * @param {Array} results 
+     * 
+     */
+    setDataReferencedColumns(referencedColumns,results){
+        let key;
+        for(key in referencedColumns){
+            referencedColumns[key].data=results[key];
+        }
+        return referencedColumns;
+    }
+    /** 
+    getMetadataKeys(){
+        let myOptions=[];
+        for(var key in this.model.metadataColumnNames){
+            myOptions.push(key);
+        }
+        myOptions = myOptions.map(function(value) {
+            return {
+                text: value,
+                value: value
+            };
+        });
+    }*/
+    
 }
 
       

@@ -1,5 +1,5 @@
 const airtable = require('../models/airtable');
-const checkInput=require('../controllers/components/checkInput');
+const Funding = require('../models/funding');
 const async=require('async');
 const es6bindall= require('es6bindall');
 const AppController=require('../controllers/AppController');
@@ -8,119 +8,106 @@ class FundingsController extends AppController{
     constructor(){
         super();
         this.table="funding";
-        this.metadataColumns= ["Funding_Class_Select","Calendar_Year_Select","FY_Select","Grant_Type_Select"];
-        es6bindall(this,["index","view","edit","editPost","add","addPost","report","setMetadata","clearMetadata"]);
+        this.tableUrl="fundings";
+        this.model=Funding;
+        es6bindall(this,["index","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
     }
+    
     /**
-     * Edit Get Request
+     * Loads the key-value pairs, the record and renders the edit page.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
      * 
      */
-
     edit(req, res){
-        // "","Last_Name_Text","First_Name_Text","Role_Select","Role_Within_Univ_Select","Phone_Text","Email_Text","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Last_Served","Underrepresented_Member","Comments_Text","Personal_Website_External","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name","Event_Name"
         let id=req.params.id;
-        let teams=[];
-        let events=[];
-        let metadataColumns=this.metadataColumns;
+        let that=this;
         async.parallel({
             record: async.apply(airtable.getRecord,this.table,id),
+            
             events: async.apply(airtable.viewPrimaryKeys,"event"),
-            teams: async.apply(airtable.viewPrimaryKeys,"team")
+            
+            teams: async.apply(airtable.viewPrimaryKeys,"team"),
+            
             },function(err,results){
-            res.render('funding/edit', {
-            id: id, 
-            table: "fundings",
-            metadataColumns: metadataColumns,
-            record: results["record"],
-            events: results["events"],
-            teams: results["teams"]
+            let funding=new that.model(results["record"],id);
+            let referencedColumns=that.setDataReferencedColumns(funding.referencedColumnNames,results);
+            res.render('common/edit', {
+                id: funding.id, 
+                tableUrl: that.tableUrl,
+                record: funding,
+                inputColumns: funding.inputColumnNames,
+                metadataColumns: funding.metadataColumnNames,
+                referencedColumns: referencedColumns
             });
         });
     }
     /**
+     * Edits an existing airtable record.
      * 
-     * Edit Post Request
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next
+     * 
      */
-
     editPost(req, res, next){
         let id=req.params.id;
-        // Name_Text,Funding_Class_Select,Amount_Received_Text,Calendar_Year_Select,FY_Select,Budget_Request_Date_Text,Budget_Approval_Date_Text,Issue_Award_Letter_Date_Text,Recieved_Signed_Award_Letter_Date_Text,
-        // Award_Begin_Date_Text,Award_End_Date,Grant_Type_Select,Grant_Information_Text,Grant_Number_Text,Internal_Award_Number_Text, Team_Link, Event_Link
-        let updatedRecord={
-            "Name_Text": checkInput.checkText(req.body["Name_Text"]),
-            "Funding_Class_Select": checkInput.checkSelect(req.body["Funding_Class_Select"]),
-            "Amount_Received_Text": checkInput.checkNumber(req.body["Amount_Received_Text"]),
-            "Calendar_Year_Select": checkInput.checkSelect(req.body["Calendar_Year_Select"]),
-            "FY_Select": checkInput.checkSelect(req.body["FY_Select"]),
-            "Budget_Request_Date_Text": checkInput.checkSelect(req.body["Budget_Request_Date_Text"]),
-            "Budget_Approval_Date_Text": checkInput.checkSelect(req.body["Budget_Approval_Date_Text"]),
-            "Issue_Award_Letter_Date_Text": checkInput.checkSelect(req.body["Issue_Award_Letter_Date_Text"]),
-            "Received_Signed_Award_Letter_Date_Text": checkInput.checkSelect(req.body["Received_Signed_Award_Letter_Date_Text"]),
-            "Award_Begin_Date_Text": checkInput.checkSelect(req.body["Award_Begin_Date_Text"]),
-            "Award_End_Date": checkInput.checkSelect(req.body["Award_End_Date"]),
-            "Grant_Type_Select": checkInput.checkSelect(req.body["Grant_Type_Select"]),
-            "Grant_Information_Text": checkInput.checkText(req.body["Grant_Information_Text"]),
-            "Grant_Number_Text": checkInput.checkNumber(req.body["Grant_Number_Text"]),
-            "Internal_Award_Number_Text": checkInput.checkText(req.body["Internal_Award_Number_Text"]),
-            "Team_Link": checkInput.checkLink(req.body["Team_Link"]),
-            "Event_Link":  checkInput.checkLink(req.body["Event_Link"])
-        };
-        airtable.updateRecord(this.table,updatedRecord,id,function(new_record){
+        let funding=new this.model(req.body,id);
+        airtable.updateRecord(this.table,funding.toJson(),id,function(new_record){
             /* res.redirect('/members/edit/'+id); */
             next();
         });
     }
 
+    /**
+     * Loads the key-value pairs and renders the add page.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     * 
+     */
     add(req, res){
         // "","Last_Name_Text","First_Name_Text","Role_Select","Role_Within_Univ_Select","Phone_Text","Email_Text","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Last_Served","Underrepresented_Member","Comments_Text","Personal_Website_External","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name","Event_Name"
         let id=req.params.id;
-        let teams=[];
-        let events=[];
-        let metadataColumns=this.metadataColumns;
+        let that=this;
         async.parallel({
+            
             events: async.apply(airtable.viewPrimaryKeys,"event"),
-            teams: async.apply(airtable.viewPrimaryKeys,"team")
+            
+            teams: async.apply(airtable.viewPrimaryKeys,"team"),
+            
             },function(err,results){
-            res.render('funding/add', {
-            table: "fundings",
-            metadataColumns: metadataColumns,
-            events: results["events"],
-            teams: results["teams"]
+            let funding=new that.model(results["record"],id);
+            let referencedColumns=that.setDataReferencedColumns(funding.referencedColumnNames,results);
+            res.render('common/add', {
+                id: funding.id, 
+                tableUrl: that.tableUrl,
+                inputColumns: funding.inputColumnNames,
+                metadataColumns: funding.metadataColumnNames,
+                referencedColumns: referencedColumns
             });
         });
     }
 
+    /**
+     * Creates a new airtable record.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next
+     * 
+     */
     addPost(req,res,next){
         let id=req.params.id;
-        let newRecord={
-            "Name_Text": checkInput.checkText(req.body["Name_Text"]),
-            "Funding_Class_Select": checkInput.checkSelect(req.body["Funding_Class_Select"]),
-            "Amount_Received_Text": checkInput.checkNumber(req.body["Amount_Received_Text"]),
-            "Calendar_Year_Select": checkInput.checkSelect(req.body["Calendar_Year_Select"]),
-            "FY_Select": checkInput.checkSelect(req.body["FY_Select"]),
-            "Budget_Request_Date_Text": checkInput.checkSelect(req.body["Budget_Request_Date_Text"]),
-            "Budget_Approval_Date_Text": checkInput.checkSelect(req.body["Budget_Approval_Date_Text"]),
-            "Issue_Award_Letter_Date_Text": checkInput.checkSelect(req.body["Issue_Award_Letter_Date_Text"]),
-            "Received_Signed_Award_Letter_Date_Text": checkInput.checkSelect(req.body["Received_Signed_Award_Letter_Date_Text"]),
-            "Award_Begin_Date_Text": checkInput.checkSelect(req.body["Award_Begin_Date_Text"]),
-            "Award_End_Date": checkInput.checkSelect(req.body["Award_End_Date"]),
-            "Grant_Type_Select": checkInput.checkSelect(req.body["Grant_Type_Select"]),
-            "Grant_Information_Text": checkInput.checkText(req.body["Grant_Information_Text"]),
-            "Grant_Number_Text": checkInput.checkNumber(req.body["Grant_Number_Text"]),
-            "Internal_Award_Number_Text": checkInput.checkText(req.body["Internal_Award_Number_Text"]),
-            "Team_Link": checkInput.checkLink(req.body["Team_Link"]),
-            "Event_Link":  checkInput.checkLink(req.body["Event_Link"])
-        };
-        //let dateFields=["Budget_Request_Date_Text","Budget_Approval_Date_Text","Issue_Award_Letter_Date_Text","Recieved_Signed_Award_Letter_Date_Text","Award_Begin_Date_Text","Award_End_Date"];
-        //newRecord=checkInput.checkDates(newRecord,dateFields);
-        airtable.createRecord(this.table,newRecord,function(err,new_record){
+        let funding=new this.model(req.body);
+        airtable.createRecord(this.table,funding.toJson(),function(err,new_record){
             /* res.redirect('/teams/edit/'+id); */
             if(err) throw err;
             req.params.id= new_record;
             next();
         });
     }
-
 }
 
 module.exports=FundingsController;

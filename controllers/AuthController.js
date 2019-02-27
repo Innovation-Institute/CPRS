@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const async=require('async');
 const airtable= require('../models/airtable');
-const checkInput=require('../controllers/components/checkInput');
+const checkInput=require('../models/components/checkInput');
 const AppController=require('../controllers/AppController');
 const saltRounds = 10;
 
@@ -50,10 +50,12 @@ class AuthController extends AppController{
                 if(authenticated){
                     req.session.user=currentUser;
                     next();
-                    /*res.render('index.ejs',{
-                        user: req.session.user,
-                        password: req.body.password
-                    });*/
+                    /*
+                        res.render('index.ejs',{
+                            user: req.session.user,
+                            password: req.body.password
+                        });
+                    */
                 }else{
                     res.render('user/login.ejs',{
                         authenticated: false

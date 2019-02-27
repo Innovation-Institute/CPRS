@@ -1,15 +1,15 @@
 const airtable = require('../models/airtable');
-const Event = require('../models/event');
+const team_category = require('../models/team_category');
 const async=require('async');
 const es6bindall= require('es6bindall');
 const AppController=require('../controllers/AppController');
 
-class EventsController extends AppController{
+class TeamCategorysController extends AppController{
     constructor(){
         super();
-        this.table="event";
-        this.tableUrl="events";
-        this.model=Event;
+        this.table="team_category";
+        this.tableUrl="team_categorys";
+        this.model=team_category;
         es6bindall(this,["index","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
     }
     
@@ -26,25 +26,17 @@ class EventsController extends AppController{
         async.parallel({
             record: async.apply(airtable.getRecord,this.table,id),
             
-            firstPlace: async.apply(airtable.viewPrimaryKeys,"team"),
-            
-            secondPlace: async.apply(airtable.viewPrimaryKeys,"team"),
-            
-            thirdPlace: async.apply(airtable.viewPrimaryKeys,"team"),
-            
             teams: async.apply(airtable.viewPrimaryKeys,"team"),
             
-            fundings: async.apply(airtable.viewPrimaryKeys,"funding"),
-            
             },function(err,results){
-            let event=new that.model(results["record"],id);
-            let referencedColumns=that.setDataReferencedColumns(event.referencedColumnNames,results);
+            let team_category=new that.model(results["record"],id);
+            let referencedColumns=that.setDataReferencedColumns(team_category.referencedColumnNames,results);
             res.render('common/edit', {
-                id: event.id, 
+                id: team_category.id, 
                 tableUrl: that.tableUrl,
-                record: event,
-                inputColumns: event.inputColumnNames,
-                metadataColumns: event.metadataColumnNames,
+                record: team_category,
+                inputColumns: team_category.inputColumnNames,
+                metadataColumns: team_category.metadataColumnNames,
                 referencedColumns: referencedColumns
             });
         });
@@ -59,8 +51,8 @@ class EventsController extends AppController{
      */
     editPost(req, res, next){
         let id=req.params.id;
-        let event=new this.model(req.body,id);
-        airtable.updateRecord(this.table,event.toJson(),id,function(new_record){
+        let team_category=new that.model(req.body,id);
+        airtable.updateRecord(this.table,team_category.toJson(),id,function(new_record){
             /* res.redirect('/members/edit/'+id); */
             next();
         });
@@ -79,24 +71,16 @@ class EventsController extends AppController{
         let that=this;
         async.parallel({
             
-            firstPlace: async.apply(airtable.viewPrimaryKeys,"team"),
-            
-            secondPlace: async.apply(airtable.viewPrimaryKeys,"team"),
-            
-            thirdPlace: async.apply(airtable.viewPrimaryKeys,"team"),
-            
             teams: async.apply(airtable.viewPrimaryKeys,"team"),
             
-            fundings: async.apply(airtable.viewPrimaryKeys,"funding"),
-            
             },function(err,results){
-            let event=new that.model(results["record"],id);
-            let referencedColumns=that.setDataReferencedColumns(event.referencedColumnNames,results);
+            let team_category=new that.model(results["record"],id);
+            let referencedColumns=that.setDataReferencedColumns(team_category.referencedColumnNames,results);
             res.render('common/add', {
-                id: event.id, 
+                id: team_category.id, 
                 tableUrl: that.tableUrl,
-                inputColumns: event.inputColumnNames,
-                metadataColumns: event.metadataColumnNames,
+                inputColumns: team_category.inputColumnNames,
+                metadataColumns: team_category.metadataColumnNames,
                 referencedColumns: referencedColumns
             });
         });
@@ -112,8 +96,8 @@ class EventsController extends AppController{
      */
     addPost(req,res,next){
         let id=req.params.id;
-        let event=new this.model(req.body);
-        airtable.createRecord(this.table,event.toJson(),function(err,new_record){
+        let team_category=new that.model(req.body);
+        airtable.createRecord(this.table,team_category.toJson(),function(err,new_record){
             /* res.redirect('/teams/edit/'+id); */
             if(err) throw err;
             req.params.id= new_record;
@@ -122,4 +106,4 @@ class EventsController extends AppController{
     }
 }
 
-module.exports=EventsController;
+module.exports=TeamCategorysController;

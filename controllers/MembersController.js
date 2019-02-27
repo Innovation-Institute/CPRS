@@ -1,5 +1,5 @@
 const airtable = require('../models/airtable');
-const checkInput=require('../controllers/components/checkInput');
+const Member = require('../models/member');
 const async=require('async');
 const es6bindall= require('es6bindall');
 const AppController=require('../controllers/AppController');
@@ -8,114 +8,104 @@ class MembersController extends AppController{
     constructor(){
         super();
         this.table="member";
-        this.metadataColumns=["Role_Select","Role_Within_Univ_Select","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Year_First_Participated_Select","4th_Gear_Role_Select"]
-        es6bindall(this,["index","view","edit","editPost","add","addPost","report"]);
+        this.tableUrl="members";
+        this.model=Member;
+        es6bindall(this,["index","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
     }
+    
     /**
-     * Edit Get Request
+     * Loads the key-value pairs, the record and renders the edit page.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
      * 
      */
-
     edit(req, res){
-        // "","Last_Name_Text","First_Name_Text","Role_Select","Role_Within_Univ_Select","Phone_Text","Email_Text","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Last_Served","Underrepresented_Member","Comments_Text","Personal_Website_External","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name","Event_Name"
         let id=req.params.id;
-        let teams=[];
-        let departmentCompanies=[];
-        let metadataColumns=this.metadataColumns;
+        let that=this;
         async.parallel({
             record: async.apply(airtable.getRecord,this.table,id),
+            
+            teams: async.apply(airtable.viewPrimaryKeys,"team"),
+            
             departmentCompanies: async.apply(airtable.viewPrimaryKeys,"department_company"),
-            teams: async.apply(airtable.viewPrimaryKeys,"team")
+            
+            events: async.apply(airtable.viewPrimaryKeys,"event"),
+            
             },function(err,results){
-            res.render('member/edit', {
-            id: id, 
-            metadataColumns: metadataColumns,
-            table: "members",
-            record: results["record"],
-            departmentCompanies: results["departmentCompanies"],
-            teams: results["teams"]
+            let member=new that.model(results["record"],id);
+            let referencedColumns=that.setDataReferencedColumns(member.referencedColumnNames,results);
+            res.render('common/edit', {
+                id: member.id, 
+                tableUrl: that.tableUrl,
+                record: member,
+                inputColumns: member.inputColumnNames,
+                metadataColumns: member.metadataColumnNames,
+                referencedColumns: referencedColumns
             });
         });
     }
     /**
+     * Edits an existing airtable record.
      * 
-     * Edit Post Request
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next
+     * 
      */
-
     editPost(req, res, next){
         let id=req.params.id;
-        let updatedRecord={
-            "Name_Text": checkInput.checkText(req.body["Name_Text"]),
-            "Last_Name_Text": checkInput.checkText(req.body["Last_Name_Text"]),
-            "First_Name_Text": checkInput.checkText(req.body["First_Name_Text"]),
-            "Role_Select": checkInput.checkSelect(req.body["Role_Select"]),
-            "Role_Within_Univ_Select": checkInput.checkSelect(req.body["Role_Within_Univ_Select"]),
-            "Role_Within_Univ_Select": checkInput.checkSelect(req.body["Role_Within_Univ_Select"]),
-            "Phone_Text": checkInput.checkText(req.body["Phone_Text"]),
-            "Email_Text": checkInput.checkText(req.body["Email_Text"]),
-            "Gender_Select": checkInput.checkSelect(req.body["Gender_Select"]),
-            "Non_White_Select": checkInput.checkSelect(req.body["Non_White_Select"]),
-            "Disability_Select": checkInput.checkSelect(req.body["Disability_Select"]),
-            "Veteran_Select": checkInput.checkSelect(req.body["Veteran_Select"]),
-            "Non_National_Select": checkInput.checkSelect(req.body["Non_National_Select"]),
-            "Last_Served": checkInput.checkText(req.body["Last_Served"]),
-            "Comments_Text": checkInput.checkText(req.body["Comments_Text"]),
-            "Personal_Website_External": checkInput.checkText(req.body["Personal_Website_External"]),
-            "Year_First_Participated_Select": checkInput.checkSelect(req.body["Year_First_Participated_Select"]),
-            "4th_Gear_Role_Select":  checkInput.checkSelect(req.body["4th_Gear_Role_Select"]),
-            "Team_Link": checkInput.checkLink(req.body["Team_Link"]),
-            "Department_Company_Link": checkInput.checkLink(req.body["Department_Company_Link"])
-        };
-        airtable.updateRecord(this.table,updatedRecord,id,function(new_record){
+        let member=new this.model(req.body,id);
+        airtable.updateRecord(this.table,member.toJson(),id,function(new_record){
             /* res.redirect('/members/edit/'+id); */
             next();
         });
     }
 
+    /**
+     * Loads the key-value pairs and renders the add page.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     * 
+     */
     add(req, res){
         // "","Last_Name_Text","First_Name_Text","Role_Select","Role_Within_Univ_Select","Phone_Text","Email_Text","Gender_Select","Non_White_Select","Disability_Select","Veteran_Select","Non_National_Select","Last_Served","Underrepresented_Member","Comments_Text","Personal_Website_External","Year_First_Participated_Select","4th_Gear_Role_Select","Team_Name","Department_Company_Name","Event_Name"
         let id=req.params.id;
-        let teams=[];
-        let departmentCompanies=[];
-        let metadataColumns=this.metadataColumns;
+        let that=this;
         async.parallel({
+            
+            teams: async.apply(airtable.viewPrimaryKeys,"team"),
+            
             departmentCompanies: async.apply(airtable.viewPrimaryKeys,"department_company"),
-            teams: async.apply(airtable.viewPrimaryKeys,"team")
+            
+            events: async.apply(airtable.viewPrimaryKeys,"event"),
+            
             },function(err,results){
-            res.render('member/add', {
-            metadataColumns: metadataColumns,
-            table: "members",
-            departmentCompanies: results["departmentCompanies"],
-            teams: results["teams"]
+            let member=new that.model(results["record"],id);
+            let referencedColumns=that.setDataReferencedColumns(member.referencedColumnNames,results);
+            res.render('common/add', {
+                id: member.id, 
+                tableUrl: that.tableUrl,
+                inputColumns: member.inputColumnNames,
+                metadataColumns: member.metadataColumnNames,
+                referencedColumns: referencedColumns
             });
         });
     }
 
+    /**
+     * Creates a new airtable record.
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     * @param {next} next
+     * 
+     */
     addPost(req,res,next){
         let id=req.params.id;
-        let newRecord={
-            "Name_Text": checkInput.checkText(req.body["Name_Text"]),
-            "Last_Name_Text": checkInput.checkText(req.body["Last_Name_Text"]),
-            "First_Name_Text": checkInput.checkText(req.body["First_Name_Text"]),
-            "Role_Select": checkInput.checkSelect(req.body["Role_Select"]),
-            "Role_Within_Univ_Select": checkInput.checkSelect(req.body["Role_Within_Univ_Select"]),
-            "Role_Within_Univ_Select": checkInput.checkSelect(req.body["Role_Within_Univ_Select"]),
-            "Phone_Text": checkInput.checkText(req.body["Phone_Text"]),
-            "Email_Text": checkInput.checkText(req.body["Email_Text"]),
-            "Gender_Select": checkInput.checkSelect(req.body["Gender_Select"]),
-            "Non_White_Select": checkInput.checkSelect(req.body["Non_White_Select"]),
-            "Disability_Select": checkInput.checkSelect(req.body["Disability_Select"]),
-            "Veteran_Select": checkInput.checkSelect(req.body["Veteran_Select"]),
-            "Non_National_Select": checkInput.checkSelect(req.body["Non_National_Select"]),
-            "Last_Served": checkInput.checkText(req.body["Last_Served"]),
-            "Comments_Text": checkInput.checkText(req.body["Comments_Text"]),
-            "Personal_Website_External": checkInput.checkText(req.body["Personal_Website_External"]),
-            "Year_First_Participated_Select": checkInput.checkSelect(req.body["Year_First_Participated_Select"]),
-            "4th_Gear_Role_Select":  checkInput.checkSelect(req.body["4th_Gear_Role_Select"]),
-            "Team_Link": checkInput.checkLink(req.body["Team_Link"]),
-            "Department_Company_Link": checkInput.checkLink(req.body["Department_Company_Link"])
-        };
-        airtable.createRecord(this.table,newRecord,function(err,new_record){
+        let member=new this.model(req.body);
+        airtable.createRecord(this.table,member.toJson(),function(err,new_record){
             /* res.redirect('/teams/edit/'+id); */
             if(err) throw err;
             req.params.id= new_record;
@@ -123,4 +113,5 @@ class MembersController extends AppController{
         });
     }
 }
+
 module.exports=MembersController;

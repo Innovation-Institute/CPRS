@@ -25,6 +25,7 @@ class ReportsController extends AppController{
      * 
      */
     createReport(req, res){
+        let columnName=req.body.columnName;
         let report_name=req.body.report_name;
         let chosenCols=req.body.chosenCols;
         if(typeof chosenCols== "string"){
@@ -32,7 +33,7 @@ class ReportsController extends AppController{
             chosenCols=[];
             chosenCols.push(temp);
         }
-        let filter='FIND("'+report_name+'", {Funding_Link})>=1';//['one', createFieldFilter("Name_Text","Team_Link", results)],
+        let filter=`FIND("${report_name}", ${columnName})>=1`;//['one', createFieldFilter("Name_Text","Team_Link", results)],
         airtable.filteredRecords("team", filter, (function(err, set){
         let new_filter=this.createFieldFilter("Name_Text","Team_Link",set);
         let old_set=set;
