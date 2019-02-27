@@ -74,7 +74,7 @@
     <tbody>
 <% for (arr_key in records) { %>
         <tr>
-            <td><a href='/members/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
+            <td><a href='/fundings/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
             <td><%= records[arr_key]["record"]["Funding_Class_Select"] %></td>
             <td><%= records[arr_key]["record"]["Amount_Received_Text"] %></td>
             <td><%= records[arr_key]["record"]["Calendar_Year_Select"] %></td>
