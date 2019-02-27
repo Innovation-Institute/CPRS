@@ -77,4 +77,4 @@ typings/
 .serverless
 
 # Baked controllers, models and routes
-.baked/
+baked/
