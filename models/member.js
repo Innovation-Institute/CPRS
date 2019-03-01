@@ -8,7 +8,7 @@ class Member {
             // "columnName","displayName"
             this._metadataColumnNames= columnNames.setMetadata([["Role_Select","Role"],["Role_Within_Univ_Select","Role within university"],["Gender_Select","Gender Select"],["Non_White_Select","Non White"],["Disability_Select","Disability"],["Veteran_Select","Veteran"],["Non_National_Select","Non National"],["Year_First_Participated_Select","Year First Participated"],["Fourth_Gear_Role_Select","4th Gear Role"]]);
             // "variable name", "displayName","columnName","table","columnValueName" 
-            this._referencedColumnNames= columnNames.setReferencedColumnNames([["teams","Teams","Team_Link","team","Team_Name"],["departmentCompanies","Department Company","Department_Company_Link","department_company","Department_Company_Name"],["events", "Member Data for Specfic Event", "Event_Specific_Link", "event","Event_Specfic_Name"]]);
+            this._referencedColumnNames= columnNames.setReferencedColumnNames([["teams","Teams","Team_Link","team","Team_Name"],["departmentCompanies","Department Company","Department_Company_Link","department_company","Department_Company_Name"],["events", "Member Data for Specific Event", "Event_Specific_Link", "event","Event_Specific_Name"]]);
             this._id=id;
             if(member==null){
                 return;
