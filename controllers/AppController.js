@@ -265,7 +265,7 @@ class AppController{
             filter=filter+'SEARCH("'+body[key]+'",{'+key+'})>=1,';
             //filter=filter+'AND(FIND("'+body[key]+'",{'+key+'})>=1,FIND({'+key+'},"'+body[key]+'")>=1),';
             }
-            else if(key!="condition" && body[key]!="" &&  (body[key] instanceof Array)){
+            else if(key!="condition" && (body[key][0]!="" || body[key][1]!="") &&  (body[key] instanceof Array)){
                 arr_val=body[key];
                 filter=filter+condition+"(";
                 for (var arr_key in arr_val){
