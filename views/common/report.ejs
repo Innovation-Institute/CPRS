@@ -17,6 +17,14 @@
         </div>
 <form action="/filter/<%= table %>" method="POST" id="edit">
     <% arr_values=referencedColumnNames  %>
+    <div class="row mt-3">
+        <div class="col-sm-8">
+            <h4><%= table %></h4>
+            <select id="<%= table %>" name="Name_Text" onclick='expandSelect("<%= table %>")' class="white-back" style="width:600px;height:40px ;">
+                <option style="display:none;" value="" selected>Select <%= table %></option>
+            </select>
+        </div>
+    </div>
     <% for (var arr_key in arr_values) { %>
     <% table= arr_values[arr_key].table %>
     <% heading= arr_values[arr_key].displayName %>

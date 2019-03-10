@@ -71,18 +71,23 @@ class AppController{
     dashboard(req,res){
         // Search for name in EIR column for linked record and then do a search on it.
         let searchCondition='FIND("'+req.session.user["Username_Text"]+'",{User_Link})>=1';
-        async.parallel({
-            record: async.apply(airtable.filteredRecords, "eir", searchCondition)  
-        },
-        function(err,results){
-            let eir=results.record[0].record
+        async.waterfall([
+            function(done){
+            airtable.filteredRecords("eir", searchCondition,function(err,set){
+                done(err,set)
+            });  
+            },
+            function(set,done){
+            let eir=set[0].record
             console.log(eir);
             airtable.getFundingAmount(eir.Name_Text,function(err,set){
                 res.render('index',{
-                    records: set
+                    records: set,
+                    user: eir.Name_Text
                 });
             });
-        });
+        }
+    ]);
     }
     /**
      * Will list 
