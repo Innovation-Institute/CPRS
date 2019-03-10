@@ -16,9 +16,11 @@
     "event-stream": "^4.0.1",
     "excel4node": "^1.7.0",
     "express": "~4.16.0",
+    "express-flash": "0.0.2",
     "express-session": "^1.15.6",
     "http-errors": "~1.6.2",
     "morgan": "^1.9.1",
+    "nodemailer": "^5.1.1",
     "nodemon": "^1.18.9",
     "redis": "^2.8.0"
   },

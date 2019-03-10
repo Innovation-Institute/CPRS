@@ -26,21 +26,27 @@
     <body class="text-center">
       <div class="container mt-5">
         <div class="jumbotron">
-            <form class="form-signin" action="/users/login" method="POST" id="signin">
-              <img class="mb-4 form-control" src="/images/logo.png" alt="">
-              <h2 class="h3 mb-3 font-weight-normal">Log In</h2>
-              <% if(typeof reset !== 'undefined'){ %>
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-              <strong>Password changed</strong> Enter your new credentials below.
+            <form class="form-signin" action="/users/forgot" method="POST" id="signin">
+            <% if(typeof err !== 'undefined'){ %>
+              <% if(err=="invalidUrl"){%>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Invalid URL</strong> The URL you entered doesn't have a valid token.
+              <% }else if(err=="invalidEmail"){%>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Invalid Email Address</strong> No such email address, try changing the letter case.
+              <% }else{ %>
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <strong>Email sent successfully!</strong> 
+              <% } %>
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
               </div>
-              <% } %>
+            <% } %>
+              <img class="mb-4 form-control" src="/images/logo.png" alt="">
+              <h2 class="h3 mb-3 font-weight-normal">Forgot password:</h2>
               <label for="inputEmail" class="sr-only">Email address</label>
               <input type="text" id="inputEmail" class="form-control" name="username" id="username" placeholder="Email address" required autofocus>
-              <label for="inputPassword" class="sr-only">Password</label>
-              <input type="password" id="inputPassword" class="form-control" name="password" id="password" placeholder="Password" required>
               <div class="checkbox mb-3">
                   <!-- 
                 <label>
@@ -48,14 +54,7 @@
                 </label>
                 -->
               </div>
-              <button class="btn btn-lg btn-primary btn-block mb-4" type="submit">Sign in</button>
-              <a href="/users/forgot" class="btn btn-secondary btn-md active" role="button" aria-pressed="true">Forgot Password</a>
-              <% if(typeof authenticated !== 'undefined'){ %>
-                <div class="alert alert-danger alert-dismissible mt-3">
-                  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                  <strong>Incorrect Credentials.</strong> Please enter valid credentials.
-                </div>
-                <% } %>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Send Email</button>
               <p class="mt-5 mb-3 text-muted">&copy; Innovation Institute 2019</p>
             </form>
         </div>
