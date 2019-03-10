@@ -32,10 +32,16 @@
                       <th class="th-sm not-visible">Members
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
+                      <th class="th-sm not-visible">Total Members
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
                       <th class="th-sm">Portfolio Stage
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm not-visible">Portfolio Sub-Stage
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Target Spinout Date
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm not-visible">Events
@@ -83,8 +89,10 @@
             <td><%= records[arr_key]["record"]["Description_Text"] %></td>
             <td><%- createLinks(records[arr_key]["record"]["Team_Category_Link"],records[arr_key]["record"]["Team_Category_Name"],"team_category") %></td>
             <td><%- createLinks(records[arr_key]["record"]["Member_Link"],records[arr_key]["record"]["Member_Name"],"member") %></td>
+            <td><%= records[arr_key]["record"]["Member_Link"]? records[arr_key]["record"]["Member_Link"].length : 0 %></td>
             <td><%= records[arr_key]["record"]["Portfolio_Stage_Select"] %></td> 
             <td><%= records[arr_key]["record"]["Portfolio_Sub_Stage_Select"] %></td> 
+            <td><%= records[arr_key]["record"]["Target_Spinout_Date"] %></td> 
             <td><%- createLinks(records[arr_key]["record"]["Event_Link"],records[arr_key]["record"]["Event_Name"],"event") %></td> 
             <td><%- createLinks(records[arr_key]["record"]["Funding_Link"],records[arr_key]["record"]["Funding_Name"],"team") %></td> 
             <td><%= records[arr_key]["record"]["Eir_Name"] %></td> 

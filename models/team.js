@@ -4,7 +4,7 @@ const columnNames=require('../models/components/createColumnObjects');
 class Team {
     constructor(object=null,id=null) {
          // "columnName","displayName","type"
-        this._inputColumnNames= columnNames.setColumnNames([["Name_Text","Name","text"],["Description_Text","Description","text"],["Former_Names_Text","Former Names","text"],["Case_Number_Text","Case Number","text"],["Technology_Description_Helper","Technology Description","text"],["Notes_Text","Notes","text"],["Team_Webpage_External","Team Webpage","text"],["Milestones_Text","Milestones","text"],["Supporting_Docs_External","Supporting Docs","text"]]);
+        this._inputColumnNames= columnNames.setColumnNames([["Name_Text","Name","text"],["Description_Text","Description","text"],["Target_Spinout_Date","Target Spinout","date"],["Former_Names_Text","Former Names","text"],["Case_Number_Text","Case Number","text"],["Technology_Description_Helper","Technology Description","text"],["Notes_Text","Notes","text"],["Team_Webpage_External","Team Webpage","text"],["Milestones_Text","Milestones","text"],["Supporting_Docs_External","Supporting Docs","text"]]);
         // "columnName","displayName"
         this._metadataColumnNames= columnNames.setMetadata([["Portfolio_Stage_Select","Portfolio Stage"],["Portfolio_Sub_Stage_Select","Portfolio Stage"],["FY_Launch_Select","FY Launch"]]);
         // "variable name", "displayName","columnName","table","columnValueName" 
@@ -46,6 +46,8 @@ class Team {
         
             
         this._Supporting_Docs_External=checkInput.checkText(object.Supporting_Docs_External);
+
+        this._Target_Spinout_Date=checkInput.checkSelect(object.Target_Spinout_Date);
             
         
         
@@ -106,7 +108,13 @@ class Team {
             
     }
    
-        
+    get Target_Spinout_Date(){
+        return this._Target_Spinout_Date;
+    }
+    set Target_Spinout_Date(Target_Spinout_Date){
+        this._Target_Spinout_Date=checkInput.checkSelect(Target_Spinout_Date);
+    }
+
     get Former_Names_Text(){
         return this._Former_Names_Text;
     }
@@ -251,6 +259,8 @@ class Team {
             "Former_Names_Text": this._Former_Names_Text,
         
             "Case_Number_Text": this._Case_Number_Text,
+
+            "Target_Spinout_Date": this._Target_Spinout_Date,
         
             "Technology_Description_Helper": this._Technology_Description_Helper,
         

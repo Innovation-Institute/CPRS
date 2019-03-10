@@ -41,7 +41,7 @@ class TeamsController extends AppController{
             },function(err,results){
             let team=new that.model(results["record"],id);
             let referencedColumns=that.setDataReferencedColumns(team.referencedColumnNames,results);
-            res.render('common/edit', {
+            res.render('team/edit', {
                 id: team.id, 
                 tableUrl: that.tableUrl,
                 record: team,
@@ -96,7 +96,7 @@ class TeamsController extends AppController{
             },function(err,results){
             let team=new that.model(results["record"],id);
             let referencedColumns=that.setDataReferencedColumns(team.referencedColumnNames,results);
-            res.render('common/add', {
+            res.render('team/add', {
                 id: team.id, 
                 tableUrl: that.tableUrl,
                 inputColumns: team.inputColumnNames,
