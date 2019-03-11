@@ -87,25 +87,17 @@ class AuthController extends AppController{
      * Add a new user, send it to the AirTable database.
      * 
      */
-    addUser(req,res){
+    addUser(req,res,next){
         async.parallel({
         hash: async.apply(bcrypt.hash, req.body.Password_Text, saltRounds)  
         },function(err,results){
             console.log(results);
-            let newRecord={
-                "Username_Text": checkInput.checkText(req.body["Username_Text"]),
-                "Name_Text": checkInput.checkText(req.body["Name_Text"]),
-                "Email_Text": checkInput.checkText(req.body["Email_Text"]),
-                "Password_Text": checkInput.checkText(results["hash"]),
-                "Phone_Text": checkInput.checkText(req.body["Phone_Text"]),
-                "Role_Select": checkInput.checkSelect(req.body["Role_Select"])
-            };
-            airtable.createRecord("ii_user",newRecord,function(err,new_record){
+            req.body.Password_Text= checkInput.checkText(results["hash"])
+            airtable.createRecord("ii_user",req.body,function(err,new_record){
                 /* res.redirect('/teams/edit/'+id); */
                 if(err) throw err;
-                res.render('user/signup.ejs',{
-                    Name_Text: req.body["Name_Text"]
-                });
+                req.params.id= new_record;
+                next();
             });
         });
     }

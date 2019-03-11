@@ -23,7 +23,7 @@ router.post('/edit/:id', AuthController.isAuthenticated , Users.editPost, AuthCo
  */
 
 router.get('/add/', AuthController.isAuthenticated , Users.add);
-router.post('/add/', AuthController.isAuthenticated , Users.addPost, AuthController.isAuthenticated , Users.view);
+router.post('/add/', AuthController.isAuthenticated , Users.addPost, AuthController.addUser  , AuthController.isAuthenticated , Users.view);
 
 /**
  * Report

@@ -1,0 +1,68 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+
+   <div class="container-fluid mt-4">   
+      <div class="jumbotron">
+            <div class = "page-header">
+                    <div class="page-header">
+                            <div class="row">
+                        <div class="col-sm-10">
+                            <h2>Add a new Record:</h2>
+                            <hr>
+                            </div>
+                            </div>
+                        </div>
+           </div>
+        <form action="/<%= tableUrl %>/add/" method="POST" id="add">
+            <% for(key in inputColumns){ %>
+                <div class="form-group">
+                    <h3><%=  inputColumns[key].displayName %></h3>
+                    <input class="form-control text-short" name="<%= key %>" type="<%= inputColumns[key].type %>" id="<%= key %>" required>
+            </div>
+            <% } %>
+              <% for(key in metadataColumns){ %>
+              <div class="form-group">
+                      <h3><%= metadataColumns[key].displayName %>:</h3>
+                      <select id='<%= key %>' name="<%= key %>" class="form-data-selectize" required>
+                              <option disabled selected value> -- select an option -- </option>
+                      </select>
+              </div>
+              <% } %>
+          
+      <%# heading","array of values","field name in record" %>
+      <% arr_values=referencedColumns %>
+      <% for (arr_key in arr_values) { %>
+      <% heading= arr_values[arr_key].displayName %>
+      <% values= arr_values[arr_key].data %>
+      <% field_name= arr_values[arr_key].columnName %>
+      
+      <h3><%= heading %>:</h3>
+      <select multiple id='<%= field_name %>' name='<%= field_name %>' class="form-data-selectize" required>
+              <% for (var key in values) { %>
+                        <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
+              <% } %>
+                </select>
+        <% } %>
+                <button class="btn btn-primary" type="submit" id="edit-submit">Submit</button>
+      </form>
+      </div>
+      </div>
+      <script>
+        /*
+            These are the input values which I had to selectize as they were coming from another table.
+        */
+        <% for (key in referencedColumns) { %>
+           $('#<%= referencedColumns[key].columnName %>').selectize();
+        <%  } %>
+        /**
+         * Stringifying the metadata Columns so it could be used by the 
+         * metadata-view script to populate the metadata coumn values.
+         * 
+         */
+        table="<%= tableUrl %>";
+        metadataColumns=<%- JSON.stringify(metadataColumns) %>;
+    </script>
+    <script src="/javascripts/metadata-view.js"></script>
+
+  <% var footer = '../footer'; %>
+  <%- include(footer) %>

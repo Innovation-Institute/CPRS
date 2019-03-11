@@ -1,0 +1,112 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+  <!--<%= id %>
+    <br>
+    <%- JSON.stringify(record) %>
+    <form action="/api/data" method="POST">
+        Some data: <input type="text" name="data" id="data">
+        <button type="submit">Send</button>
+    </form> -->
+    <div class="container-fluid mt-4">   
+        <div class="jumbotron">
+              <div class = "page-header">
+                      <div class="page-header">
+                              <div class="row">
+                          <div class="col-sm-10">
+                              <h2><%= record["Name_Text"] %></h2>
+                              <hr>
+                              </div>
+                          <div class="col-sm-2">
+                                  <a class="btn btn-primary btn-lg active" href="/<%= tableUrl %>/view/<%= id %>" role="button">View</a>
+                              </div>
+                              </div>
+                          </div>
+             </div>
+      <form method="POST" id="edit">
+            <% for(key in inputColumns){ %>
+                <% if(key !== "Password_Text"){ %>
+                <div class="form-group">
+                    <h3><%=  inputColumns[key].displayName %></h3>
+                    <input class="form-control text-short" name="<%= key %>" type="<%= inputColumns[key].type %>" value='<%= record[key] %>' id="<%= key %>">
+                </div>
+                <% } else { %>
+                <div class="form-group">
+                    <h3><%=  inputColumns[key].displayName %></h3>
+                    <input class="form-control text-short" name="<%= key %>" type="<%= inputColumns[key].type %>" value='<%= record[key] %>' id="<%= key %>" readonly="true">
+                </div>
+                <% }%>
+            <% } %>
+              <% for(key in metadataColumns){ %>
+              <div class="form-group">
+                      <h3><%= metadataColumns[key].displayName %>:</h3>
+                      <select id='<%= key %>' name="<%= key %>" class="form-data-selectize">
+                              <option disabled selected value> -- select an option -- </option>
+                              <% if(record[key]!=null){ %>
+                                  <option value='<%= record[key] %>' selected="selected"><%= record[key] %></option>
+                              <%   }   %>
+                      </select>
+              </div>
+              <% } %>
+          
+      <%# heading","array of values","field name in record" %>
+      <% arr_values=referencedColumns %>
+      <% for (arr_key in arr_values) { %>
+      <% heading= arr_values[arr_key].displayName %>
+      <% values= arr_values[arr_key].data %>
+      <% field_name= arr_values[arr_key].columnName %>
+      
+      <h3><%= heading %>:</h3>
+      <select multiple id='<%= field_name %>' name='<%= field_name %>' class="form-data-selectize">
+          <script>
+          </script>
+              <% for (var key in values) { %>
+                <script>
+                        console.log("<%= record[field_name].length %>");    
+                        </script>
+                  <% if(record[field_name].length>0) { %>
+                  <% for (var recordKey in record[field_name]){ %>
+                      <% if(record[field_name][recordKey] ==  values[key]['id']){ %>
+                          <option value="<%= values[key]['id'] %>" selected="selected"><%= values[key]['name'] %></option>
+                          <% break %>
+                          <br>
+                      <% } else if((recordKey)==(record[field_name].length-1)){%>
+                          <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
+                      <% } %>
+                  <% } %>
+                  <% } else { %>
+                        
+                      <option value="<%= values[key]['id'] %>"><%= values[key]['name'] %></option>
+                      <% } %>
+              <% } %>
+                </select>
+                <% } %>
+                <div class="row">
+                    <div class="col-sm-10">
+                        <button class="btn btn-primary" type="submit" id="edit-submit" formaction="/<%= tableUrl %>/edit/<%= id %>">Edit Record</button>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-secondary" type="submit" id="edit-submit" formaction="/<%= tableUrl %>/add">Duplicate</button>
+                    </div>
+                </div>
+      </form>
+      </div>
+      </div>
+      <script>
+        /*
+            These are the input values which I had to selectize as they were coming from another table.
+        */
+        <% for (key in referencedColumns) { %>
+           $('#<%= referencedColumns[key].columnName %>').selectize();
+        <%  } %>
+        /**
+         * Stringifying the metadata Columns so it could be used by the 
+         * metadata-view script to populate the metadata coumn values.
+         * 
+         */
+        table="<%= tableUrl %>";
+        metadataColumns=<%- JSON.stringify(metadataColumns) %>;
+    </script>
+    <script src="/javascripts/metadata-view.js"></script>
+
+  <% var footer = '../footer'; %>
+  <%- include(footer) %>

@@ -10,8 +10,8 @@ const AuthController=new Auth();
 router.get('/login', AuthController.signup);
 router.get('/logout',AuthController.isAuthenticated, AuthController.logout);
 router.post('/login', AuthController.signin,AppController.dashboard);
-router.post('/add',AuthController.isAuthenticated, AuthController.addUser);
-router.get('/add', AuthController.isAuthenticated, AuthController.createAccount);
+//router.post('/add',AuthController.isAuthenticated, AuthController.addUser);
+//router.get('/add', AuthController.isAuthenticated, AuthController.createAccount);
 
 router.get('/forgot', AuthController.forgotAccount);
 router.post('/forgot', AuthController.setNewPassword);

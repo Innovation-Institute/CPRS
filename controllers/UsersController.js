@@ -31,7 +31,7 @@ class UsersController extends AppController{
             },function(err,results){
             let ii_user=new that.model(results["record"],id);
             let referencedColumns=that.setDataReferencedColumns(ii_user.referencedColumnNames,results);
-            res.render('common/edit', {
+            res.render('ii_user/edit', {
                 id: ii_user.id, 
                 tableUrl: that.tableUrl,
                 record: ii_user,
@@ -76,7 +76,7 @@ class UsersController extends AppController{
             },function(err,results){
             let ii_user=new that.model(results["record"],id);
             let referencedColumns=that.setDataReferencedColumns(ii_user.referencedColumnNames,results);
-            res.render('common/add', {
+            res.render('ii_user/add', {
                 id: ii_user.id, 
                 tableUrl: that.tableUrl,
                 inputColumns: ii_user.inputColumnNames,
@@ -97,12 +97,9 @@ class UsersController extends AppController{
     addPost(req,res,next){
         let id=req.params.id;
         let ii_user=new this.model(req.body);
-        airtable.createRecord(this.table,ii_user.toJson(),function(err,new_record){
-            /* res.redirect('/teams/edit/'+id); */
-            if(err) throw err;
-            req.params.id= new_record;
-            next();
-        });
+        req.body=ii_user.toJson();
+        next();
+
     }
 }
 

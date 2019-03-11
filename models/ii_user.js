@@ -4,7 +4,7 @@ const columnNames=require('../models/components/createColumnObjects');
 class User {
     constructor(object=null,id=null) {
          // "columnName","displayName","type"
-        this._inputColumnNames= columnNames.setColumnNames([["Username_Text","Username","text"],["Name_Text","Name","text"],["Phone_Text","Phone Number","text"],["Email_Text","Email Account","text"],["Password_Text","Password","password"],["Token_Text","Token","token"]]);
+        this._inputColumnNames= columnNames.setColumnNames([["Username_Text","Username","text"],["Name_Text","Name","text"],["Phone_Text","Phone Number","text"],["Email_Text","Email Account","text"],["Password_Text","Password","password"]]);
         // "columnName","displayName"
         this._metadataColumnNames= columnNames.setMetadata([["Role_Select","Role"]]);
         // "variable name", "displayName","columnName","table","columnValueName" 
@@ -27,10 +27,6 @@ class User {
             
         
                 this._Password_Text=checkInput.checkText(object.Password_Text);
-            
-        
-                this._Token_Text=checkInput.checkText(object.Token_Text);
-            
         
         
         this._Role_Select=checkInput.checkSelect(object.Role_Select);
@@ -106,16 +102,6 @@ class User {
             
     }
    
-        
-    get Token_Text(){
-        return this._Token_Text;
-    }
-    set Token_Text(Token_Text){
-            
-        this._Token_Text=checkInput.checkText(Token_Text);
-            
-    }
-   
    
     get Role_Select(){
         return this._Role_Select;
@@ -144,9 +130,6 @@ class User {
             "Email_Text": this._Email_Text,
         
             "Password_Text": this._Password_Text,
-        
-            "Token_Text": this._Token_Text,
-        
         
             "Role_Select": this._Role_Select,
         
