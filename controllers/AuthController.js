@@ -11,8 +11,23 @@ class AuthController extends AppController{
     /**
      * Check if authenticated
      */
-    isAuthenticated(req,res){
+    isAuthenticated(req,res,next){
+        if(req.session.user){
+            next();
+        }
+        res.render('user/login.ejs');
         return;
+    }
+    /**
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    logout(req,res){
+        req.session.destroy(function(err){
+            res.render('user/login.ejs');
+        });
+        
     }
     /**
      * Sign Up Page

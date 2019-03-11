@@ -1,41 +1,42 @@
 const express = require('express');
 const router = express.Router();
 const UsersController = require('../controllers/UsersController');
-
+const Auth = require('../controllers/AuthController');
+const AuthController=new Auth();
 const Users=new UsersController();
 /**
  * Index
  */
-router.get('/', Users.index);
+router.get('/', AuthController.isAuthenticated , Users.index);
 /**
  * View
  */
-router.get('/view/:id', Users.view);
+router.get('/view/:id', AuthController.isAuthenticated , Users.view);
 /**
  * Edit
  */
-router.get('/edit/:id', Users.edit);
-router.post('/edit/:id', Users.editPost, Users.view);
+router.get('/edit/:id', AuthController.isAuthenticated , Users.edit);
+router.post('/edit/:id', AuthController.isAuthenticated , Users.editPost, AuthController.isAuthenticated , Users.view);
 /**
  * 
  * Create
  */
 
-router.get('/add/', Users.add);
-router.post('/add/', Users.addPost, Users.view);
+router.get('/add/', AuthController.isAuthenticated , Users.add);
+router.post('/add/', AuthController.isAuthenticated , Users.addPost, AuthController.isAuthenticated , Users.view);
 
 /**
  * Report
  */
-router.get('/report', Users.report);
+router.get('/report', AuthController.isAuthenticated , Users.report);
 
 /**
  * Fundings get,add,update(set) metadata
  */
-router.get('/meta/view/:fieldName', Users.getMetadata);
-router.put('/meta/add', Users.addMetadata);
-router.get('/meta/update', Users.setMetadata);
-router.get('/meta/', Users.indexMetadata);
-router.delete('/meta/delete/:fieldName/:fieldValue',Users.deleteMetadata);
+router.get('/meta/view/:fieldName', AuthController.isAuthenticated , Users.getMetadata);
+router.put('/meta/add', AuthController.isAuthenticated , Users.addMetadata);
+router.get('/meta/update', AuthController.isAuthenticated , Users.setMetadata);
+router.get('/meta/', AuthController.isAuthenticated , Users.indexMetadata);
+router.delete('/meta/delete/:fieldName/:fieldValue', AuthController.isAuthenticated , Users.deleteMetadata);
 
 module.exports = router;
