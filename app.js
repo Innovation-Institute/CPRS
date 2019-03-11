@@ -12,8 +12,10 @@ const reportsRouter= require('./routes/reports');
 const membersRouter=require('./routes/members');
 const fundingsRouter=require('./routes/fundings');
 const eventsRouter=require('./routes/events');
-const teamCategorysRouter=require('./routes/team_categorys')
-const departmentCompanysRouter=require('./routes/department_companys')
+const teamCategorysRouter=require('./routes/team_categorys');
+const departmentCompanysRouter=require('./routes/department_companys');
+const eirsRouter=require('./routes/eirs');
+const ii_usersRouter=require('./routes/ii_users');
 
 const app = express();
 
@@ -37,6 +39,8 @@ app.use('/fundings',fundingsRouter);
 app.use('/events',eventsRouter);
 app.use('/team_categorys',teamCategorysRouter);
 app.use('/department_companys',departmentCompanysRouter);
+app.use('/eirs',eirsRouter);
+app.use('/ii_users',ii_usersRouter);
 
 
 // catch 404 and forward to error handler

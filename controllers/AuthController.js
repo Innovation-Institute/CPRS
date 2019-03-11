@@ -214,5 +214,9 @@ class AuthController extends AppController{
 
     }
 
+    isAuthorized(req,res){
+        res.render("forbidden.ejs");
+    }
+
 }
 module.exports=AuthController;

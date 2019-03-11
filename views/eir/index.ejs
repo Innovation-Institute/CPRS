@@ -1,0 +1,85 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+
+<% JSON.stringify(records) %>
+<div class="container-fluid mt-3">
+<div class="page-header mt-3">
+  <div class="row">
+    <div class="col-md-10">
+      <h1>EIRs</h1>
+    </div>
+  </div>
+  </div>
+  <div class="row mb-3">
+      <div class="col-sm-2">
+        <div class="btn-group">
+            <a class="btn btn-primary btn-md" href="/eirs/meta/" role="button">Add Metadata</a>
+            <a class="btn btn-primary btn-md" href="/eirs/report/" role="button">Custom Report/Filter</a>
+        </div>
+    </div>
+  </div>
+<table id="example" class="table table-striped table-bordered mt-5" cellspacing="20" style="width:100%">
+            <thead>
+                    <tr>
+                      <th class="th-sm">Eir Name
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">User 
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Phone Number
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Email
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Gender
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Non White
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Team
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Number of Teams Mentored
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm last-column">Actions
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                    </tr>
+                  </thead>
+    <tbody>
+<% for (arr_key in records) { %>
+        <tr>
+            <td><a href='/eirs/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
+            <td><%- createLinks(records[arr_key]["record"]["User_Link"],records[arr_key]["record"]["User_Name"],"ii_user") %></td>
+            <td><%= records[arr_key]["record"]["Phone_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Email_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Gender_Select"] %></td>
+            <td><%= records[arr_key]["record"]["non_white"] %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Team_Link"],records[arr_key]["record"]["Team_Name"],"team") %></td>
+            <td><%= records[arr_key]["record"]["Number_Teams_Mentored"] %></td>
+            <td>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <a class="btn btn-primary btn-block" href='/eirs/view/<%= records[arr_key]["id"] %>' role="button">View</a>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                    <a class="btn btn-primary btn-block" href='/eirs/edit/<%= records[arr_key]["id"] %>' role="button">Edit</a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+<% } %>
+
+    </tbody>
+</table>
+</div>
+
+<script src="/javascripts/datatable.js"></script>
+<% var footer = '../footer'; %>
+<%- include(footer) %>

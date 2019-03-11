@@ -17,4 +17,6 @@ router.post('/forgot',AuthController.setNewPassword);
 router.get('/reset/:token',AuthController.resetPassword);
 router.post('/reset/:token',AuthController.resetPasswordPost);
 
+router.get('/forbidden',AuthController.isAuthorized);
+
 module.exports = router;

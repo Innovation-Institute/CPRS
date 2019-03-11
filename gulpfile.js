@@ -9,31 +9,35 @@ const rename = require('gulp-rename');
 
 // "columnName","displayName","type"
 inputColumnNames= [
-  ["Name_Text","Name","text"]
+  ["Username_Text","Username","text"],
+  ["Name_Text","Name","text"],
+  ["Phone_Text","Phone Number","text"],
+  ["Email_Text","Email Account","text"],
+  ["Password_Text","Password","password"],
+  ["Token_Text","Token","token"]
   ];
   
   // "columnName","displayName"
   metadataColumnNames= [
-    ["Part_Of_The_University_Select","Part of the University"],
-    ["Year_First_Represented_Select","Year First Represented"]
+    ["Role_Select","Role"]
   ];
   // "variable name", "displayName","columnName","table","columnValueName"
   referencedColumnNames= [
-    ["members","Members","Member_Link","member","Member_Name"]  
+    ["eir","Eir Name","Eir_Link","eir","Eir_Name"]
 ];
   
 
 
-  table="department_company";
+  table="ii_user";
 
 
-  tableUrl="department_companys";
+  tableUrl="ii_users";
 
 
-  model="department_company";
-  modelFilename="department_company";
-  controllerFilename="DepartmentCompanysController"
-  routerFilename="department_companys";
+  model="User";
+  modelFilename="ii_user";
+  controllerFilename="UsersController"
+  routerFilename="ii_users";
 
 task('build-model', function(cb) {
   console.log(`Building a Model-> ${model}`);
@@ -71,7 +75,7 @@ task('build-controller', function(cb) {
 task('build-router', function(cb) {
   console.log(`Building a Router-> ${model}`);
   src('bake/route/route.tmpl.js')
-  .pipe(template({controllerFilename:controllerFilename}))
+  .pipe(template({controllerFilename: controllerFilename}))
   .pipe(rename({
     basename: routerFilename,
     extname: ".js"
@@ -169,4 +173,65 @@ referencedColumnNames= [["events","Events","Event_Link","event","Event_Name"],["
   modelFilename="funding.js";
 
   controllerFilename="FundingsController.js"
+
+
+// "columnName","displayName","type"
+inputColumnNames= [
+  ["Name_Text","Name","text"]
+  ];
+  
+  // "columnName","displayName"
+  metadataColumnNames= [
+    ["Part_Of_The_University_Select","Part of the University"],
+    ["Year_First_Represented_Select","Year First Represented"]
+  ];
+  // "variable name", "displayName","columnName","table","columnValueName"
+  referencedColumnNames= [
+    ["members","Members","Member_Link","member","Member_Name"]  
+];
+  
+
+
+  table="department_company";
+
+
+  tableUrl="department_companys";
+
+
+  model="department_company";
+  modelFilename="department_company";
+  controllerFilename="DepartmentCompanysController"
+  routerFilename="department_companys";
+
+// "columnName","displayName","type"
+inputColumnNames= [
+  ["Name_Text","Name","text"],
+  ["Phone_Text","Phone Number","text"],
+  ["Email_Text","Email Account","text"],
+
+  ];
+  
+  // "columnName","displayName"
+  metadataColumnNames= [
+    ["Gender_Select","Gender"],
+    ["non_white","Non White"],
+  ];
+  // "variable name", "displayName","columnName","table","columnValueName"
+  referencedColumnNames= [
+    ["user","User Account","User_Link","ii_user","User_Name"],
+    ["team","Teams","Team_Link","team","Team_Name"]
+];
+  
+
+
+  table="eir";
+
+
+  tableUrl="eirs";
+
+
+  model="eir";
+  modelFilename="eir";
+  controllerFilename="EirsController"
+  routerFilename="eirs";
 */
