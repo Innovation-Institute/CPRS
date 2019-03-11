@@ -269,7 +269,9 @@ class AppController{
                 arr_val=body[key];
                 filter=filter+condition+"(";
                 for (var arr_key in arr_val){
-                    filter=filter+'SEARCH("'+body[key][arr_key]+'",{'+key+'})>=1,';
+                    if(arr_val[arr_key]!==""){
+                        filter=filter+'SEARCH("'+body[key][arr_key]+'",{'+key+'})>=1,';
+                    }
                 }
                 filter=filter.substring(0, filter.length - 1);
                 filter=filter+"),";
