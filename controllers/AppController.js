@@ -11,7 +11,7 @@ class AppController{
      */
     constructor(){
         this.table="";
-        es6bindall(this,["index","view","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata","indexMetadata","deleteMetadata","setDataReferencedColumns"]);
+        es6bindall(this,["index","view","dashboard","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata","indexMetadata","deleteMetadata","setDataReferencedColumns","arrangeFields"]);
     }
     /**
      * Renders the index page.
@@ -71,23 +71,57 @@ class AppController{
     dashboard(req,res){
         // Search for name in EIR column for linked record and then do a search on it.
         let searchCondition='FIND("'+req.session.user["Username_Text"]+'",{User_Link})>=1';
+        let that=this;
         async.waterfall([
             function(done){
             airtable.filteredRecords("eir", searchCondition,function(err,set){
+                if(typeof set[0]=="undefined"){
+                    res.render('index',{
+                        records: null,
+                        user: `${req.session.user["Name_Text"]} , please link your User account to your EIR record in the EIR table.`
+                    });
+                    return;
+                }
                 done(err,set)
             });  
             },
             function(set,done){
-            let eir=set[0].record
-            console.log(eir);
-            airtable.getFundingAmount(eir.Name_Text,function(err,set){
-                res.render('index',{
-                    records: set,
-                    user: eir.Name_Text
+                let eir=set[0].record
+                airtable.getEirField(eir.Name_Text,"Target_Spinout_Date",function(err,spinoutDates){
+                    spinoutDates=that.arrangeFields(spinoutDates);
+                    done(err,set,spinoutDates)
                 });
-            });
-        }
+            },
+            function(set,spinoutDates,done){
+                let eir=set[0].record
+                console.log(eir);
+                airtable.getEirField(eir.Name_Text,"Total_Funding",function(err,set){
+                    set=that.arrangeFields(set);
+                    res.render('index',{
+                        records: set,
+                        spinoutDates: spinoutDates,
+                        user: eir.Name_Text
+                    });
+                });
+            }
     ]);
+    }
+    /**
+     * 
+     * @param {Object} set 
+     */
+    arrangeFields(set){
+        var len = set.length;
+        for (var i = len-1; i>=0; i--){
+            for(var j = 1; j<=i; j++){
+            if(set[j-1].value>set[j].value){
+                let temp = set[j-1];
+                set[j-1] = set[j];
+                set[j] = temp;
+                }
+            }
+        }
+        return set;
     }
     /**
      * Will list 

@@ -8,7 +8,7 @@ createRecord: createRecord,
 updateRecord: updateRecord,
 filteredRecords: filteredRecords,
 viewAll: viewAll,
-getFundingAmount: getFundingAmount,
+getEirField: getEirField,
 viewMetadataColumn: viewMetadataColumn
 }
 /** 
@@ -165,7 +165,7 @@ function filteredRecords(table,filter,callback){
  * 
  * @param {callback} callback 
  */
-function getFundingAmount(name,callback){
+function getEirField(name,field,callback){
     table="team";
     let set=[];
     base(table).select({
@@ -176,7 +176,7 @@ function getFundingAmount(name,callback){
         }).eachPage(async function page(records, fetchNextPage) {
         // This function (`page`) will get called for each page of records.
         records.forEach(function(record) {
-        set.push({"parameter": record["fields"]["Name_Text"],"value": record["fields"]["Total_Funding"]});
+        set.push({"parameter": record["fields"]["Name_Text"],"value": record["fields"][field]});
         });
         // To fetch the next page of records, call `fetchNextPage`.
         // If there are more records, `page` will get called again.

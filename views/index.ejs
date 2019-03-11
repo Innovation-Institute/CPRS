@@ -20,7 +20,34 @@
         <div class="row mt-3">
         <svg width="1200" height="800"></svg>
         </div>
+        <div class="row">
+            <div class="col-sm-6">
+                If you have any spinout dates, they will be below here:
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-sm-2">
+                <h5>Team</h5>
+            </div>
+            <div class="col-sm-2">
+                <h5>Target Spinout Date</h5>
+            </div>
+        </div>
+        <% for(x in spinoutDates){ %>
+            <% if(spinoutDates[x].value){ %>
+                <div class="row mt-3">
+                    <div class="col-sm-2">
+                        <%= spinoutDates[x].parameter %>
+                    </div>
+                    <div class="col-sm-2">
+                        <%= spinoutDates[x].value %>
+                    </div>
+                </div>
+            <% } %>
+        <% } %>
 </div>
+
+
 <!--
     Scripts Required for the dashboard.
     Can be added and edited here.

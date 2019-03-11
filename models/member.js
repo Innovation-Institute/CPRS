@@ -8,7 +8,8 @@ class Member {
             // "columnName","displayName"
             this._metadataColumnNames= columnNames.setMetadata([["Role_Select","Role"],["Role_Within_Univ_Select","Role within university"],["Gender_Select","Gender Select"],["Non_White_Select","Non White"],["Disability_Select","Disability"],["Veteran_Select","Veteran"],["Non_National_Select","Non National"],["Year_First_Participated_Select","Year First Participated"],["Fourth_Gear_Role_Select","4th Gear Role"]]);
             // "variable name", "displayName","columnName","table","columnValueName" 
-            this._referencedColumnNames= columnNames.setReferencedColumnNames([["teams","Teams","Team_Link","team","Team_Name"],["departmentCompanies","Department Company","Department_Company_Link","department_company","Department_Company_Name"],["events", "Member Data for Specific Event", "Event_Specific_Link", "event","Event_Specific_Name"]]);
+            this._referencedColumnNames= columnNames.setReferencedColumnNames([["teams","Teams","Team_Link","team","Team_Name"],["departmentCompanies","Department Company","Department_Company_Link","department_company","Department_Company_Name"]]);
+            // removed ,["events", "Member Data for Specific Event", "Event_Specific_Link", "event","Event_Specific_Name"]
             this._id=id;
             if(member==null){
                 return;
@@ -32,7 +33,7 @@ class Member {
             this._Year_First_Participated_Select=checkInput.checkSelect(member.Year_First_Participated_Select);
             this._Team_Link=checkInput.checkLink(member.Team_Link);
             this._Department_Company_Link=checkInput.checkLink(member.Department_Company_Link);
-            this._Event_Specific_Link=checkInput.checkLink(member.Event_Specific_Link);
+          //  this._Event_Specific_Link=checkInput.checkLink(member.Event_Specific_Link);
     }
     get inputColumnNames(){
         return this._inputColumnNames;
@@ -160,17 +161,18 @@ class Member {
     set Department_Company_Link(Department_Company_Link){
         this._Department_Company_Link=checkInput.checkLink(Department_Company_Link);
     }
-    get Event_Specific_Link(){
+   /* get Event_Specific_Link(){
         return this._Event_Specific_Link;
     }
     set Event_Specific_Link(Event_Specific_Link){
         this._Event_Specific_Link=checkInput.checkLink(Event_Specific_Link);
     }
+    */
 
     toJson(){
         return {
             "Name_Text": this._Name_Text,
-            "Event_Specific_Link": this._Event_Specific_Link,
+           // "Event_Specific_Link": this._Event_Specific_Link,
             "Last_Name_Text": this._Last_Name_Text,
             "Comments_Text": this._Comments_Text,
             "First_Name_Text": this._First_Name_Text,
