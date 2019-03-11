@@ -78,7 +78,8 @@ class AppController{
                 if(typeof set[0]=="undefined"){
                     res.render('index',{
                         records: null,
-                        user: `${req.session.user["Name_Text"]} , please link your User account to your EIR record in the EIR table.`
+                        user: `${req.session.user["Name_Text"]} , please link your User account to your EIR record in the EIR table.`,
+                        spinoutDates: null
                     });
                     return;
                 }
