@@ -15,8 +15,8 @@ router.get('/add', AuthController.isAuthenticated, AuthController.createAccount)
 
 router.get('/forgot', AuthController.forgotAccount);
 router.post('/forgot', AuthController.setNewPassword);
-router.get('/reset/:token', AuthController.isAuthenticated, AuthController.resetPassword);
-router.post('/reset/:token', AuthController.isAuthenticated, AuthController.resetPasswordPost);
+router.get('/reset/:token', AuthController.resetPassword);
+router.post('/reset/:token', AuthController.resetPasswordPost);
 
 router.get('/forbidden', AuthController.isAuthenticated, AuthController.isAuthorized);
 
