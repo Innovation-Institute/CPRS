@@ -15,8 +15,9 @@ class AuthController extends AppController{
         if(req.session.user){
             next();
         }
-        res.render('user/login.ejs');
-        return;
+        else{
+            res.render('user/login.ejs');
+        }
     }
     /**
      * 
