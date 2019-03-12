@@ -139,11 +139,11 @@ class ReportsController extends AppController{
                     let budgetRequestDate=subset[subkey]["record"]["Budget_Request_Date_Text"];
                     let calendarYear=subset[subkey]["record"]["Calendar_Year_Select"];
                     let eventName=subset[subkey]["record"]["Event_Name"];
-                    newSet[key][fundingName+" "+eventName]={};
-                    newSet[key][fundingName+" "+eventName]["amountReceived"]=amountReceived;
-                    newSet[key][fundingName+" "+eventName]["budgetRequestDate"]=budgetRequestDate;
-                    newSet[key][fundingName+" "+eventName]["calendarYear"]=calendarYear;
-                    newSet[key][fundingName+" "+eventName]["eventName"]=eventName;
+                    newSet[key][fundingName+" ("+eventName+": "+budgetRequestDate+")"]={};
+                    newSet[key][fundingName+" ("+eventName+": "+budgetRequestDate+")"]["amountReceived"]=amountReceived;
+                    newSet[key][fundingName+" ("+eventName+": "+budgetRequestDate+")"]["budgetRequestDate"]=budgetRequestDate;
+                    newSet[key][fundingName+" ("+eventName+": "+budgetRequestDate+")"]["calendarYear"]=calendarYear;
+                    newSet[key][fundingName+" ("+eventName+": "+budgetRequestDate+")"]["eventName"]=eventName;
                 }
             }
         return newSet;
