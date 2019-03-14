@@ -30,7 +30,12 @@ function createClickableLinks(keys,values,table){
     }
     htmlLinks="";
     for(i=0;i < totalLength;i++){ 
-        htmlLinks=htmlLinks+"<a href='/"+table+"s/view/"+keys[i]+"'>"+values[i]+"</a>";
+        if(i<totalLength-1){
+            htmlLinks=htmlLinks+"<a href='/"+table+"s/view/"+keys[i]+"'>"+values[i]+"</a>,";
+        }
+        else{
+            htmlLinks=htmlLinks+"<a href='/"+table+"s/view/"+keys[i]+"'>"+values[i]+"</a>";
+        }
     }
     return htmlLinks;
 }
