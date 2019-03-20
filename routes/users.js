@@ -9,7 +9,7 @@ const AuthController=new Auth();
 /* GET users listing. */
 router.get('/login', AuthController.signup);
 router.get('/logout',AuthController.isAuthenticated, AuthController.logout);
-router.post('/login', AuthController.signin,AppController.dashboard);
+router.post('/login', AuthController.signin, AuthController.isAuthenticated, AppController.dashboard);
 //router.post('/add',AuthController.isAuthenticated, AuthController.addUser);
 //router.get('/add', AuthController.isAuthenticated, AuthController.createAccount);
 

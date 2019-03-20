@@ -6,13 +6,15 @@
 <div class="page-header mt-3">
 <div class="row">
     <div class="col-md-8">
-  <h1>Teams</h1>
+  <h1>Teams </h1>
   </div>
 </div>
 <div class="row mb-3">
     <div class="col-sm-2">
       <div class="btn-group">
+      <% if(sessionUser.Role_Select=="Administrator"){ %>
           <a class="btn btn-primary btn-md" href="/teams/meta/" role="button">Add Metadata</a>
+      <% } %>
           <a class="btn btn-primary btn-md" href="/teams/report/" role="button">Custom Report/Filter</a>
       </div>
   </div>

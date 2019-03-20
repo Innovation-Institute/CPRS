@@ -33,10 +33,10 @@ router.get('/report', AuthController.isAuthenticated , DepartmentCompanys.report
 /**
  * Fundings get,add,update(set) metadata
  */
-router.get('/meta/view/:fieldName', AuthController.isAuthenticated , DepartmentCompanys.getMetadata);
-router.put('/meta/add', AuthController.isAuthenticated , DepartmentCompanys.addMetadata);
-router.get('/meta/update', AuthController.isAuthenticated , DepartmentCompanys.setMetadata);
-router.get('/meta/', AuthController.isAuthenticated , DepartmentCompanys.indexMetadata);
-router.delete('/meta/delete/:fieldName/:fieldValue', AuthController.isAuthenticated , DepartmentCompanys.deleteMetadata);
+router.get('/meta/view/:fieldName', AuthController.isAuthenticated ,AuthController.isAdmin, DepartmentCompanys.getMetadata);
+router.put('/meta/add', AuthController.isAuthenticated ,AuthController.isAdmin, DepartmentCompanys.addMetadata);
+router.get('/meta/update', AuthController.isAuthenticated ,AuthController.isAdmin, DepartmentCompanys.setMetadata);
+router.get('/meta/', AuthController.isAuthenticated ,AuthController.isAdmin, DepartmentCompanys.indexMetadata);
+router.delete('/meta/delete/:fieldName/:fieldValue', AuthController.isAuthenticated ,AuthController.isAdmin, DepartmentCompanys.deleteMetadata);
 
 module.exports = router;

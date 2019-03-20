@@ -13,7 +13,9 @@
   <div class="row mb-3">
       <div class="col-sm-2">
         <div class="btn-group">
+        <% if(sessionUser.Role_Select=="Administrator"){ %>
             <a class="btn btn-primary btn-md" href="/fundings/meta/" role="button">Add Metadata</a>
+        <% } %>
             <a class="btn btn-primary btn-md" href="/fundings/report/" role="button">Custom Report/Filter</a>
         </div>
     </div>

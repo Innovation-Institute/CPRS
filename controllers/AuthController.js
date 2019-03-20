@@ -13,6 +13,7 @@ class AuthController extends AppController{
      */
     isAuthenticated(req,res,next){
         if(req.session.user){
+            res.locals.sessionUser=req.session.user;
             next();
         }
         else{
@@ -100,6 +101,20 @@ class AuthController extends AppController{
                 next();
             });
         });
+    }
+    /**
+     * Pages which require authorization of admin level access will be shown here
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    isAdmin(req,res,next){
+        if(req.session.user.Role_Select=="Administrator"){
+            next();
+        }
+        else{
+            res.render('forbidden.ejs');
+        }
     }
     /** 
      * 
