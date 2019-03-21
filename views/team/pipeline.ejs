@@ -28,7 +28,7 @@
                       <th class="th-sm not-visible">Team Description
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm">Team Category
+                      <th class="th-sm not-visible">Team Category
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm not-visible">Members
@@ -37,7 +37,7 @@
                       <th class="th-sm not-visible">Total Members
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm">Portfolio Stage
+                      <th class="th-sm not-visible">Portfolio Stage
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm not-visible">Portfolio Sub-Stage
@@ -49,13 +49,13 @@
                       <th class="th-sm not-visible">Events
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm">Funding
+                      <th class="th-sm not-visible">Funding
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm">Eir
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm not-visible">Milestones
+                      <th class="th-sm">Milestones
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm">Supporting Docs
@@ -70,7 +70,7 @@
                       <th class="th-sm not-visible">Case Number
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm not-visible">Total Funding
+                      <th class="th-sm">Total Funding
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm not-visible">Technology Description
@@ -101,6 +101,7 @@
             <td><%- createLinks(records[arr_key]["record"]["Event_Link"],records[arr_key]["record"]["Event_Name"],"event") %></td> 
             <td><%- createLinks(records[arr_key]["record"]["Funding_Link"],records[arr_key]["record"]["Funding_Name"],"team") %></td> 
             <td><%= records[arr_key]["record"]["Eir_Name"] %></td> 
+
             
             <!--
               Portfolio_Sub_Stage_Select

@@ -3,6 +3,7 @@ const Team = require('../models/team');
 const async=require('async');
 const es6bindall= require('es6bindall');
 const AppController=require('../controllers/AppController');
+const createLinks=require('../controllers/helpers/createLinks');
 
 class TeamsController extends AppController{
     constructor(){
@@ -10,7 +11,17 @@ class TeamsController extends AppController{
         this.table="team";
         this.tableUrl="teams";
         this.model=Team;
-        es6bindall(this,["index","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
+        es6bindall(this,["index","pipelineReport","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
+    }
+
+    pipelineReport(req,res){
+        airtable.viewAll(this.table,(function(err, set){
+            if(err) throw err;
+            res.render(this.table+'/pipeline',{
+                records: set,
+                createLinks: createLinks.createClickableLinks
+            });
+        }).bind(this));
     }
     
     /**

@@ -5,9 +5,10 @@ const Auth = require('../controllers/AuthController');
 const AuthController=new Auth();
 const Teams=new TeamsController();
 /**
- * Index
+ * Index and Pipeline
  */
 router.get('/', AuthController.isAuthenticated , Teams.index);
+router.get('/pipeline', AuthController.isAuthenticated , Teams.pipelineReport);
 /**
  * View
  */
@@ -24,6 +25,8 @@ router.post('/edit/:id', AuthController.isAuthenticated , Teams.editPost, AuthCo
 
 router.get('/add/', AuthController.isAuthenticated , Teams.add);
 router.post('/add/', AuthController.isAuthenticated , Teams.addPost, AuthController.isAuthenticated , Teams.view);
+
+router.get('/')
 
 /**
  * Report
