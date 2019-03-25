@@ -11,7 +11,7 @@ class AppController{
      */
     constructor(){
         this.table="";
-        es6bindall(this,["index","view","dashboard","report","createFilter","filterField","setMetadata","clearMetadata","addMetadata","getMetadata","indexMetadata","deleteMetadata","setDataReferencedColumns","arrangeFields"]);
+        es6bindall(this,["index","view","dashboard","report","createFilter","listField","filterField","setMetadata","clearMetadata","addMetadata","getMetadata","indexMetadata","deleteMetadata","setDataReferencedColumns","arrangeFields"]);
     }
     /**
      * Renders the index page.
@@ -111,11 +111,11 @@ class AppController{
      * 
      * @param {Object} set 
      */
-    arrangeFields(set){
+    arrangeFields(set,value="value"){
         var len = set.length;
         for (var i = len-1; i>=0; i--){
             for(var j = 1; j<=i; j++){
-            if(set[j-1].value>set[j].value){
+            if(set[j-1][value]>set[j][value]){
                 let temp = set[j-1];
                 set[j-1] = set[j];
                 set[j] = temp;
@@ -132,12 +132,14 @@ class AppController{
      */
     listField(req,res){
         let table= req.params.table;
+        let that=this;
         airtable.viewPrimaryKeys(table, function(err, set){
             if(err){
                 res.send( {err: err} )
             }
-            res.send(set);
-        } );
+            let arrangedSet=that.arrangeFields(set,"name");
+            res.send(arrangedSet);
+        } )
     }
     /**
      * Filter record based on condition
