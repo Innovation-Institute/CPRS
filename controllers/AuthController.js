@@ -136,8 +136,8 @@ class AuthController extends AppController{
         let transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                   user: 'cprsemailtester@gmail.com',
-                   pass: 'Test@123'
+                   user: process.env.EMAIL_ACCOUNT,
+                   pass: process.env.EMAIL_PASSWORD
                }
            });
            async.waterfall([

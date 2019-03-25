@@ -11,6 +11,7 @@
     "bcrypt": "^3.0.3",
     "cookie-parser": "^1.4.3",
     "debug": "~2.6.9",
+    "dotenv": "^7.0.0",
     "ejs": "~2.5.7",
     "es6bindall": "0.0.9",
     "event-stream": "^4.0.1",

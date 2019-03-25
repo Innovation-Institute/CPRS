@@ -187,5 +187,4 @@ function getEirField(name,field,callback){
         //console.log("Here");
         callback(null,set);
         });
-
 }

@@ -1,9 +1,10 @@
-var Airtable = require('airtable');
+const Airtable = require('airtable');
 Airtable.configure({
     endpointUrl: 'https://api.airtable.com',
-    apiKey: 'API_KEY'
+    apiKey: process.env.AIRTABLE_API_KEY
 });
-var base = Airtable.base('AIRTABLE_BASE');
-module.exports= {
-    base : base
+const base = Airtable.base(process.env.AIRTABLE_BASE);
+
+module.exports={
+    base: base
 }
