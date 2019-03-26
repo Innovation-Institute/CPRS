@@ -26,13 +26,7 @@ $(document).ready(function() {
          *                  edit button in the exported report.
          */
       buttons: [
-   {
-        extend: 'copy',
-        text: 'Copy Table',
-        exportOptions: {
-            columns: ':visible th:not(:last-child)'
-        }
-    },{
+          {
         extend: 'csv',
         text: 'Export CSV',
         exportOptions: {
@@ -58,10 +52,34 @@ $(document).ready(function() {
         }
     },{
             extend: 'colvis',
-            text: 'Choose Columns',
+            text: 'Add/Remove Columns from Table',
             columns: ':not(.noVis)'
             }],
     });
     table.columns('.not-visible').visible( false, false );
     table.columns.adjust().draw( false ); 
+    // Simply get the sum of a column
+    table.column( 10 ).data().sum();
+    console.log(table.column( 16 ).data().sum());
   });
+
+  //
+  /**
+   * drawCallback: function () {
+        var api = this.api();
+        totalSum=api.column( 16,{
+            // DataTables core
+            order:  'current',  // 'current', 'applied', 'index',  'original'
+            page:   'all',      // 'all',     'current'
+            search: 'applied',     // 'none',    'applied', 'removed'
+         
+            // Extension - KeyTable (v2.1+) - cells only
+            focused: undefined, // true, false, undefined
+         
+            // Extension - Select (v1.0+)
+            selected: undefined // true, false, undefined
+        } ).data().sum() 
+        // Output the data for the visible rows to the browser's console
+        console.log(totalSum );
+      },
+   */
