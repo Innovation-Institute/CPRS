@@ -10,7 +10,7 @@
   </div>
 </div>
 <div class="row mb-3">
-    <div class="col-sm-2">
+    <div class="col-sm-4">
       <div class="btn-group">
       <% if(sessionUser.Role_Select=="Administrator"){ %>
           <a class="btn btn-primary btn-md" href="/teams/meta/" role="button">Add Metadata</a>
@@ -19,10 +19,18 @@
       </div>
   </div>
 </div>
+<div class="row mb-3">
+  <div class="col-sm-8" id="total-funding">
+   <h3>Total Funding: 0</h3>
+  </div>
+</div>
 <table id="example" class="table table-striped table-bordered mt-6" cellspacing="20" style="width:100%">
             <thead>
                     <tr>
                       <th class="th-sm">Team Name
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Total Funding
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm not-visible">Team Description
@@ -70,9 +78,6 @@
                       <th class="th-sm not-visible">Case Number
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm not-visible">Total Funding
-                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
-                      </th>
                       <th class="th-sm not-visible">Technology Description
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
@@ -91,6 +96,7 @@
 <% for (arr_key in records) { %>
         <tr>
             <td><a href='/teams/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
+            <td><%= records[arr_key]["record"]["Total_Funding"] %></td>
             <td><%= records[arr_key]["record"]["Description_Text"] %></td>
             <td><%- createLinks(records[arr_key]["record"]["Team_Category_Link"],records[arr_key]["record"]["Team_Category_Name"],"team_category") %></td>
             <td><%- createLinks(records[arr_key]["record"]["Member_Link"],records[arr_key]["record"]["Member_Name"],"member") %></td>
@@ -121,7 +127,6 @@
             <td><%= records[arr_key]["record"]["Former_Names_Text"] %></td>
             <td><%= records[arr_key]["record"]["Licensing_Manager_Name"] %></td>
             <td><%= records[arr_key]["record"]["Case_Number_Text"] %></td>
-            <td><%= records[arr_key]["record"]["Total_Funding"] %></td>
             <td><%= records[arr_key]["record"]["Technology_Description_Helper"] %></td>
             <td><%= records[arr_key]["record"]["Notes_Text"] %></td>
             <td><%= records[arr_key]["record"]["Team_Webpage_External"] %></td>
@@ -144,6 +149,6 @@
 </table>
 </div>
 
-<script src="/javascripts/datatable.js"></script>
+<script src="/javascripts/datatableWithTotal.js"></script>
 <% var footer = '../footer'; %>
 <%- include(footer) %>

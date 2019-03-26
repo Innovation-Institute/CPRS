@@ -20,16 +20,21 @@
         </div>
     </div>
   </div>
+  <div class="row mb-3">
+  <div class="col-sm-8" id="total-funding">
+      <h3>Total Funding: 0</h3>
+  </div>
+  </div>
 <table id="example" class="table table-striped table-bordered mt-5" cellspacing="20" style="width:100%">
             <thead>
                     <tr>
                       <th class="th-sm">Funding Name
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm">Funding Class Select 
+                      <th class="th-sm">Amount Received
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
-                      <th class="th-sm">Amount Received
+                      <th class="th-sm">Funding Class Select 
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
                       <th class="th-sm">Calendar Year
@@ -77,8 +82,8 @@
 <% for (arr_key in records) { %>
         <tr>
             <td><a href='/fundings/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
-            <td><%= records[arr_key]["record"]["Funding_Class_Select"] %></td>
             <td><%= records[arr_key]["record"]["Amount_Received_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Funding_Class_Select"] %></td>
             <td><%= records[arr_key]["record"]["Calendar_Year_Select"] %></td>
             <td><%- createLinks(records[arr_key]["record"]["Team_Link"],records[arr_key]["record"]["Team_Name"],"team") %></td>
             <td><%- createLinks(records[arr_key]["record"]["Event_Link"],records[arr_key]["record"]["Event_Name"],"event") %></td>
@@ -127,6 +132,6 @@
 </table>
 </div>
 
-<script src="/javascripts/datatable.js"></script>
+<script src="/javascripts/datatableWithTotal.js"></script>
 <% var footer = '../footer'; %>
 <%- include(footer) %>
