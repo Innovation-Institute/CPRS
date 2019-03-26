@@ -35,6 +35,15 @@
                       <th class="th-sm">Department
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
+                      <th class="th-sm">Phone
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Email
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Year First Participated
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
                       <th class="th-sm">Events
                         <i class="fa fa-sort float-right" aria-hidden="true"></i>
                       </th>
@@ -71,6 +80,9 @@
             <td><%= records[arr_key]["record"]["Role_Select"] %></td>
             <td><%- createLinks(records[arr_key]["record"]["Team_Link"],records[arr_key]["record"]["Team_Name"],"team") %></td>
             <td><%= records[arr_key]["record"]["Department_Company_Name"] %></td>
+            <td><%= records[arr_key]["record"]["Phone_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Email_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Year_First_Participated_Select"] %></td>
             <td><%= records[arr_key]["record"]["Event_Name"] %></td>
             <td><%= records[arr_key]["record"]["Role_Within_Univ_Select"] %></td>
             <td><%= records[arr_key]["record"]["Gender_Select"] %></td>

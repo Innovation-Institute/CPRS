@@ -1,0 +1,165 @@
+<% var header = '../header'; %>
+<%- include(header) %>
+<script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+<% JSON.stringify(records) %>
+<div class="container-fluid mt-3">
+<div class="page-header mt-3">
+<div class="row">
+    <div class="col-md-8">
+  <h1>Teams </h1>
+  </div>
+</div>
+<div class="row mb-3">
+    <div class="col-sm-2">
+      <div class="btn-group">
+      <% if(sessionUser.Role_Select=="Administrator"){ %>
+          <a class="btn btn-primary btn-md" href="/teams/meta/" role="button">Add Metadata</a>
+      <% } %>
+          <a class="btn btn-primary btn-md" href="/teams/report/" role="button">Custom Report/Filter</a>
+      </div>
+  </div>
+</div>
+<table id="example" class="table table-striped table-bordered mt-6" cellspacing="20" style="width:100%">
+            <thead>
+                    <tr>
+                      <th class="th-sm">Team Name
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Team Description
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Team Category
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Members
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Member Roles
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Member Departments
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Member Phone Numbers
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm">Member Emails
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Total Members
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Portfolio Stage
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Portfolio Sub-Stage
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Target Spinout Date
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Events
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Funding
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Eir
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Milestones
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Supporting Docs
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Former Names
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Licensing Manager
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Case Number
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Total Funding
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Technology Description
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Notes
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm not-visible">Team WebPage
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                      <th class="th-sm last-column">Actions
+                        <i class="fa fa-sort float-right" aria-hidden="true"></i>
+                      </th>
+                    </tr>
+                  </thead>
+    <tbody>
+<% for (arr_key in records) { %>
+        <tr>
+            <td><a href='/teams/view/<%= records[arr_key]["id"] %>'><%= records[arr_key]["record"]["Name_Text"] %></a></td>
+            <td><%= records[arr_key]["record"]["Description_Text"] %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Team_Category_Link"],records[arr_key]["record"]["Team_Category_Name"],"team_category") %></td>
+            <td><%- createLinks(records[arr_key]["record"]["Member_Link"],records[arr_key]["record"]["Member_Name"],"member") %></td>
+            <td><%= records[arr_key]["record"]["Member_Role_Select_Helper"] %></td>
+            <td><%= records[arr_key]["record"]["Member_Department_Company_Helper"] %></td>
+            <td><%= records[arr_key]["record"]["Member_Contact_Number_Helper"] %></td>
+            <td><%= records[arr_key]["record"]["Member_Email_Helper"] %></td>
+            <td><%= records[arr_key]["record"]["Member_Link"]? records[arr_key]["record"]["Member_Link"].length : 0 %></td>
+            <td><%= records[arr_key]["record"]["Portfolio_Stage_Select"] %></td> 
+            <td><%= records[arr_key]["record"]["Portfolio_Sub_Stage_Select"] %></td> 
+            <td><%= records[arr_key]["record"]["Target_Spinout_Date"] %></td> 
+            <td><%- createLinks(records[arr_key]["record"]["Event_Link"],records[arr_key]["record"]["Event_Name"],"event") %></td> 
+            <td><%- createLinks(records[arr_key]["record"]["Funding_Link"],records[arr_key]["record"]["Funding_Name"],"team") %></td> 
+            <td><%= records[arr_key]["record"]["Eir_Name"] %></td> 
+            
+            <!--
+              Portfolio_Sub_Stage_Select
+              Event_Name
+              Funding_Name
+              Eir_Name
+              Milestones_Text
+              Former_Names_Text
+              Licensing_Manager_Name
+              Case_Number_Text              
+              Total_Funding
+              Technology_Description_Helper
+              Notes_Text
+              Team_Webpage_External
+            -->
+            <td><%= records[arr_key]["record"]["Milestones_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Supporting_Docs_External"] %></td>
+            <td><%= records[arr_key]["record"]["Former_Names_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Licensing_Manager_Name"] %></td>
+            <td><%= records[arr_key]["record"]["Case_Number_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Total_Funding"] %></td>
+            <td><%= records[arr_key]["record"]["Technology_Description_Helper"] %></td>
+            <td><%= records[arr_key]["record"]["Notes_Text"] %></td>
+            <td><%= records[arr_key]["record"]["Team_Webpage_External"] %></td>
+            <td>
+                <div class="row mt-2">
+                    <div class="col">
+                <a class="btn btn-primary btn-block" href='/teams/view/<%= records[arr_key]["id"] %>' role="button">View</a>
+                        </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col">
+                <a class="btn btn-primary btn-block" href='/teams/edit/<%= records[arr_key]["id"] %>' role="button">Edit</a>
+                </div>
+                </div>
+            </td>
+        </tr>
+<% } %>
+
+    </tbody>
+</table>
+</div>
+
+<script src="/javascripts/datatable.js"></script>
+<% var footer = '../footer'; %>
+<%- include(footer) %>

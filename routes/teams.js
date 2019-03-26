@@ -9,6 +9,7 @@ const Teams=new TeamsController();
  */
 router.get('/', AuthController.isAuthenticated , Teams.index);
 router.get('/pipeline', AuthController.isAuthenticated , Teams.pipelineReport);
+router.get('/members', AuthController.isAuthenticated , Teams.memberReport);
 /**
  * View
  */

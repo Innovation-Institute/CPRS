@@ -11,13 +11,23 @@ class TeamsController extends AppController{
         this.table="team";
         this.tableUrl="teams";
         this.model=Team;
-        es6bindall(this,["index","pipelineReport","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
+        es6bindall(this,["index","pipelineReport","memberReport","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
     }
 
     pipelineReport(req,res){
         airtable.viewAll(this.table,(function(err, set){
             if(err) throw err;
             res.render(this.table+'/pipeline',{
+                records: set,
+                createLinks: createLinks.createClickableLinks
+            });
+        }).bind(this));
+    }
+
+    memberReport(req,res){
+        airtable.viewAll(this.table,(function(err, set){
+            if(err) throw err;
+            res.render(this.table+'/memberFields',{
                 records: set,
                 createLinks: createLinks.createClickableLinks
             });
