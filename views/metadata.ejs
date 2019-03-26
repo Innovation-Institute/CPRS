@@ -14,13 +14,41 @@
                 </div>
             </div>
             <div class="row"> 
+                <div class="col-sm-6 mt-2">
+                    <h4>STEP 1:<h4>
+                </div>
+            </div>
+            <hr>
+            <div class="row"> 
                 <div class="col-sm-6 mt-4">
+                Select the column in this table you want to add meta data for:
+                </div>
+            </div>
+            <div class="row"> 
+                <div class="col-sm-6 mt-2">
                     <selectize config="singleConfig" class="form-data-selectize" options="metaColumns" ng-change="change()" ng-model="metaColumn">
                     </selectize>
                 </div>
             </div>
+            <hr>
             <div class="row"> 
+                <div class="col-sm-6 mt-2">
+                    <h4>STEP 2:<h4>
+                </div>
+            </div>
+            <hr>
+            <div class="row mt-4"> 
                 <div class="col-sm-6 mt-4">
+                    <h4>OPTION 1:<h4>
+                </div>
+            </div>
+            <div class="row mt-4"> 
+                <div class="col-sm-6 mt-4">
+                <h5>Delete metadata from the selected column:<small> Will delete that option from add and edit forms</small></h5>
+                </div>
+            </div>
+            <div class="row mt-2"> 
+                <div class="col-sm-6 mt-2">
                     <selectize config="singleConfig" class="form-data-selectize" ng-model="metadataDelete" options="currentData">
                     </selectize>
                 </div>
@@ -30,8 +58,18 @@
                     <button type="button" class="btn btn-danger" ng-click="deleteValue()">Delete Selected Records</button>    
                 </div>
             </div>
-            <div class="row mt-2">
+            <div class="row mt-4"> 
                 <div class="col-sm-6 mt-4">
+                    <h4>OPTION 2:<h4>
+                </div>
+            </div>
+            <div class="row mt-4"> 
+                <div class="col-sm-6 mt-4">
+                <h5>Add metadata to the selected column:<small> Will add the option to the add and edit forms, make sure the option is present in AirTable as well.</small></h5>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-sm-6 mt-2">
                         <input type="text" class="form-data-selectize" ng-model="metadataAdd" options="currentData">
                 </div>
             </div>
