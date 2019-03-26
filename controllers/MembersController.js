@@ -12,7 +12,19 @@ class MembersController extends AppController{
         this.model=Member;
         es6bindall(this,["index","view","edit","editPost","add","addPost","report","setDataReferencedColumns"]);
     }
-    
+    /**
+     * Report Get Request
+     * 
+     * @param {Request} req 
+     * @param {Response} res 
+     */
+    report(req,res){
+        let referencedColumnNames= new this.model().referencedColumnNames;
+        res.render('member/report',{
+            referencedColumnNames: referencedColumnNames,
+            table: this.table
+        });
+    }
     /**
      * Loads the key-value pairs, the record and renders the edit page.
      * 
