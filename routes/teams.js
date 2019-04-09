@@ -37,7 +37,7 @@ router.get('/report', AuthController.isAuthenticated , Teams.report);
 /**
  * Fundings get,add,update(set) metadata
  */
-router.get('/meta/view/:fieldName', AuthController.isAuthenticated , AuthController.isAdmin, Teams.getMetadata);
+router.get('/meta/view/:fieldName', AuthController.isAuthenticated , Teams.getMetadata);
 router.put('/meta/add', AuthController.isAuthenticated , AuthController.isAdmin, Teams.addMetadata);
 router.get('/meta/update', AuthController.isAuthenticated , AuthController.isAdmin, Teams.setMetadata);
 router.get('/meta/', AuthController.isAuthenticated , AuthController.isAdmin, Teams.indexMetadata);

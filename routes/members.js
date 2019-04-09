@@ -34,7 +34,7 @@ router.get('/report', AuthController.isAuthenticated , Members.report);
 /**
  * Members get,add,update(set) metadata
  */
-router.get('/meta/view/:fieldName', AuthController.isAuthenticated ,AuthController.isAdmin, Members.getMetadata);
+router.get('/meta/view/:fieldName', AuthController.isAuthenticated , Members.getMetadata);
 router.put('/meta/add', AuthController.isAuthenticated ,AuthController.isAdmin, Members.addMetadata);
 router.get('/meta/update', AuthController.isAuthenticated ,AuthController.isAdmin, Members.setMetadata);
 router.get('/meta/', AuthController.isAuthenticated ,AuthController.isAdmin, Members.indexMetadata);

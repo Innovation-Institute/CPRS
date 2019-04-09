@@ -33,7 +33,7 @@ router.get('/report', AuthController.isAuthenticated , Events.report);
 /**
  * Fundings get,add,update(set) metadata
  */
-router.get('/meta/view/:fieldName', AuthController.isAuthenticated ,AuthController.isAdmin, Events.getMetadata);
+router.get('/meta/view/:fieldName', AuthController.isAuthenticated , Events.getMetadata);
 router.put('/meta/add', AuthController.isAuthenticated ,AuthController.isAdmin, Events.addMetadata);
 router.get('/meta/update', AuthController.isAuthenticated ,AuthController.isAdmin, Events.setMetadata);
 router.get('/meta/', AuthController.isAuthenticated ,AuthController.isAdmin, Events.indexMetadata);
