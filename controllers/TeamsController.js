@@ -15,13 +15,14 @@ class TeamsController extends AppController{
     }
 
     pipelineReport(req,res){
-        airtable.viewAll(this.table,(function(err, set){
-            if(err) throw err;
-            res.render(this.table+'/pipeline',{
+        let table= this.table;
+        let filter='Portfolio_Stage_Select="Pipeline"';
+        airtable.filteredRecords(table,filter, function(err, set){
+            res.render(table+'/pipeline',{
                 records: set,
                 createLinks: createLinks.createClickableLinks
             });
-        }).bind(this));
+        });
     }
 
     memberReport(req,res){
