@@ -56,9 +56,10 @@ class AppController{
      * @param {Response} res 
      */
     report(req,res){
-        let referencedColumnNames= new this.model().referencedColumnNames;
+        let model= new this.model();
         res.render('common/report',{
-            referencedColumnNames: referencedColumnNames,
+            referencedColumnNames: model.referencedColumnNames,
+            metadataColumnNames: model.metadataColumnNames,
             table: this.table
         });
     }

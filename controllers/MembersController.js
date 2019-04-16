@@ -19,9 +19,10 @@ class MembersController extends AppController{
      * @param {Response} res 
      */
     report(req,res){
-        let referencedColumnNames= new this.model().referencedColumnNames;
+        let model= new this.model();
         res.render('member/report',{
-            referencedColumnNames: referencedColumnNames,
+            referencedColumnNames: model.referencedColumnNames,
+            metadataColumnNames: model.metadataColumnNames,
             table: this.table
         });
     }
