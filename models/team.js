@@ -6,7 +6,7 @@ class Team {
          // "columnName","displayName","type"
         this._inputColumnNames= columnNames.setColumnNames([["Name_Text","Name","text"],["Description_Text","Description","text"],["Target_Spinout_Date","Target Spinout","date"],["Former_Names_Text","Former Names","text"],["Case_Number_Text","Case Number","text"],["Technology_Description_Helper","Technology Description","text"],["Notes_Text","Notes","text"],["Team_Webpage_External","Team Webpage","text"],["Milestones_Text","Milestones","text"],["Supporting_Docs_External","Supporting Docs","text"]]);
         // "columnName","displayName"
-        this._metadataColumnNames= columnNames.setMetadata([["Portfolio_Stage_Select","Portfolio Stage"],["Portfolio_Sub_Stage_Select","Portfolio Stage"],["FY_Launch_Select","FY Launch"]]);
+        this._metadataColumnNames= columnNames.setMetadata([["Portfolio_Stage_Select","Portfolio Stage"],["Portfolio_Sub_Stage_Select","Portfolio Sub Stage"],["FY_Launch_Select","FY Launch"]]);
         // "variable name", "displayName","columnName","table","columnValueName" 
         this._referencedColumnNames= columnNames.setReferencedColumnNames([["eirs","EIR","Eir_Link","eir","Eir_Name"],["licensingManagers","Licensing Manager","Licensing_Manager_Link","licensing_manager","Licensing_Manager_Name"],["events","Events","Event_Link","event","Event_Name"],["fundings","Fundings","Funding_Link","funding","Funding_Name"],["members","Members","Member_Link","member","Member_Name"],["teamCategories","Team Category","Team_Category_Link","team_category","Team_Category_Name"]]);
         this._id=id;
