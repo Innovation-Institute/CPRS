@@ -34,7 +34,21 @@ class TeamsController extends AppController{
             });
         }).bind(this));
     }
-    
+    /**
+     * Overriding the common report as we require 
+     * a specific addition to the report.
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     */
+    report(req,res){
+        let model= new this.model();
+        res.render(this.table+'/report',{
+            referencedColumnNames: model.referencedColumnNames,
+            metadataColumnNames: model.metadataColumnNames,
+            table: this.table
+        });
+    }
     /**
      * Loads the key-value pairs, the record and renders the edit page.
      * 

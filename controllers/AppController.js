@@ -143,13 +143,43 @@ class AppController{
         } )
     }
     /**
+     * 
+     * If there are any additional columns which need to be treated differently do
+     * the additions here, the way this is treated I would've to restructure this code,
+     * to make it more readable at this point, thus this is the fastest and most effective solution.
+     * 
+     * @param {*} req 
+     * @param {*} res 
+     * @param {*} next 
+     */
+    additionalColumns(req,res,next){
+        req.additionalQuery="";
+        if(req.params.table=="team"){
+            if((req.body.Target_Spinout_Date_Start!="") && (req.body.Target_Spinout_Date_End!="")){
+                req.additionalQuery+="AND((DATETIME_PARSE('"+req.body.Target_Spinout_Date_Start+"', 'YYYY-MM-DD')<={Target_Spinout_Date}),"
+                if(req.body.Target_Spinout_Date_End!=""){
+                    req.additionalQuery+="(DATETIME_PARSE('"+req.body.Target_Spinout_Date_End+"', 'YYYY-MM-DD')>={Target_Spinout_Date}))"
+                }
+            }
+            else if(req.body.Target_Spinout_Date_Start!=""){
+                req.additionalQuery+=req.additionalQuery+="AND((DATETIME_PARSE('"+req.body.Target_Spinout_Date_Start+"', 'YYYY-MM-DD')<={Target_Spinout_Date}))"
+            }
+            else if(req.body.Target_Spinout_Date_End!=""){
+                req.additionalQuery+="AND((DATETIME_PARSE('"+req.body.Target_Spinout_Date_End+"', 'YYYY-MM-DD')>={Target_Spinout_Date}))"
+            }
+            delete req.body.Target_Spinout_Date_Start;
+            delete req.body.Target_Spinout_Date_End;
+        }
+        next();
+    }
+    /**
      * Filter record based on condition
      * 
      *  */ 
     filterField(req,res){
         let table= req.params.table;
         let body=req.body;
-        let filter=this.createFilter(body);
+        let filter=this.createFilter(body,req.additionalQuery);
         //filter='OR(FIND("1st Gear 2014.01",{Event_Link})>=1,FIND("!!! DO-NOT-DELETE",{Event_Link})>=1)';
         airtable.filteredRecords(table,filter, function(err, set){
             res.render(table+'/index',{
@@ -294,7 +324,7 @@ class AppController{
      * @param {JSON} body 
      * @returns {String}
      */
-    createFilter(body){
+    createFilter(body,additionalQuery){
         let condition=body["condition"];
         let filter=condition+"(";
         let arr_val="";
@@ -315,8 +345,17 @@ class AppController{
                 filter=filter+"),";
             }
         }
-        filter=filter.substring(0, filter.length - 1);
-        filter=filter+")";
+        if(filter!="AND(" && filter!="OR("){
+            filter=filter.substring(0, filter.length - 1);
+            if(additionalQuery!=""){
+                filter=filter+",";
+            }
+        }
+        if(additionalQuery!=""){
+            filter=filter+additionalQuery+")";
+        }else{
+            filter=filter+")";
+        }
         console.log(filter);
         return filter;
     }
@@ -376,4 +415,5 @@ class AppController{
 }
 
       
+
 module.exports=AppController;

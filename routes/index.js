@@ -13,6 +13,6 @@ router.get('/', AuthController.isAuthenticated, AppController.dashboard)
 router.post('/list/:table', AuthController.isAuthenticated, AppController.listField);
 
 /** Report Generator */
-router.post('/filter/:table', AuthController.isAuthenticated, AppController.filterField);
+router.post('/filter/:table', AuthController.isAuthenticated, AppController.additionalColumns, AppController.filterField);
 
 module.exports = router;
