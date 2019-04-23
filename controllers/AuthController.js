@@ -167,7 +167,7 @@ class AuthController extends AppController{
         let mailOptions = {
               to: user["Email_Text"],
               from: 'cprsemailtester@gmail.com',
-              subject: 'Node.js Password Reset',
+              subject: 'CPRS Password Reset',
               text: `You have asked for a password reset Please click on the following link, or paste this into your browser to complete the process:\n\n +
               http://${req.headers.host}/users/reset/${token}`
             };
